@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>GoUsbMaker</AssemblyName>
+    <RootNamespace>GoConsoleOS.GoUsbMaker</RootNamespace>
+    <UseWPF>true</UseWPF>
+    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GoConsoleOS.Shared\GoConsoleOS.Shared.csproj" />
+  </ItemGroup>
+</Project>

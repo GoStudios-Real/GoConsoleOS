@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <RootNamespace>GoConsoleOS.GoCore</RootNamespace>
+    <AssemblyName>gocore</AssemblyName>
+    <UseWPF>true</UseWPF>
+    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GoConsoleOS.Shared\GoConsoleOS.Shared.csproj" />
+  </ItemGroup>
+</Project>

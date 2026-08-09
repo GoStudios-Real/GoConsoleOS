@@ -1,0 +1,46 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0D0D14;display:flex;justify-content:center;align-items:center;height:100vh;overflow:hidden;font-family:'Segoe UI',sans-serif}
+#wrap{text-align:center}
+#score{color:#00C9DB;font-size:22px;font-weight:bold;margin-bottom:10px}
+canvas{border:2px solid #00C9DB;border-radius:4px;background:#1A1A2E}
+#overlay{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;background:rgba(13,13,20,0.8);cursor:pointer}
+#overlay span{color:#00C9DB;font-size:28px;font-weight:bold}
+#info{color:#8888AA;font-size:12px;margin-top:8px}
+</style></head><body>
+<div id="wrap">
+<div id="score">0</div>
+<div style="position:relative;display:inline-block">
+<canvas id="c" width="600" height="250"></canvas>
+<div id="overlay"><span>▶ PLAY</span></div>
+</div>
+<div id="info">Space/Up to jump &bull; Down to duck &bull; R to restart</div>
+</div>
+<script>
+const c=document.getElementById('c'),ctx=c.getContext('2d'),score=document.getElementById('score'),overlay=document.getElementById('overlay');
+const W=600,H=250,G=200;let px=80,py=G,pvy=0,ground=0,speed=6,pts=0,run=0,obstacles=[],timer=0;
+function jump(){if(py===G){pvy=-10}}
+function duck(){py=G+20}
+function unduck(){py=G}
+function update(){if(!run)return;
+pvy+=0.5;py+=pvy;if(py>G){py=G;pvy=0}
+timer++;if(timer>40+Math.random()*60){timer=0;obstacles.push({x:W,w:18+Math.random()*12,h:30+Math.random()*20,ty:Math.random()>.5?'cactus':'bird'})}
+obstacles.forEach(o=>{o.x-=speed;if(o.ty==='bird'&&o.x<px+20){o.y=G-60}else{o.y=G-o.h}});
+obstacles=obstacles.filter(o=>o.x>-50);
+obstacles.forEach(o=>{if(px+20>o.x&&px<o.x+o.w&&py+20>o.y&&py<o.y+o.h){run=0}});
+pts++;score.textContent=Math.floor(pts/5);
+speed=6+Math.floor(pts/500);
+ground+=speed;if(ground>20)ground-=20}
+function draw(){ctx.fillStyle='#1A1A2E';ctx.fillRect(0,0,W,H);
+ctx.fillStyle='#333355';ctx.fillRect(0,G+3,W,2);
+for(let g=0;g<W;g+=40){ctx.fillStyle=g%80===0?'#00C9DB66':'#33335566';ctx.fillRect(((g-ground)%W+W)%W,G+5,15,2)}
+ctx.fillStyle='#00C9DB';ctx.fillRect(px,py-20,20,25);
+ctx.fillStyle='#FFFFFF';ctx.beginPath();ctx.arc(px+17,py-12,4,0,Math.PI*2);ctx.fill();
+obstacles.forEach(o=>{ctx.fillStyle='#FF4D8C';if(o.ty==='bird'){ctx.beginPath();ctx.arc(o.x+o.w/2,o.y+10,10,0,Math.PI*2);ctx.fill()}else{ctx.fillRect(o.x,o.y,o.w,o.h)}});
+if(!run){ctx.fillStyle='rgba(13,13,20,0.7)';ctx.fillRect(0,0,W,H);ctx.fillStyle='#FF5252';ctx.font='24px sans-serif';ctx.textAlign='center';ctx.fillText('GAME OVER',300,120);ctx.fillStyle='#8888AA';ctx.font='14px sans-serif';ctx.fillText('Click to restart',300,145)}}
+function loop(){update();draw();requestAnimationFrame(loop)}
+document.addEventListener('keydown',e=>{if((e.key===' '||e.key==='ArrowUp')&&py===G)jump();if(e.key==='ArrowDown')duck();if(e.key==='r'||e.key==='R'){pts=0;obstacles=[];speed=6;timer=0;py=G;run=1}});
+document.addEventListener('keyup',e=>{if(e.key==='ArrowDown')unduck()});
+overlay.addEventListener('click',()=>{overlay.style.display='none';pts=0;obstacles=[];speed=6;timer=0;py=G;run=1});
+loop();
+</script></body></html>

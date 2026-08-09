@@ -1,0 +1,75 @@
+{
+  "$schema": "https://goconsoleos.com/schemas/performance-profiles.json",
+  "version": "1.0.0",
+  "default_profile": "balanced",
+  "global_profiles": [
+    {
+      "id": "quiet",
+      "name": "Quiet Mode",
+      "description": "Reduces power consumption and fan noise. Ideal for lightweight games and media.",
+      "power_plan_guid": "a1841308-3541-4fab-bc81-f71556f20b4a",
+      "settings": {
+        "cpu_max_frequency_pct": 50,
+        "gpu_power_limit_pct": 60,
+        "fan_curve": "silent",
+        "background_process_priority": "idle",
+        "game_process_priority": "normal",
+        "vsync": true,
+        "frame_rate_limit": 30,
+        "resolution_scale": 0.75
+      }
+    },
+    {
+      "id": "balanced",
+      "name": "Balanced",
+      "description": "Default mode balancing performance and power consumption.",
+      "power_plan_guid": "381b4222-f694-41f0-9685-ff5bb260df2f",
+      "settings": {
+        "cpu_max_frequency_pct": 80,
+        "gpu_power_limit_pct": 80,
+        "fan_curve": "standard",
+        "background_process_priority": "normal",
+        "game_process_priority": "high",
+        "vsync": false,
+        "frame_rate_limit": 60,
+        "resolution_scale": 1.0
+      }
+    },
+    {
+      "id": "turbo",
+      "name": "Turbo Mode",
+      "description": "Maximum performance. Unleashes full CPU/GPU power for demanding titles.",
+      "power_plan_guid": "8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c",
+      "settings": {
+        "cpu_max_frequency_pct": 100,
+        "gpu_power_limit_pct": 100,
+        "fan_curve": "aggressive",
+        "background_process_priority": "belowNormal",
+        "game_process_priority": "realtime",
+        "vsync": false,
+        "frame_rate_limit": 0,
+        "resolution_scale": 1.0
+      }
+    }
+  ],
+  "per_game_overrides": [
+    {
+      "game_id": "steam_730",
+      "game_name": "Counter-Strike 2",
+      "override_profile": "turbo",
+      "notes": "Competitive FPS - max performance needed"
+    },
+    {
+      "game_id": "steam_1085660",
+      "game_name": "Death Stranding",
+      "override_profile": "balanced",
+      "notes": "Graphics-intensive but benefits from balanced thermals"
+    },
+    {
+      "game_id": "epy_fortnite",
+      "game_name": "Fortnite",
+      "override_profile": "turbo",
+      "notes": "Competitive BR"
+    }
+  ]
+}

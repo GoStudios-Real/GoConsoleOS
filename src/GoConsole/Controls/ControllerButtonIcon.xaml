@@ -1,0 +1,11 @@
+<UserControl x:Class="GoConsoleOS.GoConsole.Controls.ControllerButtonIcon"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Width="26" Height="26">
+        <Ellipse x:Name="Face" Fill="#2EBD59" Visibility="Collapsed" />
+        <Border x:Name="Keycap" Background="#26263C" BorderBrush="#3A3A55"
+                BorderThickness="1" CornerRadius="6" Visibility="Collapsed" />
+        <TextBlock x:Name="Glyph" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   FontSize="14" FontWeight="Bold" Foreground="White" />
+    </Grid>
+</UserControl>

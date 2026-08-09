@@ -1,0 +1,83 @@
+<UserControl x:Class="GoConsoleOS.GoConsole.Views.DynamicBackgroundView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="Transparent">
+    <Grid Margin="40">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="DYNAMIC BACKGROUNDS" FontSize="28" FontWeight="Bold"
+                   Foreground="{StaticResource BrushTextPrimary}" Margin="0,0,0,8" />
+        <TextBlock Grid.Row="1" Text="Choose a background style for your console."
+                   FontSize="14" Foreground="{StaticResource BrushTextSecondary}" Margin="0,0,0,20" />
+
+        <Border Grid.Row="2" CornerRadius="12" Background="{StaticResource BrushBackgroundLight}" Padding="20" Margin="0,0,0,12">
+            <StackPanel>
+                <TextBlock Text="BACKGROUND STYLE" FontSize="16" FontWeight="Bold"
+                           Foreground="{StaticResource BrushAccentPrimary}" Margin="0,0,0,12" />
+                <StackPanel Orientation="Horizontal">
+                    <Border x:Name="BgStatic" CornerRadius="8"
+                            Background="#0D0D14" Padding="20,12" Cursor="Hand"
+                            Margin="0,0,8,0" MouseLeftButtonDown="SelectBg" Tag="static"
+                            BorderBrush="{StaticResource BrushAccentPrimary}" BorderThickness="2">
+                        <StackPanel>
+                            <TextBlock Text="■" FontSize="28" HorizontalAlignment="Center" Foreground="#F0F0FF" />
+                            <TextBlock Text="STATIC" FontSize="11" FontWeight="Bold"
+                                       Foreground="#F0F0FF" HorizontalAlignment="Center" Margin="0,4,0,0" />
+                        </StackPanel>
+                    </Border>
+                    <Border x:Name="BgAnimated" CornerRadius="8"
+                            Background="LinearGradient" Padding="20,12" Cursor="Hand"
+                            Margin="0,0,8,0" MouseLeftButtonDown="SelectBg" Tag="animated"
+                            BorderBrush="{StaticResource BrushBackgroundCard}" BorderThickness="2">
+                        <StackPanel>
+                            <TextBlock Text="◈" FontSize="28" HorizontalAlignment="Center" Foreground="{StaticResource BrushAccentPrimary}" />
+                            <TextBlock Text="ANIMATED" FontSize="11" FontWeight="Bold"
+                                       Foreground="{StaticResource BrushTextSecondary}" HorizontalAlignment="Center" Margin="0,4,0,0" />
+                        </StackPanel>
+                    </Border>
+                    <Border x:Name="BgCapture" CornerRadius="8"
+                            Background="{StaticResource BrushBackgroundCard}" Padding="20,12" Cursor="Hand"
+                            Margin="0,0,8,0" MouseLeftButtonDown="SelectBg" Tag="capture"
+                            BorderBrush="{StaticResource BrushBackgroundCard}" BorderThickness="2">
+                        <StackPanel>
+                            <TextBlock Text="📷" FontSize="28" HorizontalAlignment="Center" />
+                            <TextBlock Text="CAPTURE" FontSize="11" FontWeight="Bold"
+                                       Foreground="{StaticResource BrushTextSecondary}" HorizontalAlignment="Center" Margin="0,4,0,0" />
+                        </StackPanel>
+                    </Border>
+                    <Border x:Name="BgAccent" CornerRadius="8"
+                            Background="#00C9DB" Padding="20,12" Cursor="Hand"
+                            MouseLeftButtonDown="SelectBg" Tag="accent"
+                            BorderBrush="{StaticResource BrushBackgroundCard}" BorderThickness="2">
+                        <StackPanel>
+                            <TextBlock Text="●" FontSize="28" HorizontalAlignment="Center" Foreground="#0D0D14" />
+                            <TextBlock Text="ACCENT" FontSize="11" FontWeight="Bold"
+                                       Foreground="#0D0D14" HorizontalAlignment="Center" Margin="0,4,0,0" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="3" CornerRadius="12" Background="{StaticResource BrushBackgroundLight}" Padding="20">
+            <StackPanel>
+                <TextBlock Text="EFFECT SPEED" FontSize="14" FontWeight="Bold"
+                           Foreground="{StaticResource BrushTextPrimary}" />
+                <Slider x:Name="SpeedSlider" Minimum="1" Maximum="10" Value="5"
+                        Width="300" HorizontalAlignment="Left" Margin="0,8,0,0"
+                        ValueChanged="SpeedChanged" />
+                <TextBlock x:Name="SpeedLabel" Text="Speed: Normal"
+                           FontSize="12" Foreground="{StaticResource BrushTextSecondary}"
+                           Margin="0,4,0,0" />
+                <TextBlock Text="Tip: Animated mode cycles colors. Capture mode shows your latest screenshot as wallpaper."
+                           FontSize="11" Foreground="{StaticResource BrushTextMuted}"
+                           TextWrapping="Wrap" Margin="0,12,0,0" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,0 +1,84 @@
+<UserControl x:Class="GoConsoleOS.GoConsole.Views.StorageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="Transparent">
+    <Grid Margin="40">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="STORAGE MANAGEMENT" FontSize="28" FontWeight="Bold"
+                   Foreground="{StaticResource BrushTextPrimary}" Margin="0,0,0,8" />
+        <TextBlock Grid.Row="1" x:Name="StorageSummary" Text="Loading..."
+                   FontSize="14" Foreground="{StaticResource BrushTextSecondary}" Margin="0,0,0,16" />
+
+        <Border Grid.Row="2" CornerRadius="12" Background="{StaticResource BrushBackgroundLight}" Padding="20" Margin="0,0,0,16">
+            <StackPanel>
+                <TextBlock Text="DISK USAGE" FontSize="16" FontWeight="Bold"
+                           Foreground="{StaticResource BrushAccentPrimary}" Margin="0,0,0,12" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Screenshots" FontSize="13"
+                               Foreground="{StaticResource BrushTextSecondary}" />
+                    <TextBlock Grid.Row="0" Grid.Column="1" x:Name="StorageScreenshots" Text="--"
+                               FontSize="13" Foreground="{StaticResource BrushTextPrimary}" />
+                    <Border Grid.Row="0" Grid.Column="2" CornerRadius="4"
+                            Background="{StaticResource BrushBackgroundCard}" Padding="6,2" Cursor="Hand"
+                            MouseLeftButtonDown="ClearScreenshots">
+                        <TextBlock Text="CLEAR" FontSize="10" FontWeight="Bold"
+                                   Foreground="{StaticResource BrushError}" HorizontalAlignment="Center" />
+                    </Border>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Logs" FontSize="13"
+                               Foreground="{StaticResource BrushTextSecondary}" Margin="0,8,0,0" />
+                    <TextBlock Grid.Row="1" Grid.Column="1" x:Name="StorageLogs" Text="--"
+                               FontSize="13" Foreground="{StaticResource BrushTextPrimary}" Margin="0,8,0,0" />
+                    <Border Grid.Row="1" Grid.Column="2" CornerRadius="4"
+                            Background="{StaticResource BrushBackgroundCard}" Padding="6,2" Cursor="Hand"
+                            Margin="0,8,0,0" MouseLeftButtonDown="ClearLogs">
+                        <TextBlock Text="CLEAR" FontSize="10" FontWeight="Bold"
+                                   Foreground="{StaticResource BrushError}" HorizontalAlignment="Center" />
+                    </Border>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Cache" FontSize="13"
+                               Foreground="{StaticResource BrushTextSecondary}" Margin="0,8,0,0" />
+                    <TextBlock Grid.Row="2" Grid.Column="1" x:Name="StorageCache" Text="--"
+                               FontSize="13" Foreground="{StaticResource BrushTextPrimary}" Margin="0,8,0,0" />
+                    <Border Grid.Row="2" Grid.Column="2" CornerRadius="4"
+                            Background="{StaticResource BrushBackgroundCard}" Padding="6,2" Cursor="Hand"
+                            Margin="0,8,0,0" MouseLeftButtonDown="ClearCache">
+                        <TextBlock Text="CLEAR" FontSize="10" FontWeight="Bold"
+                                   Foreground="{StaticResource BrushError}" HorizontalAlignment="Center" />
+                    </Border>
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Total" FontSize="14" FontWeight="Bold"
+                               Foreground="{StaticResource BrushTextPrimary}" Margin="0,8,0,0" />
+                    <TextBlock Grid.Row="3" Grid.Column="1" x:Name="StorageTotal" Text="--"
+                               FontSize="14" FontWeight="Bold" Foreground="{StaticResource BrushTextPrimary}" Margin="0,8,0,0" />
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="3" CornerRadius="12" Background="{StaticResource BrushBackgroundLight}" Padding="20">
+            <StackPanel>
+                <TextBlock Text="GAME LIBRARY" FontSize="16" FontWeight="Bold"
+                           Foreground="{StaticResource BrushAccentSecondary}" Margin="0,0,0,12" />
+                <TextBlock x:Name="GameLibraryInfo" Text="Loading game data..."
+                           FontSize="13" Foreground="{StaticResource BrushTextSecondary}" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

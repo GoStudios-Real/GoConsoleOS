@@ -1,0 +1,99 @@
+<UserControl x:Class="GoConsoleOS.GoConsole.Views.GuidesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="Transparent">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" Background="{StaticResource BrushBackgroundMedium}"
+                BorderBrush="{StaticResource BrushBorder}" BorderThickness="0,0,1,0">
+            <StackPanel Margin="16">
+                <TextBlock Text="GUIDES" FontSize="22" FontWeight="Bold"
+                           Foreground="{StaticResource BrushTextPrimary}"
+                           Margin="0,16,0,20" />
+                <Button x:Name="FilterAll" Content="ALL GUIDES" Style="{StaticResource NavButtonStyle}"
+                        HorizontalContentAlignment="Left" Padding="8" Click="Filter_Click" Tag="all" />
+                <Button x:Name="FilterBeginner" Content="GETTING STARTED" Style="{StaticResource NavButtonStyle}"
+                        HorizontalContentAlignment="Left" Padding="8" Click="Filter_Click" Tag="beginner" />
+                <Button x:Name="FilterTips" Content="TIPS &amp; TRICKS" Style="{StaticResource NavButtonStyle}"
+                        HorizontalContentAlignment="Left" Padding="8" Click="Filter_Click" Tag="tips" />
+                <Button x:Name="FilterWalkthrough" Content="WALKTHROUGHS" Style="{StaticResource NavButtonStyle}"
+                        HorizontalContentAlignment="Left" Padding="8" Click="Filter_Click" Tag="walkthrough" />
+                <Button x:Name="FilterSecrets" Content="HIDDEN SECRETS" Style="{StaticResource NavButtonStyle}"
+                        HorizontalContentAlignment="Left" Padding="8" Click="Filter_Click" Tag="secrets" />
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <TextBlock x:Name="GuidesTitle" Grid.Row="0" Text="ALL GUIDES"
+                       Style="{StaticResource SectionTitleStyle}" />
+
+            <Border Grid.Row="1" Background="{StaticResource BrushBackgroundLight}"
+                    CornerRadius="8" Margin="20,0,20,8" Padding="8">
+                <TextBlock x:Name="GuideCountDetail" Text=""
+                           FontSize="13" Foreground="{StaticResource BrushTextSecondary}" />
+            </Border>
+
+            <ScrollViewer Grid.Row="2" Style="{StaticResource InvisibleScrollViewer}">
+                <ItemsControl x:Name="GuidesGrid" Margin="20,0">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="320" Margin="6" Cursor="Hand"
+                                    CornerRadius="12" Background="{StaticResource BrushBackgroundLight}">
+                                <Border CornerRadius="12" Background="{StaticResource BrushBackgroundCardHover}" Padding="16">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <Border Grid.Row="0"
+                                                Background="{Binding CategoryBrush}"
+                                                CornerRadius="4" Padding="8,3" Margin="0,0,0,8"
+                                                HorizontalAlignment="Left">
+                                            <TextBlock Text="{Binding Category}" FontSize="10" FontWeight="Bold"
+                                                       Foreground="#0D0D14" />
+                                        </Border>
+
+                                        <TextBlock Grid.Row="1" Text="{Binding GameTitle}"
+                                                   FontSize="11" FontWeight="SemiBold"
+                                                   Foreground="{StaticResource BrushAccentPrimary}"
+                                                   Margin="0,0,0,2" />
+
+                                        <TextBlock Grid.Row="2" Text="{Binding Title}"
+                                                   FontSize="15" FontWeight="Bold"
+                                                   Foreground="{StaticResource BrushTextPrimary}"
+                                                   TextWrapping="Wrap"
+                                                   Margin="0,0,0,6" />
+
+                                        <TextBlock Grid.Row="3" Text="{Binding Description}"
+                                                   FontSize="12"
+                                                   Foreground="{StaticResource BrushTextSecondary}"
+                                                   TextWrapping="Wrap" MaxHeight="48"
+                                                   TextTrimming="WordEllipsis" />
+                                    </Grid>
+                                </Border>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</UserControl>

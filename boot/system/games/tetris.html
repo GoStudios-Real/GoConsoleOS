@@ -1,0 +1,47 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0D0D14;display:flex;justify-content:center;align-items:center;height:100vh;overflow:hidden;font-family:'Segoe UI',sans-serif}
+#wrap{text-align:center}
+#score{color:#00C9DB;font-size:22px;font-weight:bold;margin-bottom:10px}
+canvas{border:2px solid #00C9DB;border-radius:4px;background:#1A1A2E}
+#overlay{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;background:rgba(13,13,20,0.8);cursor:pointer}
+#overlay span{color:#00C9DB;font-size:28px;font-weight:bold}
+#next{color:#8888AA;font-size:12px;margin-bottom:4px}
+#info{color:#8888AA;font-size:12px;margin-top:8px}
+</style></head><body>
+<div id="wrap">
+<div id="score">0</div>
+<div id="next">Next piece</div>
+<div style="position:relative;display:inline-block">
+<canvas id="c" width="240" height="480"></canvas>
+<canvas id="n" width="120" height="120" style="position:absolute;top:0;right:-130px;border:1px solid #333355;border-radius:4px;background:#1A1A2E"></canvas>
+<div id="overlay"><span>▶ PLAY</span></div>
+</div>
+<div id="info">← → ↓ to move &bull; ↑ to rotate &bull; Space to drop &bull; R restart</div>
+</div>
+<script>
+const c=document.getElementById('c'),ctx=c.getContext('2d'),n=document.getElementById('n'),nctx=n.getContext('2d'),score=document.getElementById('score'),overlay=document.getElementById('overlay');
+const COLS=10,ROWS=20,BS=24;let grid=[],cur,nxt,pos,pts=0,run=0,tick=0,gameOver=0;
+const PIECES=[[[1,1,1,1]],[[1,1],[1,1]],[[1,0],[1,1],[0,1]],[[0,1],[1,1],[1,0]],[[1,1,0],[0,1,1]],[[0,1,1],[1,1,0]],[[1,1,1],[0,1,0]]];
+const COLORS=['#00C9DB','#FFD600','#7B2DFF','#FF4D8C','#00E676','#FF8C00','#E040FB'];
+function initGrid(){grid=Array.from({length:ROWS},()=>Array(COLS).fill(0))}
+function newPiece(){cur=nxt||PIECES[Math.floor(Math.random()*7)];pos={x:Math.floor((COLS-cur[0].length)/2),y:0};nxt=PIECES[Math.floor(Math.random()*7)];if(collides()){gameOver=1;run=0}}
+function collides(p,o){p=p||cur;o=o||pos;for(let r=0;r<p.length;r++)for(let c=0;c<p[r].length;c++)if(p[r][c]){const nx=o.x+c,ny=o.y+r;if(nx<0||nx>=COLS||ny>=ROWS||(ny>=0&&grid[ny][nx]))return true}return false}
+function lock(){for(let r=0;r<cur.length;r++)for(let c=0;c<cur[r].length;c++)if(cur[r][c]){const y=pos.y+r;if(y>=0)grid[y][pos.x+c]=COLORS.indexOf(COLORS[(pts/100)%7])+1}
+let cleared=0;for(let r=ROWS-1;r>=0;r--){if(grid[r].every(v=>v!==0)){grid.splice(r,1);grid.unshift(Array(COLS).fill(0));cleared++;r++}}
+if(cleared)pts+=cleared*100;score.textContent=pts;newPiece()}
+function update(){if(!run||gameOver)return;tick++;if(tick<10)return;tick=0;pos.y++;if(collides()){pos.y--;lock()}}
+function move(dx){pos.x+=dx;if(collides())pos.x-=dx}
+function rotate(){const rot=cur[0].map((_,i)=>cur.map(r=>r[i]).reverse());if(!collides(rot))cur=rot}
+function drop(){while(!collides())pos.y++;pos.y--;lock()}
+function draw(){ctx.fillStyle='#1A1A2E';ctx.fillRect(0,0,240,480);
+for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){if(grid[r][c]){ctx.fillStyle=COLORS[grid[r][c]-1];ctx.fillRect(c*BS,r*BS,BS-1,BS-1)}}
+if(!gameOver){const p=cur;for(let r=0;r<p.length;r++)for(let c=0;c<p[r].length;c++)if(p[r][c]){ctx.fillStyle=COLORS[(pts/100)%7];ctx.fillRect((pos.x+c)*BS,(pos.y+r)*BS,BS-1,BS-1)}}
+if(gameOver){ctx.fillStyle='rgba(13,13,20,0.7)';ctx.fillRect(0,0,240,480);ctx.fillStyle='#FF5252';ctx.font='18px sans-serif';ctx.textAlign='center';ctx.fillText('GAME OVER',120,240);ctx.fillStyle='#8888AA';ctx.font='12px sans-serif';ctx.fillText('Click to restart',120,260)}
+nctx.fillStyle='#1A1A2E';nctx.fillRect(0,0,120,120);if(nxt)for(let r=0;r<nxt.length;r++)for(let c=0;c<nxt[r].length;c++)if(nxt[r][c]){nctx.fillStyle=COLORS[(pts/100)%7];nctx.fillRect(c*24+12,r*24+12,22,22)}}
+function loop(){update();draw();requestAnimationFrame(loop)}
+document.addEventListener('keydown',e=>{if(!run||gameOver)return;if(e.key==='ArrowLeft')move(-1);else if(e.key==='ArrowRight')move(1);else if(e.key==='ArrowDown'){tick=8;move(0)}else if(e.key==='ArrowUp')rotate();else if(e.key===' ')drop();if(e.key==='r'||e.key==='R'){initGrid();pts=0;score.textContent='0';gameOver=0;newPiece()}});
+overlay.addEventListener('click',()=>{overlay.style.display='none';initGrid();pts=0;score.textContent='0';gameOver=0;newPiece();run=1});
+initGrid();newPiece();
+loop();
+</script></body></html>

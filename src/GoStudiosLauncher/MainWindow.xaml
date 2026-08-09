@@ -1,0 +1,243 @@
+<Window x:Class="GoStudiosLauncher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="GoStudios Launcher"
+        WindowStyle="None"
+        WindowState="Maximized"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource BrushBackgroundDark}"
+        FontFamily="{StaticResource DisplayFont}"
+        AllowsTransparency="False"
+        Topmost="False"
+        ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+
+        <!-- Top Navigation Bar -->
+        <Border Grid.Row="0" Background="{StaticResource BrushBackgroundMedium}"
+                BorderBrush="{StaticResource BrushBorder}" BorderThickness="0,0,0,1">
+            <Grid Margin="24,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="GoStudios" FontSize="22" FontWeight="Bold"
+                           Foreground="{StaticResource BrushAccentPrimary}"
+                           VerticalAlignment="Center" />
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    <Button x:Name="NavProjects" Content="PROJECTS"
+                            FontFamily="{StaticResource DisplayFont}" FontSize="16" FontWeight="Bold"
+                            Foreground="{StaticResource BrushAccentPrimary}"
+                            Background="Transparent" BorderThickness="0" Padding="20,8"
+                            Cursor="Hand" IsEnabled="False" />
+                    <Button x:Name="NavNews" Content="NEWS"
+                            FontFamily="{StaticResource DisplayFont}" FontSize="16" FontWeight="Bold"
+                            Foreground="{StaticResource BrushTextSecondary}"
+                            Background="Transparent" BorderThickness="0" Padding="20,8"
+                            Cursor="Hand" />
+                    <Button x:Name="NavSettings" Content="SETTINGS"
+                            FontFamily="{StaticResource DisplayFont}" FontSize="16" FontWeight="Bold"
+                            Foreground="{StaticResource BrushTextSecondary}"
+                            Background="Transparent" BorderThickness="0" Padding="20,8"
+                            Cursor="Hand" />
+                </StackPanel>
+
+                <TextBlock Grid.Column="2" x:Name="ClockText" Text=""
+                           FontSize="14" Foreground="{StaticResource BrushTextSecondary}"
+                           VerticalAlignment="Center" Margin="0,0,16,0" />
+
+                <Border Grid.Column="3" Width="28" Height="28" CornerRadius="6" Background="Transparent"
+                        Cursor="Hand" MouseLeftButtonDown="CloseButton_Click">
+                    <TextBlock Text="✕" FontSize="14" FontWeight="Bold"
+                               Foreground="{StaticResource BrushTextSecondary}"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Content Area -->
+        <ScrollViewer Grid.Row="1" Style="{StaticResource InvisibleScrollViewer}"
+                       VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Margin="40,20">
+
+                <!-- Hero Section -->
+                <Border CornerRadius="20" Background="{StaticResource BrushBackgroundLight}"
+                        Padding="40" Margin="0,0,0,32">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="GoStudios Launcher" FontSize="42" FontWeight="Bold"
+                                       Foreground="{StaticResource BrushTextPrimary}" />
+                            <TextBlock Text="Your gateway to all GoStudios projects"
+                                       FontSize="18" Foreground="{StaticResource BrushTextSecondary}"
+                                       Margin="0,8,0,0" />
+                            <TextBlock x:Name="VersionText" Text="v1.4.0"
+                                       FontSize="14" Foreground="{StaticResource BrushTextMuted}"
+                                       Margin="0,4,0,0" />
+                        </StackPanel>
+                        <Border Grid.Column="1" Width="120" Height="120" CornerRadius="16"
+                                Background="{StaticResource BrushBackgroundDark}"
+                                VerticalAlignment="Center">
+                            <TextBlock Text="GS" FontSize="48" FontWeight="Bold"
+                                       Foreground="{StaticResource BrushAccentPrimary}"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- Projects Grid -->
+                <TextBlock Text="ALL PROJECTS" FontSize="20" FontWeight="Bold"
+                           Foreground="{StaticResource BrushTextPrimary}" Margin="0,0,0,16" />
+                <ItemsControl x:Name="ProjectsList">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{StaticResource ProjectCardStyle}" Cursor="Hand">
+                                <Grid Margin="20">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,12">
+                                        <Border Width="48" Height="48" CornerRadius="12"
+                                                Background="{StaticResource BrushBackgroundLight}">
+                                            <TextBlock Text="{Binding Icon}" FontSize="22"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center" />
+                                        </Border>
+                                        <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Name}" FontSize="20" FontWeight="Bold"
+                                                       Foreground="{StaticResource BrushTextPrimary}" />
+                                            <TextBlock Text="{Binding Version}" FontSize="12"
+                                                       Foreground="{StaticResource BrushTextMuted}" />
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <TextBlock Grid.Row="1" Text="{Binding Description}"
+                                               FontSize="14" Foreground="{StaticResource BrushTextSecondary}"
+                                               TextWrapping="Wrap" />
+
+                                    <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,12,0,0">
+                                        <Border Background="{StaticResource BrushSuccess}" CornerRadius="6"
+                                                Padding="12,6" Cursor="Hand"
+                                                MouseLeftButtonDown="LaunchProject"
+                                                Tag="{Binding Id}">
+                                            <TextBlock Text="▶  LAUNCH" FontSize="14" FontWeight="Bold"
+                                                       Foreground="#0D0D14" />
+                                        </Border>
+                                        <Border Background="{StaticResource BrushBackgroundLight}" CornerRadius="6"
+                                                Padding="12,6" Cursor="Hand" Margin="8,0,0,0">
+                                            <TextBlock Text="INSTALL" FontSize="14" FontWeight="Bold"
+                                                       Foreground="{StaticResource BrushAccentPrimary}" />
+                                        </Border>
+                                    </StackPanel>
+
+                                    <TextBlock Grid.Row="3" x:Name="StatusText" FontSize="11"
+                                               Foreground="{StaticResource BrushTextMuted}"
+                                               Margin="0,8,0,0" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!-- Quick Actions -->
+                <TextBlock Text="QUICK ACTIONS" FontSize="20" FontWeight="Bold"
+                           Foreground="{StaticResource BrushTextPrimary}" Margin="0,24,0,16" />
+                <WrapPanel>
+                    <Border CornerRadius="12" Background="{StaticResource BrushBackgroundLight}"
+                            Padding="24,16" Margin="0,0,12,12" Cursor="Hand"
+                            MouseLeftButtonDown="Refresh_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="↻" FontSize="20" Margin="0,0,8,0"
+                                       Foreground="{StaticResource BrushAccentPrimary}" />
+                            <StackPanel>
+                                <TextBlock Text="REFRESH PROJECTS" FontSize="14" FontWeight="Bold"
+                                           Foreground="{StaticResource BrushTextPrimary}" />
+                                <TextBlock Text="Check for updates" FontSize="11"
+                                           Foreground="{StaticResource BrushTextMuted}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <Border CornerRadius="12" Background="{StaticResource BrushBackgroundLight}"
+                            Padding="24,16" Margin="0,0,12,12" Cursor="Hand">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="⚙" FontSize="20" Margin="0,0,8,0"
+                                       Foreground="{StaticResource BrushAccentSecondary}" />
+                            <StackPanel>
+                                <TextBlock Text="LAUNCHER SETTINGS" FontSize="14" FontWeight="Bold"
+                                           Foreground="{StaticResource BrushTextPrimary}" />
+                                <TextBlock Text="Configure preferences" FontSize="11"
+                                           Foreground="{StaticResource BrushTextMuted}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <Border CornerRadius="12" Background="{StaticResource BrushBackgroundLight}"
+                            Padding="24,16" Margin="0,0,12,12" Cursor="Hand">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="🌐" FontSize="20" Margin="0,0,8,0"
+                                       Foreground="{StaticResource BrushAccentTertiary}" />
+                            <StackPanel>
+                                <TextBlock Text="GOSTUDIOS WEBSITE" FontSize="14" FontWeight="Bold"
+                                           Foreground="{StaticResource BrushTextPrimary}" />
+                                <TextBlock Text="Explore all projects" FontSize="11"
+                                           Foreground="{StaticResource BrushTextMuted}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </WrapPanel>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Bottom Status Bar -->
+        <Border Grid.Row="2" Background="{StaticResource BrushBackgroundMedium}"
+                BorderBrush="{StaticResource BrushBorder}" BorderThickness="0,1,0,0">
+            <Grid Margin="24,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="GoStudios Launcher v1.4.0"
+                           Style="{StaticResource StatusBarTextStyle}"
+                           Foreground="{StaticResource BrushTextMuted}" />
+
+                <TextBlock Grid.Column="2" x:Name="BatteryText" Text=""
+                           Style="{StaticResource StatusBarTextStyle}" Margin="0,0,16,0" />
+
+                <TextBlock Grid.Column="3" x:Name="NetworkText" Text="● Online"
+                           Style="{StaticResource StatusBarTextStyle}" Margin="0,0,16,0"
+                           Foreground="{StaticResource BrushSuccess}" />
+
+                <TextBlock Grid.Column="4" x:Name="StatusClockText" Text=""
+                           Style="{StaticResource StatusBarTextStyle}"
+                           FontSize="14" FontWeight="Bold"
+                           Foreground="{StaticResource BrushTextPrimary}" />
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

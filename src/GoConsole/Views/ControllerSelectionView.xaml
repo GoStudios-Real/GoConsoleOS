@@ -1,0 +1,217 @@
+<UserControl x:Class="GoConsoleOS.GoConsole.Views.ControllerSelectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:cc="clr-namespace:GoConsoleOS.GoConsole.Controls"
+             Background="Transparent">
+    <Grid Margin="40">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="CONTROLLER" FontSize="28" FontWeight="Bold"
+                   Foreground="{StaticResource BrushTextPrimary}" />
+        <TextBlock Grid.Row="1" Text="Select your controller type, test inputs, and configure every option"
+                   FontSize="14" Foreground="{StaticResource BrushTextSecondary}" Margin="0,4,0,20" />
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="280" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Controller type selection -->
+            <StackPanel Grid.Column="0" Grid.Row="0">
+                <TextBlock Text="CONTROLLER TYPE" FontSize="15" FontWeight="Bold"
+                           Foreground="{StaticResource BrushTextSecondary}" Margin="0,0,0,10" />
+                <StackPanel Orientation="Horizontal">
+                    <Border x:Name="KindAuto" Tag="Auto" CornerRadius="12" Width="170" Height="96"
+                            Background="{StaticResource BrushBackgroundLight}" Cursor="Hand"
+                            MouseLeftButtonDown="SelectKind" Margin="0,0,12,0" Padding="14">
+                        <StackPanel>
+                            <TextBlock Text="🎮" FontSize="26" />
+                            <TextBlock Text="Auto Detect" FontSize="14" FontWeight="Bold"
+                                       Foreground="{StaticResource BrushTextPrimary}" Margin="0,6,0,0" />
+                            <TextBlock Text="Detect by VID/PID" FontSize="10"
+                                       Foreground="{StaticResource BrushTextMuted}" />
+                        </StackPanel>
+                    </Border>
+                    <Border x:Name="KindXbox" Tag="Xbox" CornerRadius="12" Width="170" Height="96"
+                            Background="{StaticResource BrushBackgroundLight}" Cursor="Hand"
+                            MouseLeftButtonDown="SelectKind" Margin="0,0,12,0" Padding="14">
+                        <StackPanel>
+                            <TextBlock Text="🟢" FontSize="26" />
+                            <TextBlock Text="Xbox" FontSize="14" FontWeight="Bold"
+                                       Foreground="{StaticResource BrushTextPrimary}" Margin="0,6,0,0" />
+                            <TextBlock Text="Xbox Wireless" FontSize="10"
+                                       Foreground="{StaticResource BrushTextMuted}" />
+                        </StackPanel>
+                    </Border>
+                    <Border x:Name="KindPlayStation5" Tag="PlayStation5" CornerRadius="12" Width="170" Height="96"
+                            Background="{StaticResource BrushBackgroundLight}" Cursor="Hand"
+                            MouseLeftButtonDown="SelectKind" Margin="0,0,12,0" Padding="14">
+                        <StackPanel>
+                            <TextBlock Text="🔵" FontSize="26" />
+                            <TextBlock Text="PlayStation 5" FontSize="14" FontWeight="Bold"
+                                       Foreground="{StaticResource BrushTextPrimary}" Margin="0,6,0,0" />
+                            <TextBlock Text="DualSense" FontSize="10"
+                                       Foreground="{StaticResource BrushTextMuted}" />
+                        </StackPanel>
+                    </Border>
+                    <Border x:Name="KindSwitch2" Tag="Switch2" CornerRadius="12" Width="170" Height="96"
+                            Background="{StaticResource BrushBackgroundLight}" Cursor="Hand"
+                            MouseLeftButtonDown="SelectKind" Margin="0,0,12,0" Padding="14">
+                        <StackPanel>
+                            <TextBlock Text="🔴" FontSize="26" />
+                            <TextBlock Text="Nintendo Switch 2" FontSize="14" FontWeight="Bold"
+                                       Foreground="{StaticResource BrushTextPrimary}" Margin="0,6,0,0" />
+                            <TextBlock Text="Switch 2 Pro" FontSize="10"
+                                       Foreground="{StaticResource BrushTextMuted}" />
+                        </StackPanel>
+                    </Border>
+                    <Border x:Name="KindGeneric" Tag="Generic" CornerRadius="12" Width="170" Height="96"
+                            Background="{StaticResource BrushBackgroundLight}" Cursor="Hand"
+                            MouseLeftButtonDown="SelectKind" Padding="14">
+                        <StackPanel>
+                            <TextBlock Text="🕹️" FontSize="26" />
+                            <TextBlock Text="Generic" FontSize="14" FontWeight="Bold"
+                                       Foreground="{StaticResource BrushTextPrimary}" Margin="0,6,0,0" />
+                            <TextBlock Text="Third-party pad" FontSize="10"
+                                       Foreground="{StaticResource BrushTextMuted}" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Connection status -->
+            <Border Grid.Column="0" Grid.Row="1" CornerRadius="12" Background="{StaticResource BrushBackgroundLight}"
+                    Padding="20" Margin="0,16,12,0" VerticalAlignment="Top">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock x:Name="ConnectionStatus" Text="No controller detected" FontSize="15"
+                                   Foreground="{StaticResource BrushTextMuted}"
+                                   VerticalAlignment="Center" />
+                        <Border x:Name="DetectedBadge" CornerRadius="6" Background="{StaticResource BrushBackgroundCard}"
+                                Padding="8,3" Margin="12,0,0,0" Visibility="Collapsed">
+                            <TextBlock x:Name="DetectedText" Text="" FontSize="11" FontWeight="Bold"
+                                       Foreground="{StaticResource BrushAccentPrimary}" />
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,20,0,16">
+                        <CheckBox x:Name="MouseEmulationCheck" Content="Mouse emulation (Right Stick)"
+                                  IsChecked="True" Foreground="{StaticResource BrushTextPrimary}" FontSize="13"
+                                  Checked="OnToggleChanged" Unchecked="OnToggleChanged" Margin="0,0,24,0" />
+                        <CheckBox x:Name="VibrationCheck" Content="Controller vibration"
+                                  IsChecked="True" Foreground="{StaticResource BrushTextPrimary}" FontSize="13"
+                                  Checked="OnToggleChanged" Unchecked="OnToggleChanged" />
+                    </StackPanel>
+
+                    <TextBlock Text="BUTTON TEST" FontSize="15" FontWeight="Bold"
+                               Foreground="{StaticResource BrushTextSecondary}" Margin="0,0,0,10" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Margin="0,0,20,0">
+                            <TextBlock Text="Face" FontSize="11" Foreground="{StaticResource BrushTextMuted}" />
+                            <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                <cc:ControllerButtonIcon x:Name="TestA" Button="A" Margin="0,0,6,0" />
+                                <cc:ControllerButtonIcon x:Name="TestB" Button="B" Margin="0,0,6,0" />
+                                <cc:ControllerButtonIcon x:Name="TestX" Button="X" Margin="0,0,6,0" />
+                                <cc:ControllerButtonIcon x:Name="TestY" Button="Y" />
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Margin="0,0,20,0">
+                            <TextBlock Text="D-Pad" FontSize="11" Foreground="{StaticResource BrushTextMuted}" />
+                            <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                <cc:ControllerButtonIcon x:Name="TestDPadUp" Button="DPadUp" Margin="0,0,4,0" />
+                                <cc:ControllerButtonIcon x:Name="TestDPadDown" Button="DPadDown" Margin="0,0,4,0" />
+                                <cc:ControllerButtonIcon x:Name="TestDPadLeft" Button="DPadLeft" Margin="0,0,4,0" />
+                                <cc:ControllerButtonIcon x:Name="TestDPadRight" Button="DPadRight" />
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" Margin="0,0,20,0">
+                            <TextBlock Text="Bumpers" FontSize="11" Foreground="{StaticResource BrushTextMuted}" />
+                            <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                <cc:ControllerButtonIcon x:Name="TestLB" Button="LeftShoulder" Margin="0,0,4,0" />
+                                <cc:ControllerButtonIcon x:Name="TestRB" Button="RightShoulder" />
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Grid.Column="3" Margin="0,0,20,0">
+                            <TextBlock Text="System" FontSize="11" Foreground="{StaticResource BrushTextMuted}" />
+                            <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                <cc:ControllerButtonIcon x:Name="TestGuide" Button="Guide" Margin="0,0,4,0" />
+                                <cc:ControllerButtonIcon x:Name="TestStart" Button="Start" Margin="0,0,4,0" />
+                                <cc:ControllerButtonIcon x:Name="TestBack" Button="Back" />
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Grid.Column="4" HorizontalAlignment="Right">
+                            <TextBlock Text="Triggers / Sticks" FontSize="11" Foreground="{StaticResource BrushTextMuted}"
+                                       HorizontalAlignment="Right" />
+                            <Border x:Name="TestAnalog" CornerRadius="8" Background="{StaticResource BrushBackgroundCard}"
+                                    Padding="12,8" Margin="0,6,0,0" MinWidth="150">
+                                <StackPanel>
+                                    <TextBlock x:Name="TestAnalogL" Text="L ⬅➡ 0%" FontSize="11"
+                                               Foreground="{StaticResource BrushTextMuted}" />
+                                    <TextBlock x:Name="TestAnalogR" Text="R ⬅➡ 0%" FontSize="11"
+                                               Foreground="{StaticResource BrushTextMuted}" Margin="0,3,0,0" />
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+                        <Border x:Name="TestVibrationBtn" CornerRadius="8" Background="{StaticResource BrushBackgroundCard}"
+                                Padding="14,8" Cursor="Hand" MouseLeftButtonDown="TestVibration_Click" Margin="0,0,12,0">
+                            <TextBlock Text="VIBRATE" FontSize="12" FontWeight="Bold"
+                                       Foreground="{StaticResource BrushAccentPrimary}" />
+                        </Border>
+                        <Border CornerRadius="8" Background="{StaticResource BrushBackgroundCard}"
+                                Padding="14,8" Cursor="Hand" MouseLeftButtonDown="OpenRemapping_Click">
+                            <TextBlock Text="REMAPPING" FontSize="12" FontWeight="Bold"
+                                       Foreground="{StaticResource BrushAccentPrimary}" />
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Button layout preview -->
+            <Border Grid.Column="1" Grid.Row="1" CornerRadius="12" Background="{StaticResource BrushBackgroundLight}"
+                    Padding="20" Margin="0,16,0,0" VerticalAlignment="Top">
+                <StackPanel>
+                    <TextBlock Text="BUTTON LAYOUT" FontSize="15" FontWeight="Bold"
+                               Foreground="{StaticResource BrushTextSecondary}" Margin="0,0,0,4" />
+                    <TextBlock x:Name="LayoutKindText" Text="Auto (Xbox layout)" FontSize="12"
+                               Foreground="{StaticResource BrushAccentPrimary}" Margin="0,0,0,12" />
+                    <ItemsControl x:Name="LayoutList">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,0,0,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="60" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <cc:ControllerButtonIcon Button="{Binding Button}" Label="{Binding Label}"
+                                                             HorizontalAlignment="Left" />
+                                    <TextBlock Grid.Column="1" Text="{Binding Description}" FontSize="11"
+                                               Foreground="{StaticResource BrushTextMuted}"
+                                               VerticalAlignment="Center" Margin="8,0,0,0" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

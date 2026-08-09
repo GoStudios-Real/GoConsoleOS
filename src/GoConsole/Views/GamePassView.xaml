@@ -1,0 +1,99 @@
+<UserControl x:Class="GoConsoleOS.GoConsole.Views.GamePassView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="Transparent">
+    <Grid Margin="40">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="GAME PASS" FontSize="28" FontWeight="Bold"
+                   Foreground="{StaticResource BrushTextPrimary}" Margin="0,0,0,4" />
+        <TextBlock Grid.Row="1" x:Name="PassStatus" Text="Browse the catalog of available titles."
+                   FontSize="14" Foreground="{StaticResource BrushTextSecondary}" Margin="0,0,0,16" />
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="220" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" CornerRadius="12" Background="{StaticResource BrushBackgroundLight}" Padding="12" Margin="0,0,12,0">
+                <StackPanel>
+                    <TextBlock Text="CATEGORIES" FontSize="13" FontWeight="Bold"
+                               Foreground="{StaticResource BrushAccentPrimary}" Margin="0,0,0,8" />
+                    <Border CornerRadius="6" Background="{StaticResource BrushAccentPrimary}" Padding="10,6" Cursor="Hand" Margin="0,0,0,4">
+                        <TextBlock Text="All Games" FontSize="12" FontWeight="Bold" Foreground="#0D0D14" />
+                    </Border>
+                    <Border CornerRadius="6" Background="{StaticResource BrushBackgroundCard}" Padding="10,6" Cursor="Hand" Margin="0,0,0,4">
+                        <TextBlock Text="Action" FontSize="12" Foreground="{StaticResource BrushTextPrimary}" />
+                    </Border>
+                    <Border CornerRadius="6" Background="{StaticResource BrushBackgroundCard}" Padding="10,6" Cursor="Hand" Margin="0,0,0,4">
+                        <TextBlock Text="Adventure" FontSize="12" Foreground="{StaticResource BrushTextPrimary}" />
+                    </Border>
+                    <Border CornerRadius="6" Background="{StaticResource BrushBackgroundCard}" Padding="10,6" Cursor="Hand" Margin="0,0,0,4">
+                        <TextBlock Text="RPG" FontSize="12" Foreground="{StaticResource BrushTextPrimary}" />
+                    </Border>
+                    <Border CornerRadius="6" Background="{StaticResource BrushBackgroundCard}" Padding="10,6" Cursor="Hand" Margin="0,0,0,4">
+                        <TextBlock Text="Strategy" FontSize="12" Foreground="{StaticResource BrushTextPrimary}" />
+                    </Border>
+                    <Border CornerRadius="6" Background="{StaticResource BrushBackgroundCard}" Padding="10,6" Cursor="Hand">
+                        <TextBlock Text="Indie" FontSize="12" Foreground="{StaticResource BrushTextPrimary}" />
+                    </Border>
+
+                    <TextBlock Text="SUBSCRIBED" FontSize="13" FontWeight="Bold"
+                               Foreground="{StaticResource BrushAccentPrimary}" Margin="0,16,0,8" />
+                    <Border CornerRadius="8" Background="#00C9DB33" Padding="12,10">
+                        <StackPanel>
+                            <TextBlock Text="Game Pass Core" FontSize="12" FontWeight="Bold"
+                                       Foreground="{StaticResource BrushAccentPrimary}" />
+                            <TextBlock Text="Active" FontSize="11" Foreground="LimeGreen" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <ScrollViewer Grid.Column="1" Style="{StaticResource InvisibleScrollViewer}">
+                <ItemsControl x:Name="CatalogList">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border CornerRadius="10" Background="{StaticResource BrushBackgroundLight}"
+                                    Padding="8" Margin="0,0,8,8" Width="180">
+                                <StackPanel>
+                                    <Border CornerRadius="6" Height="100"
+                                            Background="{StaticResource BrushBackgroundCard}" Margin="0,0,0,8">
+                                        <TextBlock Text="{Binding Emoji}" FontSize="36"
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+                                    <TextBlock Text="{Binding Title}" FontSize="13" FontWeight="Bold"
+                                               Foreground="{StaticResource BrushTextPrimary}"
+                                               TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Text="{Binding Genre}" FontSize="10"
+                                               Foreground="{StaticResource BrushTextMuted}" />
+                                    <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                        <Border CornerRadius="4" Background="#00C9DB33" Padding="6,3">
+                                            <TextBlock Text="GAME PASS" FontSize="9" FontWeight="Bold"
+                                                       Foreground="{StaticResource BrushAccentPrimary}" />
+                                        </Border>
+                                    </StackPanel>
+                                    <Button Content="INSTALL" FontSize="11" FontWeight="Bold"
+                                            Background="{StaticResource BrushAccentPrimary}"
+                                            Foreground="#0D0D14" BorderThickness="0"
+                                            Padding="0,6" Margin="0,8,0,0" Cursor="Hand"
+                                            Tag="{Binding Title}" Click="InstallGamePass" />
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</UserControl>

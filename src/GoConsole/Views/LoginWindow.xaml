@@ -1,0 +1,160 @@
+<Window x:Class="GoConsoleOS.GoConsole.Views.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="GoConsoleOS - Sign In"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Width="420" Height="520"
+        Background="{StaticResource BrushBackgroundDark}"
+        Topmost="True"
+        KeyDown="Window_KeyDown">
+    <Border CornerRadius="16" Background="{StaticResource BrushBackgroundLight}" Padding="32" Margin="20">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <StackPanel Grid.Row="0" Margin="0,0,0,24">
+                <TextBlock Text="GoConsoleOS" FontSize="28" FontWeight="Bold"
+                           Foreground="{StaticResource BrushAccentPrimary}"
+                           HorizontalAlignment="Center" />
+                <TextBlock x:Name="SubtitleText" Text="Sign in to your account"
+                           FontSize="14" Foreground="{StaticResource BrushTextSecondary}"
+                           HorizontalAlignment="Center" Margin="0,4,0,0" />
+            </StackPanel>
+
+            <!-- Tab Buttons -->
+            <Grid Grid.Row="1" Margin="0,0,0,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" x:Name="SignInTab" CornerRadius="8,0,0,8"
+                        Background="{StaticResource BrushAccentPrimary}" Padding="12,8"
+                        Cursor="Hand" MouseLeftButtonDown="SwitchToSignIn">
+                    <TextBlock x:Name="SignInTabText" Text="SIGN IN" FontSize="14" FontWeight="Bold"
+                               Foreground="#0D0D14" HorizontalAlignment="Center" />
+                </Border>
+                <Border Grid.Column="1" x:Name="SignUpTab" CornerRadius="0,8,8,0"
+                        Background="{StaticResource BrushBackgroundCard}" Padding="12,8"
+                        Cursor="Hand" MouseLeftButtonDown="SwitchToSignUp">
+                    <TextBlock x:Name="SignUpTabText" Text="SIGN UP" FontSize="14" FontWeight="Bold"
+                               Foreground="{StaticResource BrushTextSecondary}" HorizontalAlignment="Center" />
+                </Border>
+            </Grid>
+
+            <!-- Form Content -->
+            <StackPanel Grid.Row="2" x:Name="SignInPanel">
+                <TextBlock Text="Username" FontSize="12" Foreground="{StaticResource BrushTextSecondary}"
+                           Margin="0,0,0,4" />
+                <TextBox x:Name="LoginUsername" FontSize="14" Padding="10,8"
+                         Background="{StaticResource BrushBackgroundCard}"
+                         Foreground="{StaticResource BrushTextPrimary}"
+                         BorderBrush="{StaticResource BrushBorder}"
+                         BorderThickness="1" CaretBrush="{StaticResource BrushAccentPrimary}"
+                         Margin="0,0,0,12" />
+
+                <TextBlock Text="Password" FontSize="12" Foreground="{StaticResource BrushTextSecondary}"
+                           Margin="0,0,0,4" />
+                <PasswordBox x:Name="LoginPassword" FontSize="14" Padding="10,8"
+                              Background="{StaticResource BrushBackgroundCard}"
+                              Foreground="{StaticResource BrushTextPrimary}"
+                              BorderBrush="{StaticResource BrushBorder}"
+                              BorderThickness="1"
+                              Margin="0,0,0,16" />
+
+                <Border x:Name="LoginBtn" CornerRadius="8"
+                        Background="{StaticResource BrushAccentPrimary}" Padding="12,10"
+                        Cursor="Hand" MouseLeftButtonDown="DoSignIn">
+                    <TextBlock Text="SIGN IN" FontSize="14" FontWeight="Bold"
+                               Foreground="#0D0D14" HorizontalAlignment="Center" />
+                </Border>
+
+                <Border CornerRadius="8" Background="{StaticResource BrushBackgroundCard}"
+                        Padding="12,10" Margin="0,8,0,0" Cursor="Hand"
+                        MouseLeftButtonDown="ContinueAsGuest">
+                    <TextBlock Text="CONTINUE AS GUEST" FontSize="12" FontWeight="Bold"
+                               Foreground="{StaticResource BrushTextSecondary}"
+                               HorizontalAlignment="Center" />
+                </Border>
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" x:Name="SignUpPanel" Visibility="Collapsed">
+                <TextBlock Text="Username" FontSize="12" Foreground="{StaticResource BrushTextSecondary}"
+                           Margin="0,0,0,4" />
+                <TextBox x:Name="RegUsername" FontSize="14" Padding="10,8"
+                         Background="{StaticResource BrushBackgroundCard}"
+                         Foreground="{StaticResource BrushTextPrimary}"
+                         BorderBrush="{StaticResource BrushBorder}"
+                         BorderThickness="1" CaretBrush="{StaticResource BrushAccentPrimary}"
+                         Margin="0,0,0,8" />
+
+                <TextBlock Text="Display Name" FontSize="12" Foreground="{StaticResource BrushTextSecondary}"
+                           Margin="0,0,0,4" />
+                <TextBox x:Name="RegDisplayName" FontSize="14" Padding="10,8"
+                         Background="{StaticResource BrushBackgroundCard}"
+                         Foreground="{StaticResource BrushTextPrimary}"
+                         BorderBrush="{StaticResource BrushBorder}"
+                         BorderThickness="1" CaretBrush="{StaticResource BrushAccentPrimary}"
+                         Margin="0,0,0,8" />
+
+                <TextBlock Text="Email (optional)" FontSize="12" Foreground="{StaticResource BrushTextSecondary}"
+                           Margin="0,0,0,4" />
+                <TextBox x:Name="RegEmail" FontSize="14" Padding="10,8"
+                         Background="{StaticResource BrushBackgroundCard}"
+                         Foreground="{StaticResource BrushTextSecondary}"
+                         BorderBrush="{StaticResource BrushBorder}"
+                         BorderThickness="1" CaretBrush="{StaticResource BrushAccentPrimary}"
+                         Margin="0,0,0,8" />
+
+                <TextBlock Text="Password" FontSize="12" Foreground="{StaticResource BrushTextSecondary}"
+                           Margin="0,0,0,4" />
+                <PasswordBox x:Name="RegPassword" FontSize="14" Padding="10,8"
+                              Background="{StaticResource BrushBackgroundCard}"
+                              Foreground="{StaticResource BrushTextPrimary}"
+                              BorderBrush="{StaticResource BrushBorder}"
+                              BorderThickness="1"
+                              Margin="0,0,0,8" />
+
+                <TextBlock Text="Confirm Password" FontSize="12" Foreground="{StaticResource BrushTextSecondary}"
+                           Margin="0,0,0,4" />
+                <PasswordBox x:Name="RegPasswordConfirm" FontSize="14" Padding="10,8"
+                              Background="{StaticResource BrushBackgroundCard}"
+                              Foreground="{StaticResource BrushTextPrimary}"
+                              BorderBrush="{StaticResource BrushBorder}"
+                              BorderThickness="1"
+                              Margin="0,0,0,12" />
+
+                <Border x:Name="SignUpBtn" CornerRadius="8"
+                        Background="{StaticResource BrushAccentSecondary}" Padding="12,10"
+                        Cursor="Hand" MouseLeftButtonDown="DoSignUp">
+                    <TextBlock Text="CREATE ACCOUNT" FontSize="14" FontWeight="Bold"
+                               Foreground="White" HorizontalAlignment="Center" />
+                </Border>
+            </StackPanel>
+
+            <!-- Status / Error -->
+            <TextBlock Grid.Row="3" x:Name="StatusText" Text=""
+                       FontSize="12" Foreground="{StaticResource BrushError}"
+                       HorizontalAlignment="Center" Margin="0,12,0,0"
+                       TextWrapping="Wrap" />
+
+            <Border Grid.Row="3" CornerRadius="6" Background="{StaticResource BrushBackgroundCard}"
+                    Padding="8,4" Margin="0,8,0,0" Cursor="Hand"
+                    MouseLeftButtonDown="CloseWindow"
+                    HorizontalAlignment="Center">
+                <TextBlock Text="✕ CLOSE" FontSize="12" FontWeight="Bold"
+                           Foreground="{StaticResource BrushTextMuted}" />
+            </Border>
+
+            <TextBlock Grid.Row="3" x:Name="CountdownText" Text="Continuing as guest in 8s..."
+                       FontSize="11" Foreground="{StaticResource BrushTextMuted}"
+                       HorizontalAlignment="Center" Margin="0,4,0,0" />
+        </Grid>
+    </Border>
+</Window>

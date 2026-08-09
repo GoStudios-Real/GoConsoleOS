@@ -1,0 +1,57 @@
+<Window x:Class="GoConsoleOS.GoConsole.Views.GoAiWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="GoAI"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStartupLocation="CenterScreen"
+        Topmost="True"
+        ShowInTaskbar="False"
+        ResizeMode="NoResize"
+        Width="560" Height="680"
+        WindowState="Normal">
+    <Border CornerRadius="20" Background="#F00E1024" Padding="24" Margin="0">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="GoAI" FontSize="24" FontWeight="Bold" Foreground="#00C9DB" />
+                    <TextBlock x:Name="AiStatus" Text="assistant · online" FontSize="12"
+                               Foreground="#7A80A0" Margin="0,2,0,14" />
+                </StackPanel>
+                <Button Grid.Column="1" Content="CLOSE" Style="{StaticResource NavButtonStyle}"
+                        FontSize="13" Padding="12,6" VerticalAlignment="Center"
+                        Click="CloseButton_Click" />
+            </Grid>
+
+            <ScrollViewer x:Name="ChatScroll" Grid.Row="1" Margin="0,0,0,12"
+                          Style="{StaticResource InvisibleScrollViewer}">
+                <StackPanel x:Name="ChatLog" />
+            </ScrollViewer>
+
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="InputBox" Grid.Column="0" Background="#1E1E32"
+                         Foreground="#F0F0FF" CaretBrush="#F0F0FF" BorderThickness="0"
+                         Padding="14,12" FontSize="14" VerticalContentAlignment="Center"
+                         KeyDown="InputBox_KeyDown" />
+                <Button Grid.Column="1" Content="SEND" Style="{StaticResource NavButtonStyle}"
+                        FontSize="13" Padding="14,10" Margin="10,0,0,0"
+                        Click="SendButton_Click" />
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

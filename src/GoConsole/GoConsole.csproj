@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <RootNamespace>GoConsoleOS.GoConsole</RootNamespace>
+    <AssemblyName>GoConsole</AssemblyName>
+    <UseWPF>true</UseWPF>
+    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GoConsoleOS.Shared\GoConsoleOS.Shared.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- ACC Account Center website - served by the built-in server on port 39210 -->
+    <Content Include="..\..\web\**\*.*">
+      <Link>web\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2957.106" />
+    <PackageReference Include="System.Management" Version="9.0.0" />
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+    <PackageReference Include="Discord.Net.WebSocket" Version="3.20.1" />
+    <PackageReference Include="NAudio" Version="2.2.1" />
+  </ItemGroup>
+</Project>

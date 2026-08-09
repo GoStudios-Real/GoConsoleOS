@@ -1,0 +1,83 @@
+<UserControl x:Class="GoConsoleOS.GoConsole.Views.NetworkTestView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="Transparent">
+    <Grid Margin="40">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="NETWORK TEST" FontSize="28" FontWeight="Bold"
+                   Foreground="{StaticResource BrushTextPrimary}" Margin="0,0,0,4" />
+        <TextBlock Grid.Row="1" x:Name="NetworkStatus" Text="Ready"
+                   FontSize="14" Foreground="{StaticResource BrushTextSecondary}" Margin="0,0,0,20" />
+
+        <Border Grid.Row="2" CornerRadius="12" Background="{StaticResource BrushBackgroundLight}" Padding="20" Margin="0,0,0,12">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                    <Border CornerRadius="8" Background="{StaticResource BrushBackgroundCard}" Padding="16,10" Margin="0,0,8,0" Width="180">
+                        <StackPanel>
+                            <TextBlock Text="PING" FontSize="11" Foreground="{StaticResource BrushTextMuted}" />
+                            <TextBlock x:Name="PingResult" Text="--" FontSize="22" FontWeight="Bold"
+                                       Foreground="{StaticResource BrushTextPrimary}" />
+                        </StackPanel>
+                    </Border>
+                    <Border CornerRadius="8" Background="{StaticResource BrushBackgroundCard}" Padding="16,10" Margin="0,0,8,0" Width="180">
+                        <StackPanel>
+                            <TextBlock Text="DOWNLOAD" FontSize="11" Foreground="{StaticResource BrushTextMuted}" />
+                            <TextBlock x:Name="DownloadResult" Text="--" FontSize="22" FontWeight="Bold"
+                                       Foreground="{StaticResource BrushTextPrimary}" />
+                        </StackPanel>
+                    </Border>
+                    <Border CornerRadius="8" Background="{StaticResource BrushBackgroundCard}" Padding="16,10" Width="180">
+                        <StackPanel>
+                            <TextBlock Text="UPLOAD" FontSize="11" Foreground="{StaticResource BrushTextMuted}" />
+                            <TextBlock x:Name="UploadResult" Text="--" FontSize="22" FontWeight="Bold"
+                                       Foreground="{StaticResource BrushTextPrimary}" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                    <Border CornerRadius="8" Background="{StaticResource BrushBackgroundCard}" Padding="16,10" Margin="0,0,8,0" Width="180">
+                        <StackPanel>
+                            <TextBlock Text="CONNECTION TYPE" FontSize="11" Foreground="{StaticResource BrushTextMuted}" />
+                            <TextBlock x:Name="ConnTypeResult" Text="Checking..." FontSize="14"
+                                       Foreground="{StaticResource BrushTextPrimary}" />
+                        </StackPanel>
+                    </Border>
+                    <Border CornerRadius="8" Background="{StaticResource BrushBackgroundCard}" Padding="16,10" Width="180">
+                        <StackPanel>
+                            <TextBlock Text="IP ADDRESS" FontSize="11" Foreground="{StaticResource BrushTextMuted}" />
+                            <TextBlock x:Name="IpResult" Text="--" FontSize="14"
+                                       Foreground="{StaticResource BrushTextPrimary}" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="3" CornerRadius="12" Background="{StaticResource BrushBackgroundLight}" Padding="20">
+            <StackPanel>
+                <Button x:Name="RunTestBtn" Content="RUN TEST" FontSize="14" FontWeight="Bold"
+                        Background="{StaticResource BrushAccentPrimary}" Foreground="#0D0D14"
+                        BorderThickness="0" Padding="20,10" Width="160" HorizontalAlignment="Left"
+                        Cursor="Hand" Click="RunTest" />
+                <ProgressBar x:Name="TestProgress" Height="4" Margin="0,12,0,0" Maximum="3" Value="0"
+                             Foreground="{StaticResource BrushAccentPrimary}"
+                             Background="{StaticResource BrushBackgroundCard}"
+                             BorderThickness="0" Visibility="Collapsed" />
+                <TextBlock x:Name="DetailLog" FontSize="11" Foreground="{StaticResource BrushTextMuted}"
+                           TextWrapping="Wrap" Margin="0,8,0,0" />
+            </StackPanel>
+        </Border>
+
+        <TextBlock Grid.Row="4" Text="Network tests simulate latency and throughput estimates. Results may vary."
+                   FontSize="11" Foreground="{StaticResource BrushTextMuted}"
+                   VerticalAlignment="Bottom" />
+    </Grid>
+</UserControl>

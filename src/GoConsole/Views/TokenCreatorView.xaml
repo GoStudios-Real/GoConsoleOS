@@ -1,0 +1,84 @@
+<UserControl x:Class="GoConsoleOS.GoConsole.Views.TokenCreatorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="Transparent"
+             Unloaded="OnUnloaded">
+    <Grid Margin="32">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="DISCORD TOKEN CREATOR" FontSize="28" FontWeight="Bold"
+                       Foreground="{StaticResource BrushTextPrimary}" VerticalAlignment="Center" />
+            <Border CornerRadius="4" Background="{StaticResource BrushBackgroundCard}" Padding="8,3"
+                    VerticalAlignment="Center" Margin="12,0,0,0">
+                <TextBlock x:Name="StatusChip" Text="READY" FontSize="11" FontWeight="Bold"
+                           Foreground="{StaticResource BrushTextMuted}" />
+            </Border>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,16,0,0">
+            <StackPanel>
+                <Border CornerRadius="12" Background="{StaticResource BrushBackgroundLight}" Padding="20">
+                    <StackPanel>
+                        <TextBlock Text="SIGN IN TO GENERATE YOUR TOKEN" FontSize="13" FontWeight="Bold"
+                                   Foreground="{StaticResource BrushAccentSecondary}" Margin="0,0,0,6" />
+                        <TextBlock Text="Opens Discord authorization in GoBrowser. After you approve, your token is captured and saved automatically."
+                                   FontSize="12" Foreground="{StaticResource BrushTextMuted}" TextWrapping="Wrap" />
+
+                        <TextBlock Text="APPLICATION CLIENT ID" FontSize="11" FontWeight="Bold"
+                                   Foreground="{StaticResource BrushTextSecondary}" Margin="0,16,0,4" />
+                        <TextBox x:Name="ClientIdBox" Text="1532943418299514940" FontSize="14"
+                                 Padding="8,6" Background="{StaticResource BrushBackgroundCard}"
+                                 Foreground="{StaticResource BrushTextPrimary}" BorderThickness="0" />
+
+                        <TextBlock Text="REDIRECT URI (must match your Discord app settings)" FontSize="11" FontWeight="Bold"
+                                   Foreground="{StaticResource BrushTextSecondary}" Margin="0,14,0,4" />
+                        <TextBox x:Name="RedirectBox" Text="http://localhost:53178/" FontSize="14"
+                                 Padding="8,6" Background="{StaticResource BrushBackgroundCard}"
+                                 Foreground="{StaticResource BrushTextPrimary}" BorderThickness="0" />
+
+                        <TextBlock Text="PERMISSIONS (SCOPES)" FontSize="11" FontWeight="Bold"
+                                   Foreground="{StaticResource BrushTextSecondary}" Margin="0,14,0,6" />
+                        <CheckBox x:Name="ScopeProfile" Content="Profile (identify)" FontSize="13"
+                                  Foreground="{StaticResource BrushTextPrimary}" IsChecked="True" Margin="0,0,0,6" />
+                        <CheckBox x:Name="ScopeGuilds" Content="Your servers (guilds)" FontSize="13"
+                                  Foreground="{StaticResource BrushTextPrimary}" IsChecked="True" Margin="0,0,0,6" />
+                        <CheckBox x:Name="ScopeGuildsJoin" Content="Join servers (guilds.join)" FontSize="13"
+                                  Foreground="{StaticResource BrushTextPrimary}" IsChecked="True" Margin="0,0,0,6" />
+                        <CheckBox x:Name="ScopeGuildsMembers" Content="Read member lists (guilds.members.read)" FontSize="13"
+                                  Foreground="{StaticResource BrushTextPrimary}" Margin="0,0,0,6" />
+                        <CheckBox x:Name="ScopeVoice" Content="Voice activity (activities.write)" FontSize="13"
+                                  Foreground="{StaticResource BrushTextPrimary}" IsChecked="True" Margin="0,0,0,6" />
+                    </StackPanel>
+                </Border>
+
+                <Border CornerRadius="12" Background="{StaticResource BrushBackgroundLight}" Padding="20" Margin="0,12,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Border CornerRadius="6" Background="{StaticResource BrushAccentPrimary}" Padding="18,8" Cursor="Hand"
+                                MouseLeftButtonDown="OpenAuth_Click">
+                            <TextBlock Text="OPEN AUTHORIZATION" FontSize="13" FontWeight="Bold" Foreground="#0D0D14" />
+                        </Border>
+                        <Border x:Name="CancelAuth" CornerRadius="6" Background="{StaticResource BrushBackgroundCard}" Padding="18,8"
+                                Cursor="Hand" MouseLeftButtonDown="CancelAuth_Click" Margin="10,0,0,0" Visibility="Collapsed">
+                            <TextBlock Text="CANCEL" FontSize="13" FontWeight="Bold" Foreground="{StaticResource BrushTextSecondary}" />
+                        </Border>
+                        <Border x:Name="GoToDiscord" CornerRadius="6" Background="{StaticResource BrushBackgroundCard}" Padding="18,8"
+                                Cursor="Hand" MouseLeftButtonDown="GoToDiscord_Click" Margin="10,0,0,0" Visibility="Collapsed">
+                            <TextBlock Text="GO TO DISCORD" FontSize="13" FontWeight="Bold" Foreground="{StaticResource BrushTextPrimary}" />
+                        </Border>
+                        <TextBlock x:Name="StatusText" Text="Ready" FontSize="13"
+                                   Foreground="{StaticResource BrushTextSecondary}" Margin="18,0,0,0" VerticalAlignment="Center"
+                                   TextWrapping="Wrap" MaxWidth="520" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+
+        <TextBlock Grid.Row="2" Text="This logs into Discord with your own account (User OAuth). Your token is stored only on this device at system\discord\config.json."
+                   FontSize="11" Foreground="{StaticResource BrushTextMuted}" TextWrapping="Wrap" Margin="0,12,0,0" />
+    </Grid>
+</UserControl>

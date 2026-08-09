@@ -1,0 +1,7 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="400" height="160" viewBox="0 0 400 160">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="hsl(137, 90%, 62%)" stop-opacity="0.25"/><stop offset="1" stop-color="hsl(137, 90%, 62%)" stop-opacity="0.05"/></linearGradient></defs>
+  <rect x="10" y="10" width="380" height="140" rx="20" fill="url(#g)"/>
+  <rect x="10" y="10" width="380" height="140" rx="20" fill="none" stroke="hsl(137, 90%, 62%)" stroke-width="3"/>
+  <text x="200" y="82" font-family="Segoe UI, Arial, sans-serif" font-size="56" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="4">PIXEL</text>
+  <text x="200" y="122" font-family="Segoe UI, Arial, sans-serif" font-size="18" fill="hsl(137, 90%, 62%)" text-anchor="middle" font-weight="700">GoConsoleOS</text>
+</svg>

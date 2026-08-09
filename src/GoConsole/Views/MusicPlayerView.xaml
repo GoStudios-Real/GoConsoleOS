@@ -1,0 +1,121 @@
+<UserControl x:Class="GoConsoleOS.GoConsole.Views.MusicPlayerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="Transparent">
+    <Grid Margin="40">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="MUSIC PLAYER" FontSize="28" FontWeight="Bold"
+                   Foreground="{StaticResource BrushTextPrimary}" Margin="0,0,0,8" />
+        <Grid Grid.Row="1" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Name="MusicStatus" Text="No music files found. Place .mp3 files in the music folder."
+                       FontSize="14" Foreground="{StaticResource BrushTextSecondary}"
+                       TextWrapping="Wrap" VerticalAlignment="Center" />
+            <Border Grid.Column="1" x:Name="GenreBadge" CornerRadius="6" Background="{StaticResource BrushBackgroundLight}"
+                    Padding="12,6" Margin="12,0,0,0" Visibility="Collapsed" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="🎵 FAVORITE GENRE:" FontSize="10" FontWeight="Bold"
+                               Foreground="{StaticResource BrushTextSecondary}"
+                               VerticalAlignment="Center" />
+                    <TextBlock x:Name="GenreText" FontSize="13" FontWeight="Bold"
+                               Foreground="{StaticResource BrushAccentPrimary}"
+                               Margin="8,0,0,0" VerticalAlignment="Center" />
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <ScrollViewer Grid.Row="2" Style="{StaticResource InvisibleScrollViewer}">
+            <ItemsControl x:Name="TrackList">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border CornerRadius="8" Background="{StaticResource BrushBackgroundLight}"
+                                Padding="12,8" Margin="0,0,0,4" Cursor="Hand"
+                                MouseLeftButtonDown="PlayTrack" Tag="{Binding Path}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="♪" FontSize="18"
+                                           Foreground="{StaticResource BrushAccentPrimary}"
+                                           VerticalAlignment="Center" Margin="0,0,12,0" />
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="{Binding Title}" FontSize="14" FontWeight="Bold"
+                                               Foreground="{StaticResource BrushTextPrimary}"
+                                               TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Text="{Binding Artist}" FontSize="11"
+                                               Foreground="{StaticResource BrushTextMuted}" />
+                                </StackPanel>
+                                <TextBlock Grid.Column="2" Text="{Binding Duration}" FontSize="12"
+                                           Foreground="{StaticResource BrushTextSecondary}"
+                                           VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <!-- Now Playing Bar -->
+        <Border Grid.Row="3" CornerRadius="12" Background="{StaticResource BrushBackgroundLight}"
+                Padding="16" Margin="0,12,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock x:Name="NowPlayingTitle" Text="No track selected"
+                               FontSize="14" FontWeight="Bold"
+                               Foreground="{StaticResource BrushTextPrimary}" />
+                    <TextBlock x:Name="NowPlayingArtist" Text=""
+                               FontSize="11" Foreground="{StaticResource BrushTextMuted}" />
+                </StackPanel>
+
+                <Border Grid.Column="1" CornerRadius="4" Background="{StaticResource BrushBackgroundCard}"
+                        Padding="10,6" Cursor="Hand" Margin="0,0,6,0"
+                        MouseLeftButtonDown="PreviousTrack">
+                    <TextBlock Text="⏮" FontSize="16" Foreground="{StaticResource BrushTextPrimary}" />
+                </Border>
+
+                <Border Grid.Column="2" x:Name="PlayPauseBtn" CornerRadius="20"
+                        Background="{StaticResource BrushAccentPrimary}" Width="36" Height="36"
+                        Cursor="Hand" Margin="0,0,6,0"
+                        MouseLeftButtonDown="TogglePlayPause">
+                    <TextBlock x:Name="PlayPauseIcon" Text="▶" FontSize="16" FontWeight="Bold"
+                               Foreground="#0D0D14" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Border>
+
+                <Border Grid.Column="3" CornerRadius="4" Background="{StaticResource BrushBackgroundCard}"
+                        Padding="10,6" Cursor="Hand" Margin="0,0,6,0"
+                        MouseLeftButtonDown="NextTrack">
+                    <TextBlock Text="⏭" FontSize="16" Foreground="{StaticResource BrushTextPrimary}" />
+                </Border>
+
+                <Border Grid.Column="4" CornerRadius="4" Background="{StaticResource BrushBackgroundCard}"
+                        Padding="10,6" Cursor="Hand"
+                        MouseLeftButtonDown="ToggleRepeat">
+                    <TextBlock x:Name="RepeatIcon" Text="🔁" FontSize="14"
+                               Foreground="{StaticResource BrushTextSecondary}" />
+                </Border>
+            </Grid>
+        </Border>
+
+        <MediaElement x:Name="MediaPlayer" LoadedBehavior="Manual" UnloadedBehavior="Stop"
+                      MediaEnded="TrackEnded" Visibility="Collapsed" />
+    </Grid>
+</UserControl>

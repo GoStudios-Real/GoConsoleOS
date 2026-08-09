@@ -1,0 +1,43 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0D0D14;display:flex;justify-content:center;align-items:center;height:100vh;overflow:hidden;font-family:'Segoe UI',sans-serif}
+#wrap{text-align:center}
+#score{color:#00C9DB;font-size:22px;font-weight:bold;margin-bottom:10px}
+canvas{border:2px solid #00C9DB;border-radius:4px;background:#1A1A2E}
+#overlay{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;background:rgba(13,13,20,0.8);cursor:pointer}
+#overlay span{color:#00C9DB;font-size:28px;font-weight:bold}
+#info{color:#8888AA;font-size:12px;margin-top:8px}
+</style></head><body>
+<div id="wrap">
+<div id="score">0</div>
+<div style="position:relative;display:inline-block">
+<canvas id="c" width="500" height="400"></canvas>
+<div id="overlay"><span>▶ PLAY</span></div>
+</div>
+<div id="info">Mouse to move paddle &bull; R to restart</div>
+</div>
+<script>
+const c=document.getElementById('c'),ctx=c.getContext('2d'),score=document.getElementById('score'),overlay=document.getElementById('overlay');
+const W=500,H=400,PW=80,PH=10,BR=25,BC=8;let px=W/2-PW/2,bx=W/2,by=300,bvx=4,bvy=-4,pts=0,run=0,lives=3;
+let bricks=[];for(let r=0;r<5;r++)for(let c=0;c<BC;c++)bricks.push({x:c*(BR+4)+12,y:r*18+30,w:BR,h:14,alive:true});
+function reset(){bx=W/2;by=300;bvx=4*(Math.random()>.5?1:-1);bvy=-4}
+function update(){if(!run)return;
+bx+=bvx;by+=bvy;
+if(bx<=0||bx>=W-8)bvx=-bvx;
+if(by<=0)bvy=-bvy;
+if(by>=H){lives--;if(lives>0)reset();else{run=0;return}}
+if(by+8>=380&&bx+8>px&&bx<px+PW){bvy=-Math.abs(bvy);by=379}
+bricks.forEach(b=>{if(!b.alive)return;if(bx+8>b.x&&bx<b.x+b.w&&by+8>b.y&&by<b.y+b.h){b.alive=false;bvy=-bvy;pts+=10;score.textContent=pts}});
+if(bricks.every(b=>!b.alive)){run=0;score.textContent='WIN!'}}
+function draw(){ctx.fillStyle='#1A1A2E';ctx.fillRect(0,0,W,H);
+ctx.fillStyle='#00C9DB';ctx.fillRect(px,380,PW,PH);
+bricks.forEach(b=>{if(!b.alive)return;ctx.fillStyle=['#FF4D8C','#FFD600','#00C9DB','#7B2DFF','#00E676'][Math.floor(b.y/18)%5];ctx.fillRect(b.x,b.y,b.w,b.h)});
+ctx.fillStyle='#FFFFFF';ctx.fillRect(bx,by,8,8);
+for(let i=0;i<lives;i++){ctx.fillStyle='#FF5252';ctx.fillRect(W-20-i*20,10,11,11)}
+if(!run&&lives<=0){ctx.fillStyle='rgba(13,13,20,0.7)';ctx.fillRect(0,0,W,H);ctx.fillStyle='#FF5252';ctx.font='24px sans-serif';ctx.textAlign='center';ctx.fillText('GAME OVER',250,200);ctx.fillStyle='#8888AA';ctx.font='14px sans-serif';ctx.fillText('Click to restart',250,230)}}
+function loop(){update();draw();requestAnimationFrame(loop)}
+document.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();px=e.clientX-r.left-PW/2;if(px<0)px=0;if(px>W-PW)px=W-PW});
+document.addEventListener('keydown',e=>{if(e.key==='r'||e.key==='R'){pts=0;lives=3;bricks.forEach(b=>b.alive=true);reset()}});
+overlay.addEventListener('click',()=>{overlay.style.display='none';pts=0;lives=3;bricks.forEach(b=>b.alive=true);reset();run=1});
+loop();
+</script></body></html>

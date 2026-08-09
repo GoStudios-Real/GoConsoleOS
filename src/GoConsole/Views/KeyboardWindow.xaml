@@ -1,0 +1,56 @@
+<Window x:Class="GoConsoleOS.GoConsole.Views.KeyboardWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="GoConsoleOS Keyboard"
+        WindowStyle="None"
+        AllowsTransparency="False"
+        Background="{StaticResource BrushBackgroundMedium}"
+        Width="960" Height="420"
+        WindowStartupLocation="CenterScreen"
+        Topmost="True"
+        ResizeMode="NoResize"
+        KeyDown="Window_KeyDown">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" CornerRadius="8" Background="{StaticResource BrushBackgroundDark}"
+                Padding="12" Margin="0,0,0,12">
+            <TextBox x:Name="InputBox" FontSize="24" Foreground="{StaticResource BrushTextPrimary}"
+                     Background="Transparent" BorderThickness="0"
+                     IsReadOnly="True" Text="" />
+        </Border>
+
+        <Grid Grid.Row="1" x:Name="KeyboardGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+        </Grid>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center"
+                    Margin="0,8,0,0">
+            <Border x:Name="CapsIndicator" CornerRadius="4" Padding="8,4" Margin="0,0,8,0"
+                    Background="{StaticResource BrushBackgroundCard}">
+                <TextBlock x:Name="CapsText" Text="abc" FontSize="12" FontWeight="Bold"
+                           Foreground="{StaticResource BrushTextSecondary}" />
+            </Border>
+            <Button x:Name="ShiftBtn" Content="SHIFT" Style="{StaticResource NavButtonStyle}"
+                    Click="Shift_Click" />
+            <Button x:Name="SpaceBtn" Content="SPACE" Style="{StaticResource NavButtonStyle}"
+                    Width="240" Click="Key_Click" Tag=" " />
+            <Button x:Name="BackspaceBtn" Content="⌫" Style="{StaticResource NavButtonStyle}"
+                    Click="Backspace_Click" />
+            <Button x:Name="ClearBtn" Content="CLEAR" Style="{StaticResource NavButtonStyle}"
+                    Click="Clear_Click" />
+            <Button x:Name="DoneBtn" Content="DONE" Style="{StaticResource NavButtonStyle}"
+                    Foreground="{StaticResource BrushAccentPrimary}" Click="Done_Click" />
+        </StackPanel>
+    </Grid>
+</Window>

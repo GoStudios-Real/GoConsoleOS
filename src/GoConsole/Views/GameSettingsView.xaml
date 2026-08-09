@@ -1,0 +1,112 @@
+<UserControl x:Class="GoConsoleOS.GoConsole.Views.GameSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="Transparent">
+    <Grid Margin="40">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="GAME SETTINGS" FontSize="28" FontWeight="Bold"
+                   Foreground="{StaticResource BrushTextPrimary}" Margin="0,0,0,4" />
+        <TextBlock Grid.Row="1" Text="Per-game graphics presets, launch options, and compatibility"
+                   FontSize="14" Foreground="{StaticResource BrushTextSecondary}" Margin="0,0,0,20" />
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="320" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" CornerRadius="12" Background="{StaticResource BrushBackgroundLight}"
+                    Padding="20" Margin="0,0,12,0">
+                <StackPanel>
+                    <TextBlock Text="GAMES" FontSize="16" FontWeight="Bold"
+                               Foreground="{StaticResource BrushTextSecondary}" Margin="0,0,0,10" />
+                    <ScrollViewer Style="{StaticResource InvisibleScrollViewer}" VerticalScrollBarVisibility="Auto">
+                        <ItemsControl x:Name="GameList">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border CornerRadius="10" Background="{StaticResource BrushBackgroundCard}"
+                                            Padding="12" Margin="0,0,0,8" Cursor="Hand"
+                                            MouseLeftButtonDown="SelectGame">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Title}" FontSize="14" FontWeight="Bold"
+                                                       Foreground="{StaticResource BrushTextPrimary}" />
+                                            <TextBlock Text="{Binding Platform}" FontSize="11"
+                                                       Foreground="{StaticResource BrushTextMuted}" Margin="0,2,0,0" />
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="1" CornerRadius="12" Background="{StaticResource BrushBackgroundLight}" Padding="24">
+                <StackPanel>
+                    <TextBlock x:Name="SelectedGameText" Text="Select a game to configure"
+                               FontSize="18" FontWeight="Bold"
+                               Foreground="{StaticResource BrushTextPrimary}" />
+                    <TextBlock x:Name="SelectedGameDesc" Text=""
+                               FontSize="12" Foreground="{StaticResource BrushTextMuted}"
+                               Margin="0,4,0,18" />
+
+                    <TextBlock Text="Graphics Preset" FontSize="12" Foreground="{StaticResource BrushTextMuted}" />
+                    <ComboBox x:Name="PresetBox" Margin="0,4,0,16" SelectedIndex="2"
+                              Background="{StaticResource BrushBackgroundCard}"
+                              Foreground="{StaticResource BrushTextPrimary}" BorderThickness="0">
+                        <ComboBoxItem Content="Low" />
+                        <ComboBoxItem Content="Medium" />
+                        <ComboBoxItem Content="High" />
+                        <ComboBoxItem Content="Ultra" />
+                        <ComboBoxItem Content="Auto (recommended)" />
+                    </ComboBox>
+
+                    <TextBlock Text="Frame Rate Limit" FontSize="12" Foreground="{StaticResource BrushTextMuted}" />
+                    <ComboBox x:Name="FrameLimitBox" Margin="0,4,0,16" SelectedIndex="1"
+                              Background="{StaticResource BrushBackgroundCard}"
+                              Foreground="{StaticResource BrushTextPrimary}" BorderThickness="0">
+                        <ComboBoxItem Content="Unlimited" />
+                        <ComboBoxItem Content="60 FPS" />
+                        <ComboBoxItem Content="120 FPS" />
+                        <ComboBoxItem Content="144 FPS" />
+                    </ComboBox>
+
+                    <TextBlock Text="Compatibility Layer" FontSize="12" Foreground="{StaticResource BrushTextMuted}" />
+                    <ComboBox x:Name="CompatBox" Margin="0,4,0,16" SelectedIndex="0"
+                              Background="{StaticResource BrushBackgroundCard}"
+                              Foreground="{StaticResource BrushTextPrimary}" BorderThickness="0">
+                        <ComboBoxItem Content="Native (Windows)" />
+                        <ComboBoxItem Content="Proton Experimental" />
+                        <ComboBoxItem Content="Compatibility Mode" />
+                    </ComboBox>
+
+                    <TextBlock Text="Launch Arguments" FontSize="12" Foreground="{StaticResource BrushTextMuted}" />
+                    <TextBox x:Name="LaunchArgsBox" Margin="0,4,0,8"
+                             Background="{StaticResource BrushBackgroundCard}"
+                             Foreground="{StaticResource BrushTextPrimary}"
+                             BorderBrush="{StaticResource BrushBorder}" Padding="10,6"
+                             Text="" />
+
+                    <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                        <Button x:Name="SaveBtn" Content="SAVE SETTINGS" FontSize="14" FontWeight="Bold"
+                                Background="{StaticResource BrushAccentPrimary}" Foreground="#0D0D14"
+                                BorderThickness="0" Padding="20,10" Cursor="Hand" Click="SaveSettings" />
+                        <Button Content="RESET TO DEFAULT" FontSize="13" FontWeight="Bold"
+                                Background="{StaticResource BrushBackgroundCard}"
+                                Foreground="{StaticResource BrushTextSecondary}"
+                                BorderThickness="0" Padding="16,10" Margin="12,0,0,0"
+                                Cursor="Hand" Click="ResetSettings" />
+                    </StackPanel>
+
+                    <TextBlock x:Name="SavedText" Text="" FontSize="12"
+                               Foreground="{StaticResource BrushSuccess}" Margin="0,10,0,0" />
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,152 @@
+<UserControl x:Class="GoConsoleOS.GoConsole.Views.ThemeSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="Transparent">
+    <Grid Margin="40">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="THEME CUSTOMIZER" FontSize="28" FontWeight="Bold"
+                   Foreground="{StaticResource BrushTextPrimary}" Margin="0,0,0,4" />
+        <TextBlock Grid.Row="1" x:Name="CurrentThemeLabel" Text="Current: GoConsole Dark"
+                   FontSize="14" Foreground="{StaticResource BrushAccentPrimary}" Margin="0,0,0,16" />
+
+        <!-- Preset Themes -->
+        <Border Grid.Row="2" CornerRadius="12" Background="{StaticResource BrushBackgroundLight}" Padding="16" Margin="0,0,0,12">
+            <StackPanel>
+                <TextBlock Text="PRESET THEMES" FontSize="14" FontWeight="Bold"
+                           Foreground="{StaticResource BrushAccentPrimary}" Margin="0,0,0,10" />
+                <ItemsControl x:Name="PresetList">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border CornerRadius="8" Background="{StaticResource BrushBackgroundCard}"
+                                    Padding="12,10" Margin="0,0,8,8" Width="140" Cursor="Hand"
+                                    MouseLeftButtonDown="SelectTheme" Tag="{Binding Name}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                        <Border Width="12" Height="12" CornerRadius="3"
+                                                Background="{Binding AccentPrimary}" Margin="0,0,4,0" />
+                                        <Border Width="12" Height="12" CornerRadius="3"
+                                                Background="{Binding BackgroundDark}" Margin="0,0,4,0" />
+                                        <Border Width="12" Height="12" CornerRadius="3"
+                                                Background="{Binding BackgroundLight}" />
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding Name}" FontSize="12" FontWeight="Bold"
+                                               Foreground="{StaticResource BrushTextPrimary}"
+                                               TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Text="{Binding AccentPrimary}" FontSize="9"
+                                               Foreground="{StaticResource BrushTextMuted}" />
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Border>
+
+        <!-- Color Customizer -->
+        <ScrollViewer Grid.Row="3" Style="{StaticResource InvisibleScrollViewer}">
+            <Border CornerRadius="12" Background="{StaticResource BrushBackgroundLight}" Padding="16">
+                <StackPanel>
+                    <TextBlock Text="CUSTOM COLORS" FontSize="14" FontWeight="Bold"
+                               Foreground="{StaticResource BrushAccentPrimary}" Margin="0,0,0,12" />
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="160" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Accent Primary" FontSize="12"
+                                   Foreground="{StaticResource BrushTextSecondary}" VerticalAlignment="Center" />
+                        <TextBox Grid.Row="0" Grid.Column="1" x:Name="AccentPrimaryBox" Text="#00C9DB"
+                                 FontSize="12" Foreground="{StaticResource BrushTextPrimary}"
+                                 Background="{StaticResource BrushBackgroundCard}"
+                                 BorderThickness="0" Padding="8,6"
+                                 TextChanged="ColorFieldChanged" Tag="AccentPrimary" />
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Accent Secondary" FontSize="12"
+                                   Foreground="{StaticResource BrushTextSecondary}" VerticalAlignment="Center" Margin="0,6,0,0" />
+                        <TextBox Grid.Row="1" Grid.Column="1" x:Name="AccentSecondaryBox" Text="#7B2DFF"
+                                 FontSize="12" Foreground="{StaticResource BrushTextPrimary}"
+                                 Background="{StaticResource BrushBackgroundCard}"
+                                 BorderThickness="0" Padding="8,6" Margin="0,6,0,0"
+                                 TextChanged="ColorFieldChanged" Tag="AccentSecondary" />
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Accent Tertiary" FontSize="12"
+                                   Foreground="{StaticResource BrushTextSecondary}" VerticalAlignment="Center" Margin="0,6,0,0" />
+                        <TextBox Grid.Row="2" Grid.Column="1" x:Name="AccentTertiaryBox" Text="#FF4D8C"
+                                 FontSize="12" Foreground="{StaticResource BrushTextPrimary}"
+                                 Background="{StaticResource BrushBackgroundCard}"
+                                 BorderThickness="0" Padding="8,6" Margin="0,6,0,0"
+                                 TextChanged="ColorFieldChanged" Tag="AccentTertiary" />
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Background Dark" FontSize="12"
+                                   Foreground="{StaticResource BrushTextSecondary}" VerticalAlignment="Center" Margin="0,6,0,0" />
+                        <TextBox Grid.Row="3" Grid.Column="1" x:Name="BgDarkBox" Text="#0D0D14"
+                                 FontSize="12" Foreground="{StaticResource BrushTextPrimary}"
+                                 Background="{StaticResource BrushBackgroundCard}"
+                                 BorderThickness="0" Padding="8,6" Margin="0,6,0,0"
+                                 TextChanged="ColorFieldChanged" Tag="BackgroundDark" />
+
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Background Light" FontSize="12"
+                                   Foreground="{StaticResource BrushTextSecondary}" VerticalAlignment="Center" Margin="0,6,0,0" />
+                        <TextBox Grid.Row="4" Grid.Column="1" x:Name="BgLightBox" Text="#1A1A2E"
+                                 FontSize="12" Foreground="{StaticResource BrushTextPrimary}"
+                                 Background="{StaticResource BrushBackgroundCard}"
+                                 BorderThickness="0" Padding="8,6" Margin="0,6,0,0"
+                                 TextChanged="ColorFieldChanged" Tag="BackgroundLight" />
+
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="Text Primary" FontSize="12"
+                                   Foreground="{StaticResource BrushTextSecondary}" VerticalAlignment="Center" Margin="0,6,0,0" />
+                        <TextBox Grid.Row="5" Grid.Column="1" x:Name="TextPrimaryBox" Text="#F0F0FF"
+                                 FontSize="12" Foreground="{StaticResource BrushTextPrimary}"
+                                 Background="{StaticResource BrushBackgroundCard}"
+                                 BorderThickness="0" Padding="8,6" Margin="0,6,0,0"
+                                 TextChanged="ColorFieldChanged" Tag="TextPrimary" />
+                    </Grid>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+                        <Border x:Name="PreviewSwatch" CornerRadius="8" Width="60" Height="40"
+                                Background="#00C9DB" Margin="0,0,8,0" />
+                        <Border CornerRadius="8" Background="{StaticResource BrushBackgroundCard}" Padding="16,6">
+                            <TextBlock x:Name="PreviewText" Text="AaBb 123" FontSize="16" FontWeight="Bold"
+                                       Foreground="{StaticResource BrushTextPrimary}" />
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                        <Button x:Name="SaveThemeBtn" Content="SAVE THEME" FontSize="13" FontWeight="Bold"
+                                Background="{StaticResource BrushAccentPrimary}" Foreground="#0D0D14"
+                                BorderThickness="0" Padding="16,8" Cursor="Hand" Click="SaveTheme"
+                                Margin="0,0,8,0" />
+                        <Button Content="RESET TO DEFAULT" FontSize="13" FontWeight="Bold"
+                                Background="{StaticResource BrushBackgroundCard}" Foreground="{StaticResource BrushTextPrimary}"
+                                BorderThickness="0" Padding="16,8" Cursor="Hand" Click="ResetToDefault" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </ScrollViewer>
+
+        <TextBlock Grid.Row="4" Text="Themes are saved to system/themes/ and persist across sessions."
+                   FontSize="11" Foreground="{StaticResource BrushTextMuted}" Margin="0,8,0,0" />
+    </Grid>
+</UserControl>

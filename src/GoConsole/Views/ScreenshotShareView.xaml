@@ -1,0 +1,62 @@
+<UserControl x:Class="GoConsoleOS.GoConsole.Views.ScreenshotShareView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="Transparent">
+    <Grid Margin="40">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="SCREENSHOT SHARE &amp; EXPORT" FontSize="28" FontWeight="Bold"
+                   Foreground="{StaticResource BrushTextPrimary}" Margin="0,0,0,4" />
+        <TextBlock Grid.Row="1" x:Name="ShareStatus" Text="Select a screenshot to share or export."
+                   FontSize="14" Foreground="{StaticResource BrushTextSecondary}" Margin="0,0,0,16" />
+
+        <ScrollViewer Grid.Row="2" Style="{StaticResource InvisibleScrollViewer}">
+            <ItemsControl x:Name="ScreenshotGrid">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border CornerRadius="8" Background="{StaticResource BrushBackgroundLight}"
+                                Padding="6" Margin="0,0,8,8" Width="200" Cursor="Hand"
+                                MouseLeftButtonDown="SelectScreenshot" Tag="{Binding Path}">
+                            <StackPanel>
+                                <Border CornerRadius="4" Height="110" Background="{StaticResource BrushBackgroundCard}">
+                                    <TextBlock Text="📷" FontSize="32" Foreground="{StaticResource BrushTextMuted}"
+                                               HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                                <TextBlock Text="{Binding Name}" FontSize="11"
+                                           Foreground="{StaticResource BrushTextPrimary}"
+                                           TextTrimming="CharacterEllipsis" Margin="0,6,0,0" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <Border Grid.Row="3" CornerRadius="12" Background="{StaticResource BrushBackgroundLight}"
+                Padding="16" Margin="0,12,0,0">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="ExportDesktopBtn" Content="📂 EXPORT TO DESKTOP" FontSize="13" FontWeight="Bold"
+                        Background="{StaticResource BrushAccentPrimary}" Foreground="#0D0D14"
+                        BorderThickness="0" Padding="16,8" Margin="0,0,8,0" Cursor="Hand"
+                        Click="ExportToDesktop" IsEnabled="False" />
+                <Button x:Name="ShareClipboardBtn" Content="📋 COPY TO CLIPBOARD" FontSize="13" FontWeight="Bold"
+                        Background="{StaticResource BrushBackgroundCard}" Foreground="{StaticResource BrushTextPrimary}"
+                        BorderThickness="0" Padding="16,8" Margin="0,0,8,0" Cursor="Hand"
+                        Click="CopyToClipboard" IsEnabled="False" />
+                <TextBlock x:Name="SelectedName" Text="" FontSize="12"
+                           Foreground="{StaticResource BrushTextSecondary}"
+                           VerticalAlignment="Center" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>
