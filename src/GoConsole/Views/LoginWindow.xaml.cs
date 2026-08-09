@@ -45,6 +45,7 @@ public partial class LoginWindow : Window
         _isSignUp = false;
         SignInPanel.Visibility = Visibility.Visible;
         SignUpPanel.Visibility = Visibility.Collapsed;
+        ResetPasswordView(LoginPassword, LoginPasswordText, LoginPasswordToggle);
         SignInTab.Background = TryFindResource("BrushAccentPrimary") as Brush ?? Brushes.Cyan;
         SignInTabText.Foreground = Brushes.Black;
         SignUpTab.Background = TryFindResource("BrushBackgroundCard") as Brush;
@@ -58,6 +59,7 @@ public partial class LoginWindow : Window
         _isSignUp = true;
         SignInPanel.Visibility = Visibility.Collapsed;
         SignUpPanel.Visibility = Visibility.Visible;
+        ResetPasswordView(RegPassword, RegPasswordText, RegPasswordToggle);
         SignUpTab.Background = TryFindResource("BrushAccentSecondary") as Brush ?? Brushes.Purple;
         SignUpTabText.Foreground = Brushes.White;
         SignInTab.Background = TryFindResource("BrushBackgroundCard") as Brush;
@@ -69,10 +71,50 @@ public partial class LoginWindow : Window
     private void SwitchToSignIn(object sender, MouseButtonEventArgs e) => ShowSignIn();
     private void SwitchToSignUp(object sender, MouseButtonEventArgs e) => ShowSignUp();
 
+    private void TogglePasswordVisibility(object sender, RoutedEventArgs e)
+    {
+        var tag = (sender as Button)?.Tag as string;
+        var box = tag == "reg" ? RegPassword : LoginPassword;
+        var text = tag == "reg" ? RegPasswordText : LoginPasswordText;
+        var btn = tag == "reg" ? RegPasswordToggle : LoginPasswordToggle;
+
+        var showing = text.Visibility == Visibility.Visible;
+        if (showing)
+        {
+            box.Password = text.Text;
+            box.Visibility = Visibility.Visible;
+            text.Visibility = Visibility.Collapsed;
+            btn.Content = "👁";
+        }
+        else
+        {
+            text.Text = box.Password;
+            box.Visibility = Visibility.Collapsed;
+            text.Visibility = Visibility.Visible;
+            btn.Content = "🙈";
+            text.Focus();
+            text.CaretIndex = text.Text.Length;
+        }
+    }
+
+    private void ResetPasswordView(PasswordBox box, TextBox text, Button btn)
+    {
+        if (text.Visibility == Visibility.Visible)
+        {
+            box.Password = text.Text;
+            text.Text = "";
+            text.Visibility = Visibility.Collapsed;
+            box.Visibility = Visibility.Visible;
+            btn.Content = "👁";
+        }
+    }
+
     private void DoSignIn(object sender, MouseButtonEventArgs e)
     {
         var username = LoginUsername.Text.Trim();
-        var password = LoginPassword.Password;
+        var password = LoginPasswordText.Visibility == Visibility.Visible
+            ? LoginPasswordText.Text
+            : LoginPassword.Password;
 
         if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
         {
@@ -100,7 +142,9 @@ public partial class LoginWindow : Window
         var username = RegUsername.Text.Trim();
         var displayName = RegDisplayName.Text.Trim();
         var email = RegEmail.Text.Trim();
-        var password = RegPassword.Password;
+        var password = RegPasswordText.Visibility == Visibility.Visible
+            ? RegPasswordText.Text
+            : RegPassword.Password;
         var confirm = RegPasswordConfirm.Password;
 
         if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(displayName))

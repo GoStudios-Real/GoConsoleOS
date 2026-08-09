@@ -77,6 +77,8 @@ public partial class SettingsView : UserControl
         {
             SystemInfoText.Text = "System info unavailable";
         }
+
+        InitLockSettings();
     }
 
     private void PerfBtn_Click(object sender, RoutedEventArgs e)
@@ -325,5 +327,108 @@ public partial class SettingsView : UserControl
     private void ApplyWallpaper()
     {
         (Window.GetWindow(this) as MainWindow)?.RefreshWallpaper();
+    }
+
+    // ---- Lock screen / PIN ----
+
+    private void InitLockSettings()
+    {
+        var hasPin = !string.IsNullOrWhiteSpace(SettingsStore.Get("lock.pin"));
+        UpdatePinStatus(hasPin);
+        AutoLockCheck.IsChecked = SettingsStore.GetBool("lock.enabled", false);
+        var timeout = SettingsStore.GetInt("lock.timeout_minutes", 5);
+        var idx = timeout switch
+        {
+            1 => 0,
+            5 => 1,
+            15 => 2,
+            30 => 3,
+            60 => 4,
+            _ => 1,
+        };
+        LockTimeoutCombo.SelectedIndex = idx;
+    }
+
+    private void UpdatePinStatus(bool hasPin)
+    {
+        PinStatusText.Text = hasPin
+            ? "PIN set - lock screen enabled"
+            : "No PIN set - lock screen disabled";
+        ClearPinBtnText.Text = hasPin ? "REMOVE PIN" : "REMOVE PIN";
+    }
+
+    private void PinInput_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+    {
+        e.Handled = !e.Text.All(char.IsDigit);
+    }
+
+    private void PinInput_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key == System.Windows.Input.Key.Enter)
+            SetPin_Click(sender!, new MouseButtonEventArgs(Mouse.PrimaryDevice, 0, MouseButton.Left));
+    }
+
+    private void SetPin_Click(object sender, MouseButtonEventArgs e)
+    {
+        var pin = PinInput.Text.Trim();
+        if (pin.Length != 4 || !pin.All(char.IsDigit))
+        {
+            PinStatusText.Text = "PIN must be exactly 4 digits";
+            PinStatusText.Foreground = TryFindResource("BrushError") as Brush;
+            return;
+        }
+        SettingsStore.Set("lock.pin", pin);
+        SettingsStore.SetBool("lock.enabled", true);
+        PinStatusText.Foreground = TryFindResource("BrushTextSecondary") as Brush;
+        PinStatusText.Text = "PIN set - lock screen enabled";
+        PinInput.Text = "";
+        AutoLockCheck.IsChecked = true;
+        ShowKbNotification("PIN saved. Press Ctrl+L to test the lock screen.");
+    }
+
+    private void ClearPin_Click(object sender, MouseButtonEventArgs e)
+    {
+        SettingsStore.Set("lock.pin", "");
+        SettingsStore.SetBool("lock.enabled", false);
+        PinStatusText.Foreground = TryFindResource("BrushTextSecondary") as Brush;
+        PinStatusText.Text = "No PIN set - lock screen disabled";
+        AutoLockCheck.IsChecked = false;
+        ShowKbNotification("Lock screen PIN removed.");
+    }
+
+    private void AutoLock_Changed(object sender, RoutedEventArgs e)
+    {
+        SettingsStore.SetBool("lock.enabled", AutoLockCheck.IsChecked == true);
+        var hasPin = !string.IsNullOrWhiteSpace(SettingsStore.Get("lock.pin"));
+        if (AutoLockCheck.IsChecked == true && !hasPin)
+        {
+            AutoLockCheck.IsChecked = false;
+            SettingsStore.SetBool("lock.enabled", false);
+            PinStatusText.Foreground = TryFindBrush("BrushError") ?? Brushes.Red;
+            PinStatusText.Text = "Set a PIN first to enable auto-lock";
+        }
+        else
+        {
+            PinStatusText.Foreground = TryFindBrush("BrushTextSecondary") ?? Brushes.Gray;
+            PinStatusText.Text = AutoLockCheck.IsChecked == true && hasPin
+                ? "PIN set - lock screen enabled"
+                : "No PIN set - lock screen disabled";
+        }
+    }
+
+    private void LockTimeout_Changed(object sender, SelectionChangedEventArgs e)
+    {
+        if (LockTimeoutCombo.SelectedItem is ComboBoxItem item && item.Tag is string v)
+        {
+            SettingsStore.SetInt("lock.timeout_minutes", int.Parse(v));
+        }
+    }
+
+    private static Brush? TryFindBrush(string key)
+        => System.Windows.Application.Current.TryFindResource(key) as Brush;
+
+    private void ShowKbNotification(string message)
+    {
+        (System.Windows.Window.GetWindow(this) as MainWindow)?.ShowNotification(message, 3);
     }
 }

@@ -1,0 +1,21 @@
+{
+  "manifestVersion": 1,
+  "channel": "stable",
+  "product": "GoConsoleOS",
+  "latest": "1.8.0",
+  "minimum": "1.0.0",
+  "releaseNotes": "v1.8.0 - Added the GoConsoleOS Account Center (ACC) with cross-platform accounts, the GoAI assistant, on-device servers for USB and Android consoles, a PIN lock screen, and the version-check update API.",
+  "downloads": {
+    "windows": {
+      "url": "https://github.com/GoStudios-Real/GoConsoleOS/releases/latest",
+      "sizeBytes": 0,
+      "sha256": ""
+    },
+    "android": {
+      "url": "https://github.com/GoStudios-Real/GoConsoleOS-Android/releases/latest",
+      "sizeBytes": 0,
+      "sha256": ""
+    }
+  },
+  "publishedAt": "2026-08-09T00:00:00Z"
+}

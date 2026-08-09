@@ -61,12 +61,25 @@
 
                 <TextBlock Text="Password" FontSize="12" Foreground="{StaticResource BrushTextSecondary}"
                            Margin="0,0,0,4" />
-                <PasswordBox x:Name="LoginPassword" FontSize="14" Padding="10,8"
-                              Background="{StaticResource BrushBackgroundCard}"
-                              Foreground="{StaticResource BrushTextPrimary}"
-                              BorderBrush="{StaticResource BrushBorder}"
-                              BorderThickness="1"
-                              Margin="0,0,0,16" />
+                <Grid Margin="0,0,0,16">
+                    <PasswordBox x:Name="LoginPassword" FontSize="14" Padding="10,8"
+                                 Background="{StaticResource BrushBackgroundCard}"
+                                 Foreground="{StaticResource BrushTextPrimary}"
+                                 BorderBrush="{StaticResource BrushBorder}"
+                                 BorderThickness="1" />
+                    <TextBox x:Name="LoginPasswordText" FontSize="14" Padding="10,8"
+                             Visibility="Collapsed"
+                             Background="{StaticResource BrushBackgroundCard}"
+                             Foreground="{StaticResource BrushTextPrimary}"
+                             BorderBrush="{StaticResource BrushBorder}"
+                             BorderThickness="1" />
+                    <Button x:Name="LoginPasswordToggle" Content="👁" FontSize="14"
+                            Width="34" Height="30" Cursor="Hand"
+                            HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
+                            Background="Transparent" BorderThickness="0"
+                            Foreground="{StaticResource BrushTextSecondary}"
+                            Click="TogglePasswordVisibility" Tag="login" />
+                </Grid>
 
                 <Border x:Name="LoginBtn" CornerRadius="8"
                         Background="{StaticResource BrushAccentPrimary}" Padding="12,10"
@@ -114,12 +127,25 @@
 
                 <TextBlock Text="Password" FontSize="12" Foreground="{StaticResource BrushTextSecondary}"
                            Margin="0,0,0,4" />
-                <PasswordBox x:Name="RegPassword" FontSize="14" Padding="10,8"
-                              Background="{StaticResource BrushBackgroundCard}"
-                              Foreground="{StaticResource BrushTextPrimary}"
-                              BorderBrush="{StaticResource BrushBorder}"
-                              BorderThickness="1"
-                              Margin="0,0,0,8" />
+                <Grid Margin="0,0,0,8">
+                    <PasswordBox x:Name="RegPassword" FontSize="14" Padding="10,8"
+                                 Background="{StaticResource BrushBackgroundCard}"
+                                 Foreground="{StaticResource BrushTextPrimary}"
+                                 BorderBrush="{StaticResource BrushBorder}"
+                                 BorderThickness="1" />
+                    <TextBox x:Name="RegPasswordText" FontSize="14" Padding="10,8"
+                             Visibility="Collapsed"
+                             Background="{StaticResource BrushBackgroundCard}"
+                             Foreground="{StaticResource BrushTextPrimary}"
+                             BorderBrush="{StaticResource BrushBorder}"
+                             BorderThickness="1" />
+                    <Button x:Name="RegPasswordToggle" Content="👁" FontSize="14"
+                            Width="34" Height="30" Cursor="Hand"
+                            HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
+                            Background="Transparent" BorderThickness="0"
+                            Foreground="{StaticResource BrushTextSecondary}"
+                            Click="TogglePasswordVisibility" Tag="reg" />
+                </Grid>
 
                 <TextBlock Text="Confirm Password" FontSize="12" Foreground="{StaticResource BrushTextSecondary}"
                            Margin="0,0,0,4" />

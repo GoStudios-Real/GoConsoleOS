@@ -48,6 +48,12 @@ public partial class MainWindow : Window
     internal readonly List<string> _notificationHistory = new();
     private bool _isExiting;
 
+    // ---- Lock screen ----
+    private readonly List<char> _pinBuffer = new();
+    private DateTime _lastActivityUtc = DateTime.UtcNow;
+    private bool _isLocked;
+    private DispatcherTimer _activityTimer = null!;
+
     public MainWindow()
     {
         InitializeComponent();
@@ -79,6 +85,11 @@ public partial class MainWindow : Window
         _statsTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2) };
         _statsTimer.Tick += (_, _) => UpdateStats();
         _statsTimer.Start();
+
+        _activityTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(15) };
+        _activityTimer.Tick += (_, _) => CheckAutoLock();
+        _activityTimer.Start();
+        ActivityMonitor();
 
         _battery = new BatteryManager(
             onUpdate: info => Dispatcher.Invoke(() => UpdateBatteryUI(info)),
@@ -917,6 +928,7 @@ public partial class MainWindow : Window
     {
         ClockText.Text = DateTime.Now.ToString("HH:mm:ss");
         StatusClock.Text = DateTime.Now.ToString("ddd, MMM dd  HH:mm:ss");
+        if (_isLocked) UpdateLockClock();
     }
 
     private void UpdateStats()
@@ -1268,6 +1280,8 @@ public partial class MainWindow : Window
             OpenOnScreenKeyboard();
         if (e.Key == Key.T && e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control))
             NavigateTo("themes");
+        if (e.Key == Key.L && e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control))
+            LockConsole_Click(this, new MouseButtonEventArgs(Mouse.PrimaryDevice, 0, MouseButton.Left));
     }
 
     private void Window_StateChanged(object? sender, EventArgs e)
@@ -1427,5 +1441,162 @@ public partial class MainWindow : Window
             InvalidateVisual();
         }
         catch { }
+    }
+
+    // ---- Lock screen ----
+
+    private void ActivityMonitor()
+    {
+        PreviewMouseDown += (_, _) => RegisterActivity();
+        PreviewMouseMove += (_, _) => RegisterActivity();
+        PreviewKeyDown += (_, _) => RegisterActivity();
+        PreviewStylusDown += (_, _) => RegisterActivity();
+        PreviewTouchDown += (_, _) => RegisterActivity();
+        MouseMove += (_, _) => RegisterActivity();
+        KeyDown += (_, _) => RegisterActivity();
+    }
+
+    private void RegisterActivity()
+    {
+        _lastActivityUtc = DateTime.UtcNow;
+    }
+
+    private void CheckAutoLock()
+    {
+        if (_isLocked) return;
+        var timeoutMin = SettingsStore.GetInt("lock.timeout_minutes", 0);
+        if (timeoutMin <= 0) return;
+        if (!SettingsStore.GetBool("lock.enabled", false)) return;
+        if (string.IsNullOrWhiteSpace(SettingsStore.Get("lock.pin"))) return;
+        if (DateTime.UtcNow - _lastActivityUtc >= TimeSpan.FromMinutes(timeoutMin))
+            LockNow();
+    }
+
+    public void LockNow()
+    {
+        if (_isLocked) return;
+        _pinBuffer.Clear();
+        UpdatePinDots();
+        LockErrorText.Text = "";
+        var pin = SettingsStore.Get("lock.pin");
+        NoPinUnlockBtn.Visibility = string.IsNullOrWhiteSpace(pin) ? Visibility.Visible : Visibility.Collapsed;
+        LockOverlay.Visibility = Visibility.Visible;
+        LockOverlay.Focus();
+        _isLocked = true;
+        UpdateLockClock();
+        Keyboard.Focus(LockOverlay);
+    }
+
+    public void UnlockConsole()
+    {
+        if (!_isLocked) return;
+        _isLocked = false;
+        LockOverlay.Visibility = Visibility.Collapsed;
+        _pinBuffer.Clear();
+        RegisterActivity();
+    }
+
+    private void UpdateLockClock()
+    {
+        if (LockClock == null || LockDate == null) return;
+        LockClock.Text = DateTime.Now.ToString("HH:mm");
+        LockDate.Text = DateTime.Now.ToString("ddd, MMM d");
+    }
+
+    private void UpdatePinDots()
+    {
+        if (PinDots == null) return;
+        PinDots.Text = new string('\u2022', _pinBuffer.Count).PadRight(4, '\u00B7');
+    }
+
+    private string GetPin() => new string(_pinBuffer.ToArray());
+
+    private void LockConsole_Click(object sender, MouseButtonEventArgs e)
+    {
+        if (!SettingsStore.GetBool("lock.enabled", false) && string.IsNullOrWhiteSpace(SettingsStore.Get("lock.pin")))
+        {
+            ShowNotification("Set a PIN in Settings > Security to enable lock screen", 3);
+            NavigateTo("settings");
+            return;
+        }
+        LockNow();
+    }
+
+    private void PinDigit_Click(object sender, RoutedEventArgs e)
+    {
+        if (_pinBuffer.Count >= 4) return;
+        _pinBuffer.Add((sender as Button)?.Tag?.ToString()?[0] ?? '0');
+        UpdatePinDots();
+        LockErrorText.Text = "";
+        if (_pinBuffer.Count == 4) CheckPin();
+    }
+
+    private void PinBackspace_Click(object sender, RoutedEventArgs e)
+    {
+        if (_pinBuffer.Count > 0) _pinBuffer.RemoveAt(_pinBuffer.Count - 1);
+        UpdatePinDots();
+        LockErrorText.Text = "";
+    }
+
+    private void CheckPin()
+    {
+        var expected = SettingsStore.Get("lock.pin");
+        if (!string.IsNullOrEmpty(expected) && GetPin() == expected)
+        {
+            UnlockConsole();
+            ShowNotification("Console unlocked", 2);
+        }
+        else if (string.IsNullOrEmpty(expected))
+        {
+            UnlockConsole();
+        }
+        else
+        {
+            _pinBuffer.Clear();
+            UpdatePinDots();
+            LockErrorText.Text = "Wrong PIN - try again";
+        }
+    }
+
+    private void PinUnlock_Click(object sender, RoutedEventArgs e) => CheckPin();
+
+    private void SkipLock_Click(object sender, RoutedEventArgs e) => UnlockConsole();
+
+    private void LockOverlay_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key >= Key.D0 && e.Key <= Key.D9)
+        {
+            var digit = (char)('0' + (e.Key - Key.D0));
+            if (_pinBuffer.Count < 4)
+            {
+                _pinBuffer.Add(digit);
+                UpdatePinDots();
+                LockErrorText.Text = "";
+                if (_pinBuffer.Count == 4) CheckPin();
+            }
+            e.Handled = true;
+        }
+        else if (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9)
+        {
+            var digit = (char)('0' + (e.Key - Key.NumPad0));
+            if (_pinBuffer.Count < 4)
+            {
+                _pinBuffer.Add(digit);
+                UpdatePinDots();
+                LockErrorText.Text = "";
+                if (_pinBuffer.Count == 4) CheckPin();
+            }
+            e.Handled = true;
+        }
+        else if (e.Key == Key.Back)
+        {
+            PinBackspace_Click(this, new RoutedEventArgs());
+            e.Handled = true;
+        }
+        else if (e.Key == Key.Enter)
+        {
+            PinUnlock_Click(this, new RoutedEventArgs());
+            e.Handled = true;
+        }
     }
 }

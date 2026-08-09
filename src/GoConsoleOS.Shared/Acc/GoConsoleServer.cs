@@ -266,6 +266,17 @@ public sealed class GoConsoleServer : IDisposable
             if (p == "/api/goai" && method == "POST")
                 return HandleGoAi(body);
 
+            if (p == "/api/update" && method == "GET")
+                return (200, Json(new
+                {
+                    ok = true,
+                    current = "1.8.0",
+                    channel = "stable",
+                    checkUrl = "https://raw.githubusercontent.com/GoStudios-Real/GoConsoleOS/main/update.json",
+                    manifestVersion = 1,
+                    serverTime = DateTime.UtcNow,
+                }));
+
             if (p.StartsWith("/api/acc/", StringComparison.Ordinal))
                 return HandleAcc(method, p["/api/acc/".Length..], body, query);
 
