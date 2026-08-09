@@ -101,6 +101,7 @@ public sealed class GoConsoleServer : IDisposable
             var queryIdx = rawPath.IndexOf('?');
             var path = queryIdx >= 0 ? rawPath[..queryIdx] : rawPath;
             if (path.Length == 0) path = "/";
+            var query = queryIdx >= 0 ? rawPath[(queryIdx + 1)..] : "";
 
             // headers + body
             var contentLength = 0;
@@ -121,9 +122,15 @@ public sealed class GoConsoleServer : IDisposable
             if (contentLength > 0)
                 body = ReadBody(stream, contentLength);
 
+            if (method == "OPTIONS")
+            {
+                WriteResponse(stream, 204, "", "application/json; charset=utf-8");
+                return;
+            }
+
             if (path.StartsWith("/api/", StringComparison.OrdinalIgnoreCase))
             {
-                var (status, json) = Route(method, path, body);
+                var (status, json) = Route(method, path, body, query);
                 WriteResponse(stream, status, json, "application/json; charset=utf-8");
             }
             else
@@ -172,6 +179,7 @@ public sealed class GoConsoleServer : IDisposable
         var status = code switch
         {
             200 => "200 OK",
+            204 => "204 No Content",
             400 => "400 Bad Request",
             401 => "401 Unauthorized",
             404 => "404 Not Found",
@@ -179,16 +187,19 @@ public sealed class GoConsoleServer : IDisposable
         };
         var header = $"HTTP/1.1 {status}\r\n" +
                      $"Content-Type: {contentType}\r\n" +
-                     $"Content-Length: {bytes.Length}\r\n" +
+                     (code == 204 ? "" : $"Content-Length: {bytes.Length}\r\n") +
                      "Connection: close\r\n" +
                      "Access-Control-Allow-Origin: *\r\n" +
-                     "Access-Control-Allow-Headers: Content-Type\r\n" +
+                     "Access-Control-Allow-Headers: Content-Type, X-GoConsole-Token\r\n" +
                      "Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS\r\n" +
                      "Cache-Control: no-cache\r\n" +
                      "\r\n";
         var hb = Encoding.ASCII.GetBytes(header);
         stream.Write(hb, 0, hb.Length);
-        stream.Write(bytes, 0, bytes.Length);
+        if (code != 204)
+        {
+            stream.Write(bytes, 0, bytes.Length);
+        }
         stream.Flush();
     }
 
@@ -233,7 +244,7 @@ public sealed class GoConsoleServer : IDisposable
 
     // ---- REST API -----------------------------------------------------------
 
-    private (int Status, string Json) Route(string method, string path, string body)
+    private (int Status, string Json) Route(string method, string path, string body, string query)
     {
         try
         {
@@ -256,7 +267,7 @@ public sealed class GoConsoleServer : IDisposable
                 return HandleGoAi(body);
 
             if (p.StartsWith("/api/acc/", StringComparison.Ordinal))
-                return HandleAcc(method, p["/api/acc/".Length..], body);
+                return HandleAcc(method, p["/api/acc/".Length..], body, query);
 
             return (404, Err("unknown endpoint"));
         }
@@ -274,9 +285,9 @@ public sealed class GoConsoleServer : IDisposable
         return (200, Json(new { reply = reply.Message, suggestions = reply.Suggestions }));
     }
 
-    private (int, string) HandleAcc(string method, string sub, string body)
+    private (int, string) HandleAcc(string method, string sub, string body, string query)
     {
-        return RouteAcc(method, sub, body, "");
+        return RouteAcc(method, sub, body, QueryValue(query, "token") ?? "");
     }
 
     private (int, string) RouteAcc(string method, string sub, string body, string token)
@@ -303,13 +314,14 @@ public sealed class GoConsoleServer : IDisposable
         if (endpoint == "logout" && method == "POST")
         {
             var t = ReadToken(body);
+            if (string.IsNullOrWhiteSpace(t)) t = token;
             _store.DestroySession(t);
             return (200, Json(new { ok = true }));
         }
 
         if (endpoint == "profile")
         {
-            var user = RequireUser(body);
+            var user = RequireUser(body, token);
             if (user == null) return (401, Json(new { ok = false, error = "not authenticated" }));
             if (method == "GET")
                 return (200, Json(new { ok = true, profile = AccStore.ToView(user) }));
@@ -323,7 +335,7 @@ public sealed class GoConsoleServer : IDisposable
 
         if (endpoint == "devices")
         {
-            var user = RequireUser(body);
+            var user = RequireUser(body, token);
             if (user == null) return (401, Json(new { ok = false, error = "not authenticated" }));
             if (method == "GET")
                 return (200, Json(new { ok = true, devices = user.Devices }));
@@ -344,7 +356,7 @@ public sealed class GoConsoleServer : IDisposable
 
         if (endpoint == "subscriptions")
         {
-            var user = RequireUser(body);
+            var user = RequireUser(body, token);
             if (user == null) return (401, Json(new { ok = false, error = "not authenticated" }));
             if (method == "POST")
             {
@@ -356,14 +368,14 @@ public sealed class GoConsoleServer : IDisposable
 
         if (endpoint == "activity")
         {
-            var user = RequireUser(body);
+            var user = RequireUser(body, token);
             if (user == null) return (401, Json(new { ok = false, error = "not authenticated" }));
             return (200, Json(new { ok = true, activity = user.Activity }));
         }
 
         if (endpoint == "wallet")
         {
-            var user = RequireUser(body);
+            var user = RequireUser(body, token);
             if (user == null) return (401, Json(new { ok = false, error = "not authenticated" }));
             if (method == "POST")
             {
@@ -376,7 +388,7 @@ public sealed class GoConsoleServer : IDisposable
 
         if (endpoint == "friends")
         {
-            var user = RequireUser(body);
+            var user = RequireUser(body, token);
             if (user == null) return (401, Json(new { ok = false, error = "not authenticated" }));
             if (method == "POST")
             {
@@ -395,9 +407,10 @@ public sealed class GoConsoleServer : IDisposable
 
     // ---- helpers -----------------------------------------------------------
 
-    private AccUser? RequireUser(string body)
+    private AccUser? RequireUser(string body, string queryToken = "")
     {
         var t = ReadToken(body);
+        if (string.IsNullOrWhiteSpace(t)) t = queryToken;
         return _store.ValidateSession(t);
     }
 
@@ -502,6 +515,18 @@ public sealed class GoConsoleServer : IDisposable
     }
 
     // ---- json utilities -----------------------------------------------------
+
+    private static string? QueryValue(string query, string key)
+    {
+        foreach (var pair in query.Split('&', StringSplitOptions.RemoveEmptyEntries))
+        {
+            var eq = pair.IndexOf('=');
+            var k = eq >= 0 ? pair[..eq] : pair;
+            if (string.Equals(k, key, StringComparison.OrdinalIgnoreCase))
+                return Uri.UnescapeDataString(eq >= 0 ? pair[(eq + 1)..] : "");
+        }
+        return null;
+    }
 
     private static string ExtractString(string body, string key, string? def)
     {
