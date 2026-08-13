@@ -25,6 +25,9 @@ public partial class UsbDeviceHealthView : UserControl
 
     private void RefreshHealth_Click(object sender, MouseButtonEventArgs e) => RefreshHealth();
 
+    /// <summary>Public entry point used by the shell when a USB device event arrives.</summary>
+    public void RefreshNow() => RefreshHealth();
+
     private void RefreshHealth()
     {
         var items = new List<UsbDevice>();

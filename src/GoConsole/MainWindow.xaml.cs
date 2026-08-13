@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.IO;
@@ -53,6 +54,12 @@ public partial class MainWindow : Window
     private DateTime _lastActivityUtc = DateTime.UtcNow;
     private bool _isLocked;
     private DispatcherTimer _activityTimer = null!;
+
+    // ---- USB auto-detect (WM_DEVICECHANGE) ----
+    private const int WM_DEVICECHANGE = 0x0219;
+    private const int DBT_DEVICEARRIVAL = 0x8000;
+    private const int DBT_DEVICEREMOVECOMPLETE = 0x8004;
+    private HwndSource? _hwndSource;
 
     public MainWindow()
     {
@@ -130,6 +137,7 @@ public partial class MainWindow : Window
     {
         Keyboard.Focus(this);
 
+        RegisterUsbDeviceChangeHook();
         StartLinkHostService();
         StartAccHostService();
         if (SettingsStore.GetBool("display.fullscreen", _config.Display.Fullscreen))
@@ -191,6 +199,7 @@ public partial class MainWindow : Window
 
     private void OnClosed(object? sender, EventArgs e)
     {
+        UnregisterUsbDeviceChangeHook();
         _linkHost?.Stop();
         _accHost?.Stop();
         _controller?.Dispose();
@@ -200,6 +209,103 @@ public partial class MainWindow : Window
         _guideMenu?.Close();
         Logger.Info("GoConsole shell shutting down");
         Application.Current.Shutdown();
+    }
+
+    private void RegisterUsbDeviceChangeHook()
+    {
+        try
+        {
+            var source = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
+            if (source == null) return;
+            _hwndSource = source;
+            source.AddHook(WndProc);
+            Logger.Info("USB device-change monitoring enabled (WM_DEVICECHANGE)");
+        }
+        catch (Exception ex)
+        {
+            Logger.Warn($"USB device-change hook failed: {ex.Message}");
+        }
+    }
+
+    private void UnregisterUsbDeviceChangeHook()
+    {
+        try
+        {
+            if (_hwndSource == null) return;
+            _hwndSource.RemoveHook(WndProc);
+            _hwndSource = null;
+        }
+        catch (Exception ex)
+        {
+            Logger.Warn($"USB device-change unregister failed: {ex.Message}");
+        }
+    }
+
+    private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+    {
+        if (msg == WM_DEVICECHANGE)
+        {
+            switch (wParam.ToInt32())
+            {
+                case DBT_DEVICEARRIVAL:
+                    handled = true;
+                    OnUsbDeviceEvent(true, lParam);
+                    break;
+                case DBT_DEVICEREMOVECOMPLETE:
+                    handled = true;
+                    OnUsbDeviceEvent(false, lParam);
+                    break;
+            }
+        }
+        return IntPtr.Zero;
+    }
+
+    private void OnUsbDeviceEvent(bool pluggedIn, IntPtr lParam)
+    {
+        var volume = DescribeVolume(lParam);
+        var text = pluggedIn
+            ? (volume != null ? $"USB storage plugged in: {volume}" : "USB storage plugged in")
+            : (volume != null ? $"USB storage removed: {volume}" : "USB storage removed");
+        Logger.Info($"USB device event: {text}");
+
+        Dispatcher.BeginInvoke(new Action(() =>
+        {
+            ShowNotification(text, 3);
+            RefreshUsbHealthViewIfVisible();
+        }));
+    }
+
+    private void RefreshUsbHealthViewIfVisible()
+    {
+        if (_currentView != "usbhealth") return;
+        if (MainContent.Content is Views.UsbDeviceHealthView healthView)
+            healthView.RefreshNow();
+    }
+
+    private static string? DescribeVolume(IntPtr lParam)
+    {
+        // DEV_BROADCAST_VOLUME: dbcv_unitmask at offset 12 (bit 0 = A:)
+        const int volumeOffset = 12;
+        const int deviceTypeOffset = 4;
+        const uint DBT_DEVTYP_VOLUME = 0x00000002;
+        try
+        {
+            if (lParam == IntPtr.Zero) return null;
+            var deviceType = (uint)Marshal.ReadInt32(lParam, deviceTypeOffset);
+            if (deviceType != DBT_DEVTYP_VOLUME) return null;
+            var mask = Marshal.ReadInt32(lParam, volumeOffset);
+            var letters = new List<char>();
+            for (var i = 0; i < 26; i++)
+            {
+                if ((mask & (1 << i)) != 0)
+                    letters.Add((char)('A' + i));
+            }
+            return letters.Count == 0 ? null : string.Join(", ", letters) + ":";
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     private void StartLinkHostService()
