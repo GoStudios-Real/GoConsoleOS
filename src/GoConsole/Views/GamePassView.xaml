@@ -61,7 +61,7 @@
                             <TextBox x:Name="GiftCodeBox" Width="230" FontSize="13" Padding="10,8"
                                      Background="{StaticResource BrushBackgroundCard}"
                                      Foreground="{StaticResource BrushTextPrimary}" BorderThickness="0"
-                                     VerticalContentAlignment="Center" />
+                                     VerticalContentAlignment="Center" KeyDown="GiftCodeBox_KeyDown" />
                         </Border>
                         <Border CornerRadius="8" Background="{StaticResource BrushAccentPrimary}" Padding="14,9"
                                 Cursor="Hand" Margin="8,0,0,0" VerticalAlignment="Center" MouseLeftButtonDown="RedeemGift_Click">

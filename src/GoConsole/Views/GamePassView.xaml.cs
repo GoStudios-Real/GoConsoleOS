@@ -107,7 +107,21 @@ public partial class GamePassView : UserControl
         }
     }
 
+    private void GiftCodeBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
+        {
+            e.Handled = true;
+            RedeemGift();
+        }
+    }
+
     private void RedeemGift_Click(object sender, MouseButtonEventArgs e)
+    {
+        RedeemGift();
+    }
+
+    private void RedeemGift()
     {
         var code = GiftCodeBox.Text?.Trim() ?? "";
         if (string.IsNullOrWhiteSpace(code))
