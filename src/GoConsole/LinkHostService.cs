@@ -18,12 +18,14 @@ public sealed class LinkHostService
 {
     private readonly LibraryScanner _scanner;
     private readonly Func<string, bool> _launchGame;
+    private readonly Action<string>? _openView;
     private LinkServer? _server;
 
-    public LinkHostService(LibraryScanner scanner, Func<string, bool> launchGame)
+    public LinkHostService(LibraryScanner scanner, Func<string, bool> launchGame, Action<string>? openView = null)
     {
         _scanner = scanner;
         _launchGame = launchGame;
+        _openView = openView;
     }
 
     public void Start()
@@ -36,6 +38,8 @@ public sealed class LinkHostService
                 usbProvider: ListUsbHealth,
                 launchAction: title => RunOnUiThread(() => _launchGame(title)),
                 openInstallerAction: OpenUsbInstaller,
+                toolsProvider: ListTools,
+                toolAction: RunTool,
                 castFrame: _ => { /* cast sink wired separately if a TV is attached */ });
             _server.Start();
         }
@@ -46,6 +50,44 @@ public sealed class LinkHostService
     }
 
     public void Stop() => _server?.Dispose();
+
+    private IEnumerable<ToolInfo> ListTools()
+    {
+        return new List<ToolInfo>
+        {
+            new() { Id = "usb-installer", Name = "GoUsbMaker", Desc = "Build a Portable USB Gaming Console" },
+            new() { Id = "usb-health", Name = "USB Health", Desc = "SMART report for every USB console" },
+            new() { Id = "cast", Name = "GoConsoleOS Cast", Desc = "Mirror your console to a TV or device" },
+            new() { Id = "goai", Name = "GoAI", Desc = "Ask your assistant anything, locally" },
+            new() { Id = "store", Name = "GoStore", Desc = "Browse the curated app catalogue" },
+            new() { Id = "screenshot", Name = "Screenshot", Desc = "Capture the current screen on the host" },
+        };
+    }
+
+    private void RunTool(string tool)
+    {
+        switch (tool)
+        {
+            case "usb-installer":
+                OpenUsbInstaller();
+                break;
+            case "usb-health":
+                _openView?.Invoke("usbhealth");
+                break;
+            case "cast":
+                _openView?.Invoke("remoteplay");
+                break;
+            case "goai":
+                _openView?.Invoke("goai");
+                break;
+            case "store":
+                _openView?.Invoke("store");
+                break;
+            case "screenshot":
+                _openView?.Invoke("screenshot");
+                break;
+        }
+    }
 
     private IEnumerable<string> ListGames()
     {

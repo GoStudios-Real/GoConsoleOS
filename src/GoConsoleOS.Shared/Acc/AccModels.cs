@@ -44,6 +44,10 @@ public class AccDevice
     public string Os { get; set; } = "GoConsoleOS";
     public DateTime LastSeen { get; set; } = DateTime.UtcNow;
     public string IpAddress { get; set; } = "";
+    public double Latitude { get; set; }
+    public double Longitude { get; set; }
+    public string City { get; set; } = "";
+    public string Country { get; set; } = "";
 }
 
 public class AccSubscription

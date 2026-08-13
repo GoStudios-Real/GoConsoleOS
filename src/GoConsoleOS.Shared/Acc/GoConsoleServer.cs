@@ -25,10 +25,12 @@ public sealed class GoConsoleServer : IDisposable
     private readonly AccStore _store;
     private readonly GoAiEngine _ai;
     private readonly CancellationTokenSource _cts = new();
+    private readonly GeoLocator _geo = new();
     private string? _webRoot;
     private int _port = DefaultPort;
     private TcpListener? _listener;
     private Thread? _acceptThread;
+    private (double Lat, double Lng, string City, string Country)? _selfLocation;
 
     public event Action<string, string>? OnLogin;
 
@@ -55,6 +57,8 @@ public sealed class GoConsoleServer : IDisposable
 
             _acceptThread = new Thread(AcceptLoop) { IsBackground = true, Name = "go-console-server" };
             _acceptThread.Start();
+
+            TrackSelfLocation();
         }
         catch (Exception ex)
         {
@@ -62,6 +66,23 @@ public sealed class GoConsoleServer : IDisposable
             IsRunning = false;
             _listener = null;
         }
+    }
+
+    private void TrackSelfLocation()
+    {
+        ThreadPool.QueueUserWorkItem(_ =>
+        {
+            try
+            {
+                _selfLocation = _geo.Self();
+                if (_selfLocation is (_, _, var city, var country))
+                    Logger.Info($"Console location: {city}, {country}");
+            }
+            catch (Exception ex)
+            {
+                Logger.Warn($"location lookup failed: {ex.Message}");
+            }
+        });
     }
 
     private void AcceptLoop()
@@ -98,6 +119,14 @@ public sealed class GoConsoleServer : IDisposable
             var method = parts[0].ToUpperInvariant();
             var rawPath = parts[1];
 
+            var clientIp = "";
+            try
+            {
+                if (client.Client.RemoteEndPoint is IPEndPoint ep)
+                    clientIp = ep.Address.ToString();
+            }
+            catch { }
+
             var queryIdx = rawPath.IndexOf('?');
             var path = queryIdx >= 0 ? rawPath[..queryIdx] : rawPath;
             if (path.Length == 0) path = "/";
@@ -130,7 +159,7 @@ public sealed class GoConsoleServer : IDisposable
 
             if (path.StartsWith("/api/", StringComparison.OrdinalIgnoreCase))
             {
-                var (status, json) = Route(method, path, body, query);
+                var (status, json) = Route(method, path, body, query, clientIp);
                 WriteResponse(stream, status, json, "application/json; charset=utf-8");
             }
             else
@@ -244,7 +273,7 @@ public sealed class GoConsoleServer : IDisposable
 
     // ---- REST API -----------------------------------------------------------
 
-    private (int Status, string Json) Route(string method, string path, string body, string query)
+    private (int Status, string Json) Route(string method, string path, string body, string query, string clientIp)
     {
         try
         {
@@ -278,7 +307,7 @@ public sealed class GoConsoleServer : IDisposable
                 }));
 
             if (p.StartsWith("/api/acc/", StringComparison.Ordinal))
-                return HandleAcc(method, p["/api/acc/".Length..], body, query);
+                return HandleAcc(method, p["/api/acc/".Length..], body, query, clientIp);
 
             return (404, Err("unknown endpoint"));
         }
@@ -296,12 +325,12 @@ public sealed class GoConsoleServer : IDisposable
         return (200, Json(new { reply = reply.Message, suggestions = reply.Suggestions }));
     }
 
-    private (int, string) HandleAcc(string method, string sub, string body, string query)
+    private (int, string) HandleAcc(string method, string sub, string body, string query, string clientIp)
     {
-        return RouteAcc(method, sub, body, QueryValue(query, "token") ?? "");
+        return RouteAcc(method, sub, body, QueryValue(query, "token") ?? "", clientIp);
     }
 
-    private (int, string) RouteAcc(string method, string sub, string body, string token)
+    private (int, string) RouteAcc(string method, string sub, string body, string token, string clientIp)
     {
         var parts = sub.Split('/', StringSplitOptions.RemoveEmptyEntries);
         var endpoint = parts.Length > 0 ? parts[0].ToLowerInvariant() : "";
@@ -310,7 +339,7 @@ public sealed class GoConsoleServer : IDisposable
         {
             var (ok, msg, user) = DoRegister(body);
             return ok && user != null
-                ? (200, Json(new { ok = true, token = _store.CreateSession(user, "console", ""), profile = AccStore.ToView(user) }))
+                ? (200, Json(new { ok = true, token = _store.CreateSession(user, "console", clientIp), profile = AccStore.ToView(user) }))
                 : (400, Json(new { ok = false, error = msg }));
         }
 
@@ -318,7 +347,7 @@ public sealed class GoConsoleServer : IDisposable
         {
             var (ok, msg, user) = DoLogin(body);
             return ok && user != null
-                ? (200, Json(new { ok = true, token = _store.CreateSession(user, "console", ""), profile = AccStore.ToView(user) }))
+                ? (200, Json(new { ok = true, token = _store.CreateSession(user, "console", clientIp), profile = AccStore.ToView(user) }))
                 : (401, Json(new { ok = false, error = msg }));
         }
 
@@ -344,7 +373,7 @@ public sealed class GoConsoleServer : IDisposable
             }
         }
 
-        if (endpoint == "devices")
+            if (endpoint == "devices")
         {
             var user = RequireUser(body, token);
             if (user == null) return (401, Json(new { ok = false, error = "not authenticated" }));
@@ -352,7 +381,7 @@ public sealed class GoConsoleServer : IDisposable
                 return (200, Json(new { ok = true, devices = user.Devices }));
             if (method == "POST")
             {
-                var dev = RegisterDevice(user, body, "");
+                var dev = RegisterDevice(user, body, clientIp);
                 _store.SaveUser(user);
                 return (200, Json(new { ok = true, device = dev }));
             }
@@ -363,6 +392,20 @@ public sealed class GoConsoleServer : IDisposable
                 _store.SaveUser(user);
                 return (200, Json(new { ok = true }));
             }
+        }
+
+        if (endpoint == "map")
+        {
+            var user = RequireUser(body, token);
+            if (user == null) return (401, Json(new { ok = false, error = "not authenticated" }));
+            return (200, Json(new
+            {
+                ok = true,
+                self = _selfLocation is (var slat, var slng, var scity, var scountry)
+                    ? new { lat = slat, lng = slng, city = scity, country = scountry }
+                    : null,
+                devices = user.Devices,
+            }));
         }
 
         if (endpoint == "subscriptions")
@@ -502,6 +545,13 @@ public sealed class GoConsoleServer : IDisposable
             IpAddress = ip,
             LastSeen = DateTime.UtcNow,
         };
+        if (!GeoLocator.IsPrivate(ip) && _geo.ForIp(ip) is (var lat, var lng, var city, var country))
+        {
+            dev.Latitude = lat;
+            dev.Longitude = lng;
+            dev.City = city;
+            dev.Country = country;
+        }
         user.Devices.Add(dev);
         _store.AddActivity(user, "security", $"New device registered: {dev.Name}");
         return dev;

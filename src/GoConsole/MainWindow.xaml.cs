@@ -221,7 +221,8 @@ public partial class MainWindow : Window
                         }
                         Logger.Warn($"LinkServer: unknown game '{title}'");
                         return false;
-                    });
+                    },
+                    view => Dispatcher.Invoke(() => OpenHostTool(view)));
                 _linkHost.Start();
             }
         }
@@ -255,6 +256,28 @@ public partial class MainWindow : Window
         catch (Exception ex)
         {
             Logger.Warn($"ACC host init failed: {ex.Message}");
+        }
+    }
+
+    private void OpenHostTool(string tool)
+    {
+        switch (tool)
+        {
+            case "usb-health":
+                NavigateTo("usbhealth");
+                break;
+            case "cast":
+                NavigateTo("remoteplay");
+                break;
+            case "goai":
+                new Views.GoAiWindow { Owner = this }.ShowDialog();
+                break;
+            case "store":
+                NavigateTo("store");
+                break;
+            case "screenshot":
+                TakeScreenshot();
+                break;
         }
     }
 

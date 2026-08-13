@@ -11,6 +11,14 @@ using System.Threading.Tasks;
 
 namespace GoConsoleOS.Shared;
 
+/// <summary>A remote tool the host can run, advertised to companions.</summary>
+public sealed class ToolInfo
+{
+    public string Id { get; set; } = "";
+    public string Name { get; set; } = "";
+    public string Desc { get; set; } = "";
+}
+
 /// <summary>Result of a USB health probe, matching the Android UsbDeviceInfo model.</summary>
 public sealed class UsbHealthRecord
 {
@@ -45,6 +53,8 @@ public sealed class LinkServer : IDisposable
     private readonly Func<IEnumerable<UsbHealthRecord>> _usbProvider;
     private readonly Action<string> _launchAction;
     private readonly Action _openInstallerAction;
+    private readonly Func<IEnumerable<ToolInfo>>? _toolsProvider;
+    private readonly Action<string>? _toolAction;
     private readonly Action<byte[]> _castFrame;
 
     private UdpClient? _discovery;
@@ -57,12 +67,16 @@ public sealed class LinkServer : IDisposable
         Func<IEnumerable<UsbHealthRecord>>? usbProvider = null,
         Action<string>? launchAction = null,
         Action? openInstallerAction = null,
+        Func<IEnumerable<ToolInfo>>? toolsProvider = null,
+        Action<string>? toolAction = null,
         Action<byte[]>? castFrame = null)
     {
         _gamesProvider = gamesProvider ?? (() => new List<string>());
         _usbProvider = usbProvider ?? (() => new List<UsbHealthRecord>());
         _launchAction = launchAction ?? (_ => { });
         _openInstallerAction = openInstallerAction ?? (() => { });
+        _toolsProvider = toolsProvider;
+        _toolAction = toolAction;
         _castFrame = castFrame ?? (_ => { });
     }
 
@@ -227,6 +241,23 @@ public sealed class LinkServer : IDisposable
                     var action = doc.RootElement.TryGetProperty("action", out var a) ? a.GetString() : null;
                     if (action == "open-usb-installer") _openInstallerAction();
                     SendControl(writer, "pair", ("ok", true));
+                    break;
+                }
+                case "tools.list":
+                {
+                    var tools = _toolsProvider?.Invoke()
+                        .Select(t => new Dictionary<string, object?>
+                        {
+                            ["id"] = t.Id, ["name"] = t.Name, ["desc"] = t.Desc,
+                        }).ToList() ?? new List<Dictionary<string, object?>>();
+                    SendControl(writer, "tools.list", ("tools", tools));
+                    break;
+                }
+                case "tools.run":
+                {
+                    var tool = doc.RootElement.TryGetProperty("tool", out var tt) ? tt.GetString() : null;
+                    if (!string.IsNullOrWhiteSpace(tool)) _toolAction?.Invoke(tool);
+                    SendControl(writer, "tools.run", ("ok", true), ("tool", tool ?? ""));
                     break;
                 }
                 case "cast.start":

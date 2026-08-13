@@ -1,5 +1,11 @@
 # GoConsoleOS — SteamOS-Style Console UX for Windows 11
 
+<p align="center">
+  <img src="assets/banner.svg" alt="GoConsoleOS" width="100%" />
+  <br/>
+  <img src="assets/logo.svg" alt="GoConsoleOS logo" width="280" />
+</p>
+
 **GoConsoleOS** transforms any Windows 11 PC into a living-room console experience — inspired by SteamOS and Steam Big Picture. It runs entirely from a **portable USB drive**, leaving the host Windows installation untouched.
 
 Built by **GoStudios**.
@@ -17,6 +23,7 @@ Built by **GoStudios**.
 - **Multi-Profile Support** — per-user profiles with achievements, playtime tracking, favorites
 - **Built-in Server (port 39210)** — every console hosts its own HTTP server with the **ACC** (Account Center) REST API + a web dashboard, reachable from any browser on your LAN
 - **ACC Account System** — register/sign in, profiles, devices, security (2FA), GoPoints wallet, subscriptions, friends, activity
+- **Console Map** — the ACC dashboard plots where your USB consoles and devices are right now (IP-based, privacy aware)
 - **GoAI Gaming Assistant** — an on-console AI that answers questions about your library, recommends games, and helps with USB health / performance (press **GOAI** in the nav bar)
 - **Portable USB Gaming Console** — the server and GoAI run from the USB drive, no cloud required
 - **Fully Portable** — runs from USB, no Windows installation modifications
@@ -240,12 +247,13 @@ Every GoConsoleOS host (desktop USB console **and** the GoConsoleOS Android app)
 | URL | Purpose |
 |-----|---------|
 | `http://localhost:39210/` | ACC Account Center web dashboard |
-| `http://localhost:39210/api/acc/*` | Account REST API (register, login, profile, devices, wallet, subscriptions, friends, activity) |
+| `http://localhost:39210/api/acc/*` | Account REST API (register, login, profile, devices, map, wallet, subscriptions, friends, activity) |
 | `http://localhost:39210/api/goai` | GoAI assistant API |
 | `http://localhost:39210/api/info` | Console info (name, version, features) |
 
 - Open **SETTINGS → Account** (or the profile name in the top bar) to sign in / open the portal.
 - Press **GOAI** in the nav bar to chat with the gaming assistant.
+- The **Console map** card on the dashboard shows this console's approximate location (resolved from its public IP) plus every registered device — great for keeping tabs on a portable USB console from your phone.
 - The same ACC web site is mirrored on GitHub Pages at
   <https://rhysboxgamestudios.github.io/GoConsoleOS-Web/> (pass `?host=<console-ip>` to point it at a console).
 - The Android companion app (`GoConsoleOS-Android`) also hosts the ACC API + GoAI on-device at port 39210.
@@ -331,9 +339,11 @@ Every GoConsoleOS host (desktop USB console **and** the GoConsoleOS Android app)
 
 ## License
 
-GoConsoleOS is developed by GoStudios. All rights reserved.
+Copyright © 2026 GoStudios. All rights reserved.
 
-This software is provided for educational and personal use. Redistribution or commercial use requires permission.
+GoConsoleOS is developed by GoStudios and provided for educational and personal use. Redistribution or commercial use requires permission.
+
+**GoConsoleOS™** and the **GoConsoleOS logo** are trademarks of GoStudios. Other product names and trademarks are the property of their respective owners.
 
 ---
 
