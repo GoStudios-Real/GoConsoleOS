@@ -43,6 +43,7 @@ public sealed class GoConsoleServer : IDisposable
 
     public bool IsRunning { get; private set; }
     public int Port => _port;
+    public AccStore Store => _store;
 
     public void Start(int port = DefaultPort)
     {
@@ -414,10 +415,60 @@ public sealed class GoConsoleServer : IDisposable
             if (user == null) return (401, Json(new { ok = false, error = "not authenticated" }));
             if (method == "POST")
             {
-                AddSubscription(user, body);
-                _store.SaveUser(user);
+                var plan = ExtractString(body, "plan", "pro");
+                var unit = ExtractString(body, "unit", "days");
+                var amount = ExtractLong(body, "amount", 1);
+                var days = DurationToDays(amount, unit);
+                _store.AddSubscription(user, plan, days, "manual");
             }
             return (200, Json(new { ok = true, subscriptions = user.Subscriptions }));
+        }
+
+        if (endpoint == "plans")
+        {
+            return (200, Json(new
+            {
+                ok = true,
+                plans = GamePassCatalog.Plans.Select(p => new
+                {
+                    id = p.Id,
+                    name = p.Name,
+                    emoji = p.Emoji,
+                    color = p.Color,
+                    perks = p.Perks,
+                }),
+            }));
+        }
+
+        if (endpoint == "giftcards")
+        {
+            var user = RequireUser(body, token);
+            if (user == null) return (401, Json(new { ok = false, error = "not authenticated" }));
+
+            if (method == "GET")
+                return (200, Json(new { ok = true, giftCards = _store.ListGiftCards() }));
+
+            if (method == "POST" && parts.Length > 1 && parts[1] == "generate")
+            {
+                var plan = ExtractString(body, "plan", "pro");
+                var unit = ExtractString(body, "unit", "days");
+                var amount = ExtractLong(body, "amount", 30);
+                var count = ExtractLong(body, "count", 1);
+                var days = DurationToDays(amount, unit);
+                var cards = _store.GenerateGiftCards(plan, days, Math.Clamp((int)count, 1, 50));
+                return (200, Json(new { ok = true, giftCards = cards }));
+            }
+
+            if (method == "POST" && parts.Length > 1 && parts[1] == "redeem")
+            {
+                var code = ExtractString(body, "code", "");
+                var (ok, msg, newSub) = _store.RedeemGiftCard(user, code);
+                return ok
+                    ? (200, Json(new { ok = true, message = msg, subscription = newSub, subscriptions = user.Subscriptions }))
+                    : (400, Json(new { ok = false, error = msg }));
+            }
+
+            return (404, Err("unknown giftcards action"));
         }
 
         if (endpoint == "activity")
@@ -557,22 +608,15 @@ public sealed class GoConsoleServer : IDisposable
         return dev;
     }
 
-    private void AddSubscription(AccUser user, string body)
+    private static int DurationToDays(long amount, string unit)
     {
-        var plan = ExtractString(body, "plan", "free");
-        var existing = user.Subscriptions.FirstOrDefault(s => s.IsActive);
-        if (existing != null) existing.IsActive = false;
-        user.Subscriptions.Add(new AccSubscription
+        var amt = Math.Max(1, amount);
+        return unit.ToLowerInvariant() switch
         {
-            Id = Guid.NewGuid().ToString("N"),
-            Plan = plan,
-            Tier = plan,
-            StartedAt = DateTime.UtcNow,
-            ExpiresAt = DateTime.UtcNow.AddMonths(1),
-            IsActive = true,
-            PaymentMethod = ExtractString(body, "paymentMethod", null),
-        });
-        _store.AddActivity(user, "purchase", $"Subscribed to {plan} plan");
+            "months" or "month" => (int)(amt * 30),
+            "years" or "year" => (int)(amt * 365),
+            _ => (int)amt,
+        };
     }
 
     // ---- json utilities -----------------------------------------------------

@@ -23,6 +23,7 @@ Built by **GoStudios**.
 - **Multi-Profile Support** — per-user profiles with achievements, playtime tracking, favorites
 - **Built-in Server (port 39210)** — every console hosts its own HTTP server with the **ACC** (Account Center) REST API + a web dashboard, reachable from any browser on your LAN
 - **ACC Account System** — register/sign in, profiles, devices, security (2FA), GoPoints wallet, subscriptions, friends, activity
+- **GoConsole Game Pass** — subscribe to Pro / Plus / Premium / Ultimate tiers by day, month or year, or redeem gift card codes (`GC-XXXX-XXXX-XXXX`) generated on the console or the ACC web portal
 - **Console Map** — the ACC dashboard plots where your USB consoles and devices are right now (IP-based, privacy aware)
 - **GoAI Gaming Assistant** — an on-console AI that answers questions about your library, recommends games, and helps with USB health / performance (press **GOAI** in the nav bar)
 - **Portable USB Gaming Console** — the server and GoAI run from the USB drive, no cloud required

@@ -15,7 +15,9 @@ The GoConsoleOS ACC (Account, Cloud & Community) web app. It is served two ways:
 - Devices (register / remove your USB consoles, Android, web)
 - Security (two-factor toggle)
 - Wallet (GoPoints)
-- Subscriptions (Free / Basic / Plus / Pro)
+- Subscriptions (GoConsole Game Pass: Pro / Plus / Premium / Ultimate) with
+  day / month / year durations and stacking
+- Gift cards (generate + redeem codes, e.g. `GC-XXXX-XXXX-XXXX`)
 - Friends
 - Activity log
 - GoAI chat assistant (runs on the console, fully offline)
@@ -30,7 +32,11 @@ Authenticated calls send `{ "token": "<session>" }` in the JSON body.
 - `POST /api/acc/logout`    `{token}`
 - `GET/PATCH /api/acc/profile` `{token, ...fields}`
 - `GET/POST/DELETE /api/acc/devices[/{id}]`
-- `GET/POST /api/acc/subscriptions`
+- `GET/POST /api/acc/subscriptions` `{token, plan, amount, unit}` (unit: days/months/years)
+- `GET /api/acc/plans`              Game Pass tier catalog
+- `POST /api/acc/giftcards/generate` `{token, plan, amount, unit, count}`
+- `POST /api/acc/giftcards/redeem`  `{token, code}`
+- `GET /api/acc/giftcards`
 - `GET/POST /api/acc/wallet`
 - `GET/POST /api/acc/friends`
 - `GET /api/acc/activity`

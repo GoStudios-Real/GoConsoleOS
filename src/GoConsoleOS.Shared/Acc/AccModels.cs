@@ -59,6 +59,51 @@ public class AccSubscription
     public DateTime? ExpiresAt { get; set; }
     public bool IsActive { get; set; } = true;
     public string? PaymentMethod { get; set; }
+    public int DurationDays { get; set; }
+    public string Source { get; set; } = "manual"; // manual | giftcard
+    public string? GiftCardCode { get; set; }
+}
+
+public class GiftCard
+{
+    public string Code { get; set; } = "";
+    public string Tier { get; set; } = "pro";
+    public int DurationDays { get; set; } = 30;
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public bool IsRedeemed { get; set; }
+    public string? RedeemedBy { get; set; }
+    public DateTime? RedeemedAt { get; set; }
+}
+
+/// <summary>A GoConsole Game Pass subscription plan (tier).</summary>
+public class GamePassPlan
+{
+    public string Id { get; set; } = "";
+    public string Name { get; set; } = "";
+    public string Emoji { get; set; } = "🎮";
+    public string Color { get; set; } = "#00C9DB";
+    public string[] Perks { get; set; } = Array.Empty<string>();
+}
+
+public static class GamePassCatalog
+{
+    public static readonly IReadOnlyList<GamePassPlan> Plans = new[]
+    {
+        new GamePassPlan { Id = "free", Name = "Game Pass Free", Emoji = "🎮", Color = "#4A4F5A",
+            Perks = new[] { "Free games rotation", "Community features", "Basic cloud saves" } },
+        new GamePassPlan { Id = "pro", Name = "Game Pass Pro", Emoji = "🟢", Color = "#2ECC71",
+            Perks = new[] { "Everything in Free", "Play all Game Pass titles", "Exclusive deals & rewards" } },
+        new GamePassPlan { Id = "plus", Name = "Game Pass Plus", Emoji = "🔵", Color = "#3D9BFF",
+            Perks = new[] { "Everything in Pro", "Early access to new releases", "1,000 Go Points monthly" } },
+        new GamePassPlan { Id = "premium", Name = "Game Pass Premium", Emoji = "🟣", Color = "#7C5CFF",
+            Perks = new[] { "Everything in Plus", "Cloud streaming & remote play", "Day-one triple-A titles" } },
+        new GamePassPlan { Id = "ultimate", Name = "Game Pass Ultimate", Emoji = "👑", Color = "#FFC800",
+            Perks = new[] { "Everything in Premium", "All DLC & expansions included", "Controller + GoPoints bonuses", "VIP support & giveaways" } },
+    };
+
+    public static GamePassPlan Find(string? id)
+        => Plans.FirstOrDefault(p => string.Equals(p.Id, id, StringComparison.OrdinalIgnoreCase))
+           ?? Plans[0];
 }
 
 public class AccActivity

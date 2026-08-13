@@ -839,7 +839,7 @@ public partial class MainWindow : Window
             "network" => new NetworkTestView(),
             "achievements" => new AchievementCenterView(),
             "share" => new ScreenshotShareView(),
-            "gamepass" => new GamePassView(),
+            "gamepass" => new GamePassView(_accHost?.Store, _profileManager.CurrentProfile),
             "party" => new PartyView(),
             "quickresume" => new QuickResumeView(),
             "recording" => new GameRecordingView(),

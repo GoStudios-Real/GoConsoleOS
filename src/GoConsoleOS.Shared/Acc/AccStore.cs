@@ -15,6 +15,7 @@ public sealed class AccStore
     private readonly object _gate = new();
     private readonly Dictionary<string, AccUser> _users = new();
     private readonly List<AccSession> _sessions = new();
+    private readonly List<GiftCard> _giftCards = new();
 
     public string? AccountWebRoot { get; set; }
 
@@ -35,6 +36,7 @@ public sealed class AccStore
         {
             var usersPath = Path.Combine(_dataDir, "users.json");
             var sessionsPath = Path.Combine(_dataDir, "sessions.json");
+            var giftCardsPath = Path.Combine(_dataDir, "giftcards.json");
             if (File.Exists(usersPath))
             {
                 try
@@ -51,6 +53,15 @@ public sealed class AccStore
                 {
                     var sessions = JsonSerializer.Deserialize<List<AccSession>>(File.ReadAllText(sessionsPath));
                     if (sessions != null) _sessions.AddRange(sessions);
+                }
+                catch { }
+            }
+            if (File.Exists(giftCardsPath))
+            {
+                try
+                {
+                    var giftCards = JsonSerializer.Deserialize<List<GiftCard>>(File.ReadAllText(giftCardsPath));
+                    if (giftCards != null) _giftCards.AddRange(giftCards);
                 }
                 catch { }
             }
@@ -84,6 +95,19 @@ public sealed class AccStore
         catch { }
     }
 
+    private void SaveGiftCards()
+    {
+        try
+        {
+            lock (_gate)
+            {
+                File.WriteAllText(Path.Combine(_dataDir, "giftcards.json"),
+                    JsonSerializer.Serialize(_giftCards, new JsonSerializerOptions { WriteIndented = true }));
+            }
+        }
+        catch { }
+    }
+
     // ---- users ------------------------------------------------------------
 
     public AccUser? FindByUsername(string username)
@@ -104,7 +128,31 @@ public sealed class AccStore
     public bool UsernameTaken(string username)
         => FindByUsername(username) != null;
 
-    public AccUser CreateUser(string username, string displayName, string password, string? email = null)
+    /// <summary>
+    /// The built-in "console" system account that owns the subscription used by
+    /// the on-device Game Pass screen. Created lazily so gift cards redeemed on
+    /// the console extend this account's Game Pass.
+    /// </summary>
+    public AccUser GetOrCreateConsoleAccount()
+    {
+        var existing = FindByUsername("console");
+        if (existing != null) return existing;
+
+        var console = new AccUser
+        {
+            Id = Guid.NewGuid().ToString("N"),
+            Username = "console",
+            DisplayName = "GoConsoleOS Console",
+            PasswordHash = "",
+            CreatedAt = DateTime.UtcNow,
+        };
+        console.Devices.Add(new AccDevice { Id = Guid.NewGuid().ToString("N"), Name = "GoConsoleOS Console", Kind = "console", Os = "GoConsoleOS" });
+        console.Subscriptions.Add(new AccSubscription { Id = Guid.NewGuid().ToString("N"), Plan = "free", Tier = "free" });
+
+        lock (_gate) _users["console"] = console;
+        SaveUsers();
+        return console;
+    }    public AccUser CreateUser(string username, string displayName, string password, string? email = null)
     {
         var user = new AccUser
         {
@@ -182,6 +230,150 @@ public sealed class AccStore
         if (string.IsNullOrWhiteSpace(token)) return;
         lock (_gate) _sessions.RemoveAll(s => s.Token == token);
         SaveSessions();
+    }
+
+    // ---- gift cards ---------------------------------------------------------
+
+    private const string GiftCardAlphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+    /// <summary>Generate a batch of redeemable Game Pass gift card codes.</summary>
+    public IReadOnlyList<GiftCard> GenerateGiftCards(string tier, int durationDays, int count = 1)
+    {
+        var plan = GamePassCatalog.Find(tier);
+        var created = new List<GiftCard>();
+        lock (_gate)
+        {
+            for (var i = 0; i < count; i++)
+            {
+                var card = new GiftCard
+                {
+                    Code = GenerateGiftCode(),
+                    Tier = plan.Id,
+                    DurationDays = Math.Max(1, durationDays),
+                    CreatedAt = DateTime.UtcNow,
+                };
+                _giftCards.Add(card);
+                created.Add(card);
+            }
+            SaveGiftCards();
+        }
+        Logger.Info($"ACC: generated {count} gift card code(s) for {plan.Id}");
+        return created;
+    }
+
+    public IReadOnlyList<GiftCard> ListGiftCards()
+    {
+        lock (_gate) return _giftCards.ToList();
+    }
+
+    public string? FindGiftCardTier(string code)
+    {
+        lock (_gate)
+        {
+            var card = _giftCards.FirstOrDefault(c =>
+                string.Equals(c.Code, code.Trim(), StringComparison.OrdinalIgnoreCase));
+            return card == null || card.IsRedeemed ? null : card.Tier;
+        }
+    }
+
+    /// <summary>Redeem a gift card code, extending/upgrading the user's subscription.</summary>
+    public (bool Ok, string Message, AccSubscription? Subscription) RedeemGiftCard(AccUser user, string code)
+    {
+        code = (code ?? "").Trim();
+        if (string.IsNullOrWhiteSpace(code))
+            return (false, "Enter a gift card code.", null);
+
+        lock (_gate)
+        {
+            var card = _giftCards.FirstOrDefault(c =>
+                string.Equals(c.Code, code, StringComparison.OrdinalIgnoreCase));
+            if (card == null) return (false, "That gift card code is invalid.", null);
+            if (card.IsRedeemed) return (false, "That gift card code has already been used.", null);
+
+            card.IsRedeemed = true;
+            card.RedeemedBy = user.Username;
+            card.RedeemedAt = DateTime.UtcNow;
+            SaveGiftCards();
+
+            var plan = GamePassCatalog.Find(card.Tier);
+            var sub = AddSubscription(user, card.Tier, card.DurationDays, "giftcard", card.Code);
+            AddActivity(user, "purchase", $"Redeemed {plan.Name} gift card");
+            return (true, $"Redeemed {plan.Name} for {card.DurationDays} day(s)!", sub);
+        }
+    }
+
+    private static string GenerateGiftCode()
+    {
+        var rnd = RandomNumberGenerator.GetBytes(12);
+        var sb = new StringBuilder();
+        for (var i = 0; i < 16; i++)
+        {
+            if (i > 0 && i % 4 == 0) sb.Append('-');
+            sb.Append(GiftCardAlphabet[rnd[i % rnd.Length] % GiftCardAlphabet.Length]);
+        }
+        return sb.ToString();
+    }
+
+    // ---- subscriptions ------------------------------------------------------
+
+    /// <summary>
+    /// Add (or extend) a subscription. If the user already has an active
+    /// subscription the new duration is stacked on top instead of replacing it,
+    /// and the tier is upgraded if the new plan is higher.
+    /// </summary>
+    public AccSubscription AddSubscription(AccUser user, string tier, int durationDays, string source = "manual", string? giftCardCode = null)
+    {
+        var plan = GamePassCatalog.Find(tier);
+        durationDays = Math.Max(1, durationDays);
+
+        var active = user.Subscriptions.FirstOrDefault(s => s.IsActive && (s.ExpiresAt == null || s.ExpiresAt >= DateTime.UtcNow));
+
+        AccSubscription sub;
+        if (active != null)
+        {
+            // keep whichever tier is higher when stacking
+            if (TierRank(plan.Id) >= TierRank(active.Tier))
+            {
+                active.Plan = plan.Id;
+                active.Tier = plan.Id;
+                active.Source = source;
+                if (giftCardCode != null) active.GiftCardCode = giftCardCode;
+            }
+            active.DurationDays += durationDays;
+            active.ExpiresAt = active.ExpiresAt?.AddDays(durationDays) ?? DateTime.UtcNow.AddDays(durationDays);
+            active.IsActive = true;
+            sub = active;
+        }
+        else
+        {
+            sub = new AccSubscription
+            {
+                Id = Guid.NewGuid().ToString("N"),
+                Plan = plan.Id,
+                Tier = plan.Id,
+                StartedAt = DateTime.UtcNow,
+                ExpiresAt = DateTime.UtcNow.AddDays(durationDays),
+                IsActive = true,
+                DurationDays = durationDays,
+                Source = source,
+                GiftCardCode = giftCardCode,
+            };
+            user.Subscriptions.Add(sub);
+        }
+
+        SaveUser(user);
+        Logger.Info($"ACC: subscription {plan.Id} for {user.Username} +{durationDays}d");
+        return sub;
+    }
+
+    private static int TierRank(string? tier)
+    {
+        for (var i = 0; i < GamePassCatalog.Plans.Count; i++)
+        {
+            if (string.Equals(GamePassCatalog.Plans[i].Id, tier, StringComparison.OrdinalIgnoreCase))
+                return i;
+        }
+        return 0;
     }
 
     // ---- password helpers ---------------------------------------------------

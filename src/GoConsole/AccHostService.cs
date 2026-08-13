@@ -26,6 +26,7 @@ public sealed class AccHostService
     }
 
     public GoConsoleServer? Server => _server;
+    public AccStore? Store => _server?.Store;
 
     public void Start()
     {
