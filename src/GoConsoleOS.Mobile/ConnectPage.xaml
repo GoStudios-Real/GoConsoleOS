@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GoConsoleOS.Mobile.Pages.ConnectPage"
+             Title="GoConsoleOS">
+    <Grid RowDefinitions="Auto,*,Auto" Padding="28">
+        <VerticalStackLayout Spacing="8">
+            <Label Text="G" FontSize="64" FontAttributes="Bold" HorizontalOptions="Center"
+                   TextColor="{StaticResource Accent}" />
+            <Label Text="GoConsoleOS" FontSize="30" FontAttributes="Bold" HorizontalOptions="Center" />
+            <Label Text="Connect to your console to manage your account, devices, map, wallet and Game Pass."
+                   FontSize="14" HorizontalOptions="Center" HorizontalTextAlignment="Center"
+                   TextColor="#9AA0AE" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Row="1" Spacing="14" VerticalOptions="Center">
+            <Border Stroke="#232330" StrokeThickness="1" BackgroundColor="{StaticResource Card}" Padding="18,14" StrokeShape="RoundRectangle 12">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Console address" FontSize="13" TextColor="#9AA0AE" />
+                    <Entry x:Name="HostEntry" Placeholder="192.168.1.50" Keyboard="Url"
+                           TextColor="White" BackgroundColor="{StaticResource Surface}" />
+                    <HorizontalStackLayout Spacing="10">
+                        <Label Text="Port" FontSize="13" TextColor="#9AA0AE" VerticalOptions="Center" />
+                        <Entry x:Name="PortEntry" Text="39210" Keyboard="Numeric" WidthRequest="120"
+                               TextColor="White" BackgroundColor="{StaticResource Surface}" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <Button Text="CONNECT" Clicked="OnConnect" BackgroundColor="{StaticResource Accent}"
+                    TextColor="#0D0D14" FontAttributes="Bold" CornerRadius="12" HeightRequest="52" />
+
+            <Label x:Name="StatusLabel" Text="" FontSize="13" TextColor="#FF7A7A"
+                   HorizontalTextAlignment="Center" />
+        </VerticalStackLayout>
+
+        <Label Grid.Row="2" Text="Runs against your console's account center (port 39210)."
+               FontSize="11" TextColor="#6B707C" HorizontalOptions="Center" />
+    </Grid>
+</ContentPage>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GoConsoleOS.Mobile.Pages.PortalPage"
+             Title="GoConsoleOS">
+    <Grid RowDefinitions="Auto,*">
+        <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="8" Padding="12,8">
+            <Button Text="&#x2190;" Clicked="OnBack" BackgroundColor="{StaticResource Card}"
+                    TextColor="White" CornerRadius="10" FontSize="18" WidthRequest="48" HeightRequest="40" />
+            <Label Grid.Column="1" Text="GoConsoleOS Account Center" TextColor="White"
+                   FontSize="15" VerticalOptions="Center" />
+            <Button Grid.Column="2" Text="&#x21BB;" Clicked="OnReload" BackgroundColor="{StaticResource Card}"
+                    TextColor="White" CornerRadius="10" FontSize="18" WidthRequest="48" HeightRequest="40" />
+        </Grid>
+        <WebView x:Name="PortalWebView" Grid.Row="1" Navigating="OnNavigating" />
+    </Grid>
+</ContentPage>

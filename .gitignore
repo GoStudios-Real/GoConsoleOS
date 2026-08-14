@@ -65,3 +65,6 @@ launcher/library/library.json
 # Temp files
 *.tmp
 Thumbs.db
+
+mobile/*.apk
+
