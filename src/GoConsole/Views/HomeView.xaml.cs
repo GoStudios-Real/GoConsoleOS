@@ -84,7 +84,7 @@ public partial class HomeView : UserControl
 
         if (recent.Count > 0)
         {
-            QuickResumeText.Text = $"RESUME: {recent[0].Title.Split(' ').FirstOrDefault() ?? "GAME"}";
+            QuickResumeBtn.Content = $"RESUME: {recent[0].Title.Split(' ').FirstOrDefault() ?? "GAME"}";
         }
         else
             QuickResumeBtn.Visibility = Visibility.Collapsed;

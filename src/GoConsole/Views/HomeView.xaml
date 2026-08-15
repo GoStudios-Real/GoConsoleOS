@@ -26,29 +26,30 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                            <Border Width="72" Height="6" CornerRadius="3"
+                                    Background="{StaticResource BrushGradientAccent}"
+                                    HorizontalAlignment="Left" Margin="0,0,0,12" />
                             <TextBlock x:Name="HeroTitle" Text="WELCOME TO GOCONSOLEOS"
                                        FontSize="48" FontWeight="Bold"
                                        Foreground="{StaticResource BrushTextPrimary}" />
                             <TextBlock x:Name="HeroSubtitle" Text="Console Mode for Windows 11"
-                                       FontSize="20" Foreground="{StaticResource BrushTextSecondary}"
+                                       FontSize="20" Foreground="{StaticResource BrushAccentPrimary}"
                                        Margin="0,8,0,0" />
                             <TextBlock x:Name="HeroGreeting" Text="Your games, your way. Start playing."
-                                       FontSize="16" Foreground="{StaticResource BrushTextMuted}"
+                                       FontSize="16" Foreground="{StaticResource BrushTextSecondary}"
                                        Margin="0,4,0,0" />
-                            <Border x:Name="QuickResumeBtn" Width="240" Height="48" Margin="0,20,0,0"
-                                    Background="{StaticResource BrushAccentPrimary}" CornerRadius="8"
-                                    Cursor="Hand" MouseLeftButtonDown="QuickResume_Click">
-                                <Grid>
-                                    <TextBlock x:Name="QuickResumeText" Text="QUICK RESUME"
-                                               Foreground="#0D0D14" FontSize="16" FontWeight="Bold"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                </Grid>
-                            </Border>
+                            <Button x:Name="QuickResumeBtn" Content="QUICK RESUME" Width="240" Height="48"
+                                    Margin="0,20,0,0" Style="{StaticResource AccentButtonStyle}"
+                                    Click="QuickResume_Click" FontSize="16" />
                         </StackPanel>
                         <Border Grid.Column="1" Width="200" Height="200" CornerRadius="16"
                                 Background="{StaticResource BrushBackgroundLight}" Margin="0,0,60,0"
-                                VerticalAlignment="Center">
-                            <Image x:Name="HeroGameIcon" Stretch="Uniform" Margin="10" />
+                                VerticalAlignment="Center"
+                                BorderBrush="{StaticResource BrushAccentPrimary}" BorderThickness="1.5">
+                            <Grid>
+                                <Image x:Name="HeroGameIcon" Stretch="Uniform" Margin="10" />
+                                <Border Background="{StaticResource BrushGlowAccent}" IsHitTestVisible="False" />
+                            </Grid>
                         </Border>
                     </Grid>
                 </Border>
@@ -162,7 +163,7 @@
                                                    TextTrimming="CharacterEllipsis" />
                                         <TextBlock Text="{Binding Platform}" FontSize="11"
                                                    Foreground="{StaticResource BrushTextMuted}" />
-                                        <Border Background="{StaticResource BrushAccentPrimary}"
+                                        <Border Background="{StaticResource BrushGradientAccent}"
                                                 CornerRadius="4" Padding="6,2" Margin="0,6,0,0"
                                                 HorizontalAlignment="Left">
                                             <TextBlock Text="PLAY" FontSize="10" FontWeight="Bold"
@@ -187,8 +188,39 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Width="180" Height="110" CornerRadius="12" Margin="0,0,12,12"
-                                Background="{StaticResource BrushBackgroundLight}" Cursor="Hand" Tag="{Binding Route}"
-                                MouseLeftButtonDown="AppTile_Click">
+                                Background="{StaticResource BrushGradientSurface}" Cursor="Hand" Tag="{Binding Route}"
+                                MouseLeftButtonDown="AppTile_Click"
+                                BorderBrush="{StaticResource BrushBorder}" BorderThickness="1"
+                                RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform>
+                                <ScaleTransform />
+                            </Border.RenderTransform>
+                            <Border.Triggers>
+                                <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                             To="1.04" Duration="0:0:0.15" />
+                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                             To="1.04" Duration="0:0:0.15" />
+                                            <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                                                             To="#00C9DB" Duration="0:0:0.15" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                             To="1" Duration="0:0:0.15" />
+                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                             To="1" Duration="0:0:0.15" />
+                                            <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                                                             To="#2A2A44" Duration="0:0:0.15" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Border.Triggers>
                             <Grid>
                                 <TextBlock Text="{Binding Icon}" FontSize="34" HorizontalAlignment="Center"
                                            VerticalAlignment="Center" Margin="0,-14,0,0" />

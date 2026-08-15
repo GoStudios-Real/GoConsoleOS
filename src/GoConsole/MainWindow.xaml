@@ -30,7 +30,13 @@
                Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" />
 
         <!-- Top Navigation Bar -->
-        <Border Grid.Row="0" Background="{StaticResource BrushBackgroundMedium}" BorderBrush="{StaticResource BrushBorder}" BorderThickness="0,0,0,1">
+        <Border Grid.Row="0" BorderBrush="{StaticResource BrushBorder}" BorderThickness="0,0,0,1">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="#1A1A2E" Offset="0" />
+                    <GradientStop Color="#12121C" Offset="1" />
+                </LinearGradientBrush>
+            </Border.Background>
             <Grid Margin="20,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -105,7 +111,13 @@
         </ContentControl>
 
         <!-- Bottom Status Bar (SteamOS-style) -->
-        <Border Grid.Row="2" Background="{StaticResource BrushBackgroundMedium}" BorderBrush="{StaticResource BrushBorder}" BorderThickness="0,1,0,0">
+        <Border Grid.Row="2" BorderBrush="{StaticResource BrushBorder}" BorderThickness="0,1,0,0">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="#12121C" Offset="0" />
+                    <GradientStop Color="#1A1A2E" Offset="1" />
+                </LinearGradientBrush>
+            </Border.Background>
             <Grid Margin="20,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -193,7 +205,11 @@
                 VerticalAlignment="Top" HorizontalAlignment="Center"
                 Background="#CC1A1A2E" CornerRadius="12" Padding="20,12"
                 Margin="0,80,0,0" Visibility="Collapsed"
-                IsHitTestVisible="False">
+                IsHitTestVisible="False"
+                BorderBrush="{StaticResource BrushAccentPrimary}" BorderThickness="1">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="16" ShadowDepth="4" Opacity="0.5" Color="#00C9DB" />
+            </Border.Effect>
             <Border.RenderTransform>
                 <TranslateTransform />
             </Border.RenderTransform>
@@ -208,6 +224,9 @@
                 Background="#E6B8860B" CornerRadius="14" Padding="24,16"
                 Visibility="Collapsed" IsHitTestVisible="False"
                 BorderBrush="{StaticResource BrushWarning}" BorderThickness="2">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="20" ShadowDepth="4" Opacity="0.6" Color="#FFD600" />
+            </Border.Effect>
             <Border.RenderTransform>
                 <TranslateTransform Y="-80" />
             </Border.RenderTransform>
