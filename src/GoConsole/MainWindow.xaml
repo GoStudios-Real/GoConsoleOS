@@ -367,9 +367,86 @@
             </Grid>
         </Border>
 
-        <!-- Lock Screen Overlay -->
-        <Grid x:Name="LockOverlay" Grid.RowSpan="3" Background="#F0050A18" Visibility="Collapsed"
-              PreviewKeyDown="LockOverlay_PreviewKeyDown" Focusable="True">
+        <!-- Lock Screen Overlay (Windows 11 Style) -->
+        <Grid x:Name="LockOverlay" Grid.RowSpan="3" Visibility="Collapsed"
+              PreviewKeyDown="LockOverlay_PreviewKeyDown" Focusable="True"
+              MouseLeftButtonDown="LockScreen_Click" Background="Transparent">
+            
+            <!-- Background Image -->
+            <Image x:Name="LockWallpaper" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" />
+            
+            <!-- Gradient Overlay -->
+            <Border>
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="#00000000" Offset="0" />
+                        <GradientStop Color="#80000000" Offset="0.7" />
+                        <GradientStop Color="#CC000000" Offset="1" />
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+            
+            <!-- Lock Screen Content -->
+            <Grid Margin="0,60,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                
+                <!-- Time & Date -->
+                <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <TextBlock x:Name="LockClockLarge" Text="" FontSize="96" FontWeight="Light"
+                               Foreground="White" HorizontalAlignment="Center"
+                               Effect="{StaticResource TextGlowEffect}" />
+                    <TextBlock x:Name="LockDateLarge" Text="" FontSize="24" FontWeight="Normal"
+                               Foreground="White" HorizontalAlignment="Center" Opacity="0.9" />
+                </StackPanel>
+                
+                <!-- User Profile -->
+                <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,40,0,0">
+                    <Border Width="100" Height="100" CornerRadius="50" Background="#33FFFFFF"
+                            BorderBrush="White" BorderThickness="2" HorizontalAlignment="Center">
+                        <Grid>
+                            <Ellipse Width="96" Height="96" Fill="{StaticResource BrushAccentSecondary}" />
+                            <TextBlock x:Name="LockUserInitial" Text="G" FontSize="40" FontWeight="Bold"
+                                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <TextBlock x:Name="LockUserName" Text="Guest" FontSize="20" FontWeight="SemiBold"
+                               Foreground="White" HorizontalAlignment="Center" Margin="0,12,0,0" />
+                    <TextBlock Text="Press any key or tap to unlock" FontSize="14"
+                               Foreground="#CCFFFFFF" HorizontalAlignment="Center" Margin="0,8,0,0" />
+                </StackPanel>
+                
+                <!-- Bottom Status Bar -->
+                <Border Grid.Row="3" Background="#40000000" Padding="20,12" CornerRadius="0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <!-- Network Status -->
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="📶" FontSize="14" VerticalAlignment="Center" Margin="0,0,8,0" />
+                            <TextBlock Text="Online" FontSize="12" Foreground="White" VerticalAlignment="Center" />
+                        </StackPanel>
+                        
+                        <!-- Battery -->
+                        <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="🔋" FontSize="14" VerticalAlignment="Center" Margin="0,0,8,0" />
+                            <TextBlock x:Name="LockBatteryText" Text="100%" FontSize="12" Foreground="White" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+        
+        <!-- PIN Entry Overlay (shown after tap/key) -->
+        <Grid x:Name="PinOverlay" Grid.RowSpan="3" Background="#CC000000" Visibility="Collapsed">
             <Border CornerRadius="16" Background="{StaticResource BrushBackgroundLight}"
                     Padding="32" Width="360" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel>

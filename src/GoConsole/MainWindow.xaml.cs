@@ -1610,11 +1610,26 @@ public partial class MainWindow : Window
         LockErrorText.Text = "";
         var pin = SettingsStore.Get("lock.pin");
         NoPinUnlockBtn.Visibility = string.IsNullOrWhiteSpace(pin) ? Visibility.Visible : Visibility.Collapsed;
+        PinOverlay.Visibility = Visibility.Collapsed;
         LockOverlay.Visibility = Visibility.Visible;
-        LockOverlay.Focus();
         _isLocked = true;
         UpdateLockClock();
         Keyboard.Focus(LockOverlay);
+        
+        if (_profileManager?.CurrentProfile != null)
+        {
+            var name = _profileManager.CurrentProfile.DisplayName;
+            LockUserName.Text = name;
+            LockUserInitial.Text = name.Length > 0 ? name[0].ToString().ToUpper() : "G";
+        }
+        
+        try
+        {
+            var wallpaperPath = System.IO.Path.Combine(ConfigReader.RootPath ?? "", "system", "wallpaper.jpg");
+            if (System.IO.File.Exists(wallpaperPath))
+                LockWallpaper.Source = new BitmapImage(new Uri(wallpaperPath));
+        }
+        catch { }
     }
 
     public void UnlockConsole()
@@ -1622,15 +1637,23 @@ public partial class MainWindow : Window
         if (!_isLocked) return;
         _isLocked = false;
         LockOverlay.Visibility = Visibility.Collapsed;
+        PinOverlay.Visibility = Visibility.Collapsed;
         _pinBuffer.Clear();
         RegisterActivity();
     }
 
     private void UpdateLockClock()
     {
-        if (LockClock == null || LockDate == null) return;
-        LockClock.Text = DateTime.Now.ToString("HH:mm");
-        LockDate.Text = DateTime.Now.ToString("ddd, MMM d");
+        if (LockClockLarge != null)
+        {
+            LockClockLarge.Text = DateTime.Now.ToString("HH:mm");
+            LockDateLarge.Text = DateTime.Now.ToString("dddd, MMMM d");
+        }
+        if (LockClock != null)
+        {
+            LockClock.Text = DateTime.Now.ToString("HH:mm");
+            LockDate.Text = DateTime.Now.ToString("ddd, MMM d");
+        }
     }
 
     private void UpdatePinDots()
@@ -1650,6 +1673,15 @@ public partial class MainWindow : Window
             return;
         }
         LockNow();
+    }
+
+    private void LockScreen_Click(object sender, MouseButtonEventArgs e)
+    {
+        if (_isLocked && PinOverlay.Visibility == Visibility.Collapsed)
+        {
+            PinOverlay.Visibility = Visibility.Visible;
+            Keyboard.Focus(PinOverlay);
+        }
     }
 
     private void PinDigit_Click(object sender, RoutedEventArgs e)

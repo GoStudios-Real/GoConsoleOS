@@ -321,4 +321,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!-- Text Glow Effect for Lock Screen -->
+    <DropShadowEffect x:Key="TextGlowEffect" BlurRadius="20" ShadowDepth="0" Opacity="0.6" Color="#00C9DB" />
 </ResourceDictionary>
