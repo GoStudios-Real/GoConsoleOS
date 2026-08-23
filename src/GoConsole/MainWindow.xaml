@@ -387,25 +387,26 @@
             </Border>
             
             <!-- Lock Screen Content -->
-            <Grid Margin="0,60,0,0">
+            <Grid Margin="0,80,0,60">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="20" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 
-                <!-- Time & Date -->
-                <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top">
-                    <TextBlock x:Name="LockClockLarge" Text="" FontSize="96" FontWeight="Light"
-                               Foreground="White" HorizontalAlignment="Center"
-                               Effect="{StaticResource TextGlowEffect}" />
-                    <TextBlock x:Name="LockDateLarge" Text="" FontSize="24" FontWeight="Normal"
-                               Foreground="White" HorizontalAlignment="Center" Opacity="0.9" />
-                </StackPanel>
+                <!-- Time -->
+                <TextBlock Grid.Row="0" x:Name="LockClockLarge" Text="" FontSize="96" FontWeight="Light"
+                           Foreground="White" HorizontalAlignment="Center"
+                           Effect="{StaticResource TextGlowEffect}" />
+                
+                <!-- Date -->
+                <TextBlock Grid.Row="2" x:Name="LockDateLarge" Text="" FontSize="24" FontWeight="Normal"
+                           Foreground="White" HorizontalAlignment="Center" Opacity="0.9" />
                 
                 <!-- User Profile -->
-                <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,40,0,0">
+                <StackPanel Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Border Width="100" Height="100" CornerRadius="50" Background="#33FFFFFF"
                             BorderBrush="White" BorderThickness="2" HorizontalAlignment="Center">
                         <Grid>
@@ -421,7 +422,7 @@
                 </StackPanel>
                 
                 <!-- Bottom Status Bar -->
-                <Border Grid.Row="3" Background="#40000000" Padding="20,12" CornerRadius="0">
+                <Border Grid.Row="4" Background="#40000000" Padding="20,12">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -429,13 +430,11 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         
-                        <!-- Network Status -->
                         <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
                             <TextBlock Text="📶" FontSize="14" VerticalAlignment="Center" Margin="0,0,8,0" />
                             <TextBlock Text="Online" FontSize="12" Foreground="White" VerticalAlignment="Center" />
                         </StackPanel>
                         
-                        <!-- Battery -->
                         <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
                             <TextBlock Text="🔋" FontSize="14" VerticalAlignment="Center" Margin="0,0,8,0" />
                             <TextBlock x:Name="LockBatteryText" Text="100%" FontSize="12" Foreground="White" VerticalAlignment="Center" />
