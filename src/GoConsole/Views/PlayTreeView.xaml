@@ -1,0 +1,166 @@
+<UserControl x:Class="GoConsoleOS.GoConsole.Views.PlayTreeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="Transparent">
+    <Grid Margin="40">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="PLAYTREE.EXE" FontSize="28" FontWeight="Bold"
+                   Foreground="{StaticResource BrushTextPrimary}" Margin="0,0,0,4" />
+        <TextBlock Grid.Row="0" Text="GoStudios Game Launcher &amp; Manager" FontSize="14"
+                   Foreground="{StaticResource BrushTextSecondary}" Margin="0,34,0,16" />
+
+        <!-- Quick Actions -->
+        <Border Grid.Row="1" Background="{StaticResource BrushBackgroundLight}"
+                CornerRadius="12" Padding="16" Margin="0,0,0,16">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                
+                <Border Grid.Column="0" Background="{StaticResource BrushGradientSurface}"
+                        CornerRadius="8" Padding="12" Margin="0,0,8,0" Cursor="Hand"
+                        MouseLeftButtonDown="Launch2DGames_Click">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="🎮" FontSize="24" HorizontalAlignment="Center" />
+                        <TextBlock Text="2D GAMES" FontSize="12" FontWeight="Bold"
+                                   Foreground="{StaticResource BrushTextPrimary}" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </Border>
+                
+                <Border Grid.Column="1" Background="{StaticResource BrushGradientSurface}"
+                        CornerRadius="8" Padding="12" Margin="4,0" Cursor="Hand"
+                        MouseLeftButtonDown="Launch3DGames_Click">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="🕹️" FontSize="24" HorizontalAlignment="Center" />
+                        <TextBlock Text="3D GAMES" FontSize="12" FontWeight="Bold"
+                                   Foreground="{StaticResource BrushTextPrimary}" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </Border>
+                
+                <Border Grid.Column="2" Background="{StaticResource BrushGradientSurface}"
+                        CornerRadius="8" Padding="12" Margin="4,0" Cursor="Hand"
+                        MouseLeftButtonDown="LaunchAllGames_Click">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="🏆" FontSize="24" HorizontalAlignment="Center" />
+                        <TextBlock Text="ALL GAMES" FontSize="12" FontWeight="Bold"
+                                   Foreground="{StaticResource BrushTextPrimary}" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </Border>
+                
+                <Border Grid.Column="3" Background="{StaticResource BrushGradientSurface}"
+                        CornerRadius="8" Padding="12" Margin="8,0,0,0" Cursor="Hand"
+                        MouseLeftButtonDown="OpenStore_Click">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="🛒" FontSize="24" HorizontalAlignment="Center" />
+                        <TextBlock Text="STORE" FontSize="12" FontWeight="Bold"
+                                   Foreground="{StaticResource BrushTextPrimary}" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Game Grid -->
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="2D GAMES" Style="{StaticResource SectionTitleStyle}" />
+                <ItemsControl Grid.Row="1" x:Name="Games2DList" Margin="0,0,0,16">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{StaticResource GameTileStyle}" Cursor="Hand"
+                                    MouseLeftButtonDown="GameTile_Click" Tag="{Binding Id}"
+                                    Width="180" Height="240" Margin="0,0,12,12">
+                                <Grid>
+                                    <Border CornerRadius="10" Background="{StaticResource BrushBackgroundCardHover}"
+                                            Margin="4">
+                                        <Grid>
+                                            <StackPanel VerticalAlignment="Top" Margin="12" HorizontalAlignment="Center">
+                                                <TextBlock Text="🎮" FontSize="40" HorizontalAlignment="Center" Margin="0,20,0,10" />
+                                                <TextBlock Text="{Binding Title}" FontSize="14" FontWeight="Bold"
+                                                           Foreground="{StaticResource BrushTextPrimary}"
+                                                           TextAlignment="Center"
+                                                           TextTrimming="CharacterEllipsis" />
+                                                <TextBlock Text="{Binding GameType}" FontSize="11"
+                                                           Foreground="{StaticResource BrushTextMuted}"
+                                                           TextAlignment="Center" Margin="0,4,0,0" />
+                                            </StackPanel>
+                                            <Border VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                                                    Margin="0,0,0,12">
+                                                <Border Background="{StaticResource BrushAccentPrimary}"
+                                                        CornerRadius="4" Padding="12,4">
+                                                    <TextBlock Text="PLAY" FontSize="11" FontWeight="Bold"
+                                                               Foreground="#0D0D14" />
+                                                </Border>
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <TextBlock Grid.Row="2" Text="3D GAMES" Style="{StaticResource SectionTitleStyle}" />
+                <ItemsControl Grid.Row="3" x:Name="Games3DList" Margin="0,0,0,16">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{StaticResource GameTileStyle}" Cursor="Hand"
+                                    MouseLeftButtonDown="GameTile_Click" Tag="{Binding Id}"
+                                    Width="180" Height="240" Margin="0,0,12,12">
+                                <Grid>
+                                    <Border CornerRadius="10" Background="{StaticResource BrushBackgroundCardHover}"
+                                            Margin="4">
+                                        <Grid>
+                                            <StackPanel VerticalAlignment="Top" Margin="12" HorizontalAlignment="Center">
+                                                <TextBlock Text="🕹️" FontSize="40" HorizontalAlignment="Center" Margin="0,20,0,10" />
+                                                <TextBlock Text="{Binding Title}" FontSize="14" FontWeight="Bold"
+                                                           Foreground="{StaticResource BrushTextPrimary}"
+                                                           TextAlignment="Center"
+                                                           TextTrimming="CharacterEllipsis" />
+                                                <TextBlock Text="{Binding GameType}" FontSize="11"
+                                                           Foreground="{StaticResource BrushTextMuted}"
+                                                           TextAlignment="Center" Margin="0,4,0,0" />
+                                            </StackPanel>
+                                            <Border VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                                                    Margin="0,0,0,12">
+                                                <Border Background="{StaticResource BrushGradientAccent}"
+                                                        CornerRadius="4" Padding="12,4">
+                                                    <TextBlock Text="PLAY" FontSize="11" FontWeight="Bold"
+                                                               Foreground="#0D0D14" />
+                                                </Border>
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

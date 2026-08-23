@@ -864,6 +864,7 @@ public partial class MainWindow : Window
             "discord" => new DiscordView(),
             "whatsnew" => new WhatsNewView(),
             "tokencreator" => new TokenCreatorView(),
+            "playtree" => new PlayTreeView(),
             "details" when _selectedGame != null => new GameDetailsView(_selectedGame, _library, _scanner, _perfManager),
             "settings" => new SettingsView(_config, _perfManager, _profileManager.CurrentProfile, _controller, _accountManager, _profileManager),
             _ => new HomeView(_library, _profileManager.CurrentProfile, _perfManager, _config)

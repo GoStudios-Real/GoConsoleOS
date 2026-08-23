@@ -8,9 +8,11 @@ public class GameInfo
     public string Id { get; set; } = "";
     public string Title { get; set; } = "";
     public string Platform { get; set; } = "";
+    public string GameType { get; set; } = "2D"; // "2D" or "3D" for GoStudios games
     public string ExecutablePath { get; set; } = "";
     public string? WorkingDirectory { get; set; }
     public string? CoverArtPath { get; set; }
+    public string? BannerPath { get; set; }
     public string? PlatformIconPath { get; set; }
     public List<string> Genres { get; set; } = new();
     public List<string> Tags { get; set; } = new();
@@ -20,6 +22,8 @@ public class GameInfo
     public bool IsInstalled { get; set; } = true;
     public string? LaunchArguments { get; set; }
     public string? StoreId { get; set; }
+    public string? Description { get; set; }
+    public string? WebUrl { get; set; } // For IFRAME/web-based games
 
     public string GetStoreUrl()
     {
@@ -32,11 +36,7 @@ public class GameInfo
 
         return Platform switch
         {
-            "Steam" when !string.IsNullOrEmpty(StoreId) => $"https://store.steampowered.com/app/{StoreId}",
-            "Steam" => $"https://store.steampowered.com/search/?term={Uri.EscapeDataString(Title)}",
-            "Epic Games" => $"https://store.epicgames.com/en-US/p/{slug}",
-            "GOG" => $"https://www.gog.com/en/game/{slug}",
-            "Xbox" => $"https://www.xbox.com/en-US/games/store/{slug}",
+            "GoStudios" => $"https://gostudios.net/games/{slug}",
             _ => $"https://www.google.com/search?q={Uri.EscapeDataString(Title + " " + Platform + " game")}"
         };
     }
@@ -46,16 +46,13 @@ public class GameInfo
 
 public class LibraryData
 {
-    public string Version { get; set; } = "1.4.0";
+    public string Version { get; set; } = "2.0.0";
     public DateTime LastScanned { get; set; }
     public List<GameInfo> Games { get; set; } = new();
 }
 
 public enum GamePlatform
 {
-    Steam,
-    EpicGames,
-    Xbox,
-    GOG,
+    GoStudios,
     Custom
 }

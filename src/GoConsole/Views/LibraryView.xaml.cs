@@ -41,6 +41,8 @@ public partial class LibraryView : UserControl
             "all" => games,
             "installed" => games.Where(g => g.IsInstalled),
             "favorites" => games.Where(g => g.IsFavorite),
+            "2d" => games.Where(g => g.GameType == "2D"),
+            "3d" => games.Where(g => g.GameType == "3D"),
             _ => games.Where(g =>
                 g.Platform.Equals(_currentFilter, StringComparison.OrdinalIgnoreCase))
         };

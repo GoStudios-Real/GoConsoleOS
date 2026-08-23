@@ -66,21 +66,30 @@ public partial class HomeView : UserControl
             catch { }
         }
 
-        var platforms = PlatformDetection.GetInstalledPlatforms();
-        foreach (var (name, installed) in platforms)
+        // Show GoStudios games status
+        var games2D = library.Games.Count(g => g.GameType == "2D");
+        var games3D = library.Games.Count(g => g.GameType == "3D");
+        var totalGames = library.Games.Count;
+
+        var tb2D = new TextBlock
         {
-            var tb = new TextBlock
-            {
-                Text = installed ? $"\u25CF {name}" : $"\u25CB {name}",
-                FontSize = 13,
-                Margin = new Thickness(0, 0, 16, 0),
-                VerticalAlignment = VerticalAlignment.Center
-            };
-            tb.Foreground = installed
-                ? FindResource("BrushSuccess") as System.Windows.Media.Brush
-                : FindResource("BrushTextMuted") as System.Windows.Media.Brush;
-            PlatformListPanel.Children.Add(tb);
-        }
+            Text = $"🎮 {games2D} 2D Games",
+            FontSize = 13,
+            Margin = new Thickness(0, 0, 16, 0),
+            VerticalAlignment = VerticalAlignment.Center,
+            Foreground = FindResource("BrushSuccess") as System.Windows.Media.Brush
+        };
+        PlatformListPanel.Children.Add(tb2D);
+
+        var tb3D = new TextBlock
+        {
+            Text = $"🕹️ {games3D} 3D Games",
+            FontSize = 13,
+            Margin = new Thickness(0, 0, 16, 0),
+            VerticalAlignment = VerticalAlignment.Center,
+            Foreground = FindResource("BrushSuccess") as System.Windows.Media.Brush
+        };
+        PlatformListPanel.Children.Add(tb3D);
 
         if (recent.Count > 0)
         {
@@ -93,8 +102,9 @@ public partial class HomeView : UserControl
 
         AppsList.ItemsSource = new[]
         {
-            new AppTileItem { Name = "WHAT'S NEW", Icon = "✨", Route = "whatsnew" },
+            new AppTileItem { Name = "PLAYTREE.EXE", Icon = "🌳", Route = "playtree" },
             new AppTileItem { Name = "GOSTUDIOS STORE", Icon = "🛒", Route = "store" },
+            new AppTileItem { Name = "WHAT'S NEW", Icon = "✨", Route = "whatsnew" },
             new AppTileItem { Name = "CONTROLLER", Icon = "🎮", Route = "controller" },
             new AppTileItem { Name = "USB HEALTH", Icon = "🛡️", Route = "usbhealth" },
             new AppTileItem { Name = "DISCORD", Icon = "💬", Route = "discord" },

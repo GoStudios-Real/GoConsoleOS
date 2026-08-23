@@ -11,21 +11,15 @@ namespace GoConsoleOS.GoConsole.Views;
 
 public partial class PlatformsView : UserControl
 {
-    private string _currentPlatform = "steam";
+    private string _currentTab = "2d";
     private bool _initialized;
 
-    private static readonly Dictionary<string, (string Name, string Url)> Platforms = new()
+    private static readonly Dictionary<string, (string Name, string Url)> GoStudiosTabs = new()
     {
-        ["steam"] = ("Steam", "https://store.steampowered.com"),
-        ["epic"] = ("Epic Games", "https://store.epicgames.com"),
-        ["xbox"] = ("Xbox", "https://www.xbox.com/en-US/games"),
-        ["gog"] = ("GOG", "https://www.gog.com"),
-        ["playstation"] = ("PlayStation", "https://store.playstation.com/en-us/pages/latest"),
-        ["nintendo"] = ("Nintendo", "https://www.nintendo.com/us/store/"),
-        ["battlenet"] = ("Battle.net", "https://us.shop.battle.net"),
-        ["ea"] = ("EA App", "https://www.ea.com/games"),
-        ["ubisoft"] = ("Ubisoft Connect", "https://store.ubi.com"),
-        ["itch"] = ("itch.io", "https://itch.io/games"),
+        ["2d"] = ("2D Games", "https://gostudios.net/games/2d"),
+        ["3d"] = ("3D Games", "https://gostudios.net/games/3d"),
+        ["all"] = ("All Games", "https://gostudios.net/games"),
+        ["store"] = ("Store", "https://gostudios.net/store"),
     };
 
     public PlatformsView()
@@ -47,7 +41,7 @@ public partial class PlatformsView : UserControl
                 args.Handled = true;
                 try { PlatformBrowser.Source = new Uri(args.Uri); } catch { }
             };
-            LoadPlatform("steam");
+            LoadTab("2d");
         }
         catch (Exception ex)
         {
@@ -95,15 +89,15 @@ public partial class PlatformsView : UserControl
 
     private IEnumerable<Border> AllTabs()
     {
-        return new[] { TabSteam, TabEpic, TabXbox, TabGog, TabPlaystation, TabNintendo, TabBattlenet, TabEa, TabUbisoft, TabItch };
+        return new[] { Tab2D, Tab3D, TabAll, TabStore };
     }
 
-    public void LoadPlatform(string platformId)
+    public void LoadTab(string tabId)
     {
-        if (!Platforms.ContainsKey(platformId)) return;
-        _currentPlatform = platformId;
+        if (!GoStudiosTabs.ContainsKey(tabId)) return;
+        _currentTab = tabId;
 
-        var (name, url) = Platforms[platformId];
+        var (name, url) = GoStudiosTabs[tabId];
         try
         {
             PlatformBrowser.Source = new Uri(url);
@@ -119,7 +113,7 @@ public partial class PlatformsView : UserControl
 
         foreach (var tab in AllTabs())
         {
-            var active = tab.Tag?.ToString() == platformId;
+            var active = tab.Tag?.ToString() == tabId;
             tab.Background = active ? activeBg : defaultBg;
             if (tab.Child is StackPanel sp && sp.Children[1] is TextBlock tb)
                 tb.Foreground = active ? darkText : defaultText;
@@ -129,7 +123,7 @@ public partial class PlatformsView : UserControl
     private void SwitchTab(object sender, MouseButtonEventArgs e)
     {
         if (sender is FrameworkElement fe && fe.Tag is string id)
-            LoadPlatform(id);
+            LoadTab(id);
     }
 
     private void NavBack(object sender, MouseButtonEventArgs e)

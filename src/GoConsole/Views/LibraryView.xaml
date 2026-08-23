@@ -21,14 +21,10 @@
                         HorizontalContentAlignment="Left" Padding="8" Click="Filter_Click" Tag="installed" />
                 <Button x:Name="FilterFavorites" Content="FAVORITES" Style="{StaticResource NavButtonStyle}"
                         HorizontalContentAlignment="Left" Padding="8" Click="Filter_Click" Tag="favorites" />
-                <Button x:Name="FilterSteam" Content="STEAM" Style="{StaticResource NavButtonStyle}"
-                        HorizontalContentAlignment="Left" Padding="8" Click="Filter_Click" Tag="Steam" />
-                <Button x:Name="FilterEpic" Content="EPIC GAMES" Style="{StaticResource NavButtonStyle}"
-                        HorizontalContentAlignment="Left" Padding="8" Click="Filter_Click" Tag="Epic Games" />
-                <Button x:Name="FilterXbox" Content="XBOX" Style="{StaticResource NavButtonStyle}"
-                        HorizontalContentAlignment="Left" Padding="8" Click="Filter_Click" Tag="Xbox" />
-                <Button x:Name="FilterGog" Content="GOG" Style="{StaticResource NavButtonStyle}"
-                        HorizontalContentAlignment="Left" Padding="8" Click="Filter_Click" Tag="GOG" />
+                <Button x:Name="Filter2D" Content="2D GAMES" Style="{StaticResource NavButtonStyle}"
+                        HorizontalContentAlignment="Left" Padding="8" Click="Filter_Click" Tag="2d" />
+                <Button x:Name="Filter3D" Content="3D GAMES" Style="{StaticResource NavButtonStyle}"
+                        HorizontalContentAlignment="Left" Padding="8" Click="Filter_Click" Tag="3d" />
             </StackPanel>
         </Border>
 

@@ -10,7 +10,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <!-- Platform Tabs Bar -->
+        <!-- GoStudios Games Tabs Bar -->
         <Border Grid.Row="0" Background="{StaticResource BrushBackgroundDark}"
                 BorderBrush="{StaticResource BrushBorder}" BorderThickness="0,0,0,1"
                 Padding="40,8,20,0">
@@ -21,84 +21,36 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0" Orientation="Horizontal">
-                    <Border x:Name="TabSteam" CornerRadius="8,8,0,0" Background="#00C9DB"
+                    <Border x:Name="Tab2D" CornerRadius="8,8,0,0" Background="#00C9DB"
                             Padding="12,8" Cursor="Hand" Margin="0,0,3,0"
-                            MouseLeftButtonDown="SwitchTab" Tag="steam">
+                            MouseLeftButtonDown="SwitchTab" Tag="2d">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#x26A1;" FontSize="14" Margin="0,0,6,0" VerticalAlignment="Center" />
-                            <TextBlock Text="STEAM" FontSize="12" FontWeight="Bold" Foreground="#0D0D14" VerticalAlignment="Center" />
+                            <TextBlock Text="&#x1F3AE;" FontSize="14" Margin="0,0,6,0" VerticalAlignment="Center" />
+                            <TextBlock Text="2D GAMES" FontSize="12" FontWeight="Bold" Foreground="#0D0D14" VerticalAlignment="Center" />
                         </StackPanel>
                     </Border>
-                    <Border x:Name="TabEpic" CornerRadius="8,8,0,0" Background="{StaticResource BrushBackgroundLight}"
+                    <Border x:Name="Tab3D" CornerRadius="8,8,0,0" Background="{StaticResource BrushBackgroundLight}"
                             Padding="12,8" Cursor="Hand" Margin="0,0,3,0"
-                            MouseLeftButtonDown="SwitchTab" Tag="epic">
+                            MouseLeftButtonDown="SwitchTab" Tag="3d">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#x2728;" FontSize="13" Margin="0,0,6,0" VerticalAlignment="Center" />
-                            <TextBlock Text="EPIC" FontSize="12" FontWeight="Bold" Foreground="{StaticResource BrushTextPrimary}" VerticalAlignment="Center" />
+                            <TextBlock Text="&#x1F57C;" FontSize="13" Margin="0,0,6,0" VerticalAlignment="Center" />
+                            <TextBlock Text="3D GAMES" FontSize="12" FontWeight="Bold" Foreground="{StaticResource BrushTextPrimary}" VerticalAlignment="Center" />
                         </StackPanel>
                     </Border>
-                    <Border x:Name="TabXbox" CornerRadius="8,8,0,0" Background="{StaticResource BrushBackgroundLight}"
+                    <Border x:Name="TabAll" CornerRadius="8,8,0,0" Background="{StaticResource BrushBackgroundLight}"
                             Padding="12,8" Cursor="Hand" Margin="0,0,3,0"
-                            MouseLeftButtonDown="SwitchTab" Tag="xbox">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#x2744;" FontSize="14" Margin="0,0,6,0" VerticalAlignment="Center" />
-                            <TextBlock Text="XBOX" FontSize="12" FontWeight="Bold" Foreground="{StaticResource BrushTextPrimary}" VerticalAlignment="Center" />
-                        </StackPanel>
-                    </Border>
-                    <Border x:Name="TabGog" CornerRadius="8,8,0,0" Background="{StaticResource BrushBackgroundLight}"
-                            Padding="12,8" Cursor="Hand" Margin="0,0,3,0"
-                            MouseLeftButtonDown="SwitchTab" Tag="gog">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#x2B50;" FontSize="13" Margin="0,0,6,0" VerticalAlignment="Center" />
-                            <TextBlock Text="GOG" FontSize="12" FontWeight="Bold" Foreground="{StaticResource BrushTextPrimary}" VerticalAlignment="Center" />
-                        </StackPanel>
-                    </Border>
-                    <Border x:Name="TabPlaystation" CornerRadius="8,8,0,0" Background="{StaticResource BrushBackgroundLight}"
-                            Padding="12,8" Cursor="Hand" Margin="0,0,3,0"
-                            MouseLeftButtonDown="SwitchTab" Tag="playstation">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#x1F3AE;" FontSize="13" Margin="0,0,6,0" VerticalAlignment="Center" />
-                            <TextBlock Text="PLAYSTATION" FontSize="12" FontWeight="Bold" Foreground="{StaticResource BrushTextPrimary}" VerticalAlignment="Center" />
-                        </StackPanel>
-                    </Border>
-                    <Border x:Name="TabNintendo" CornerRadius="8,8,0,0" Background="{StaticResource BrushBackgroundLight}"
-                            Padding="12,8" Cursor="Hand" Margin="0,0,3,0"
-                            MouseLeftButtonDown="SwitchTab" Tag="nintendo">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#x1F344;" FontSize="13" Margin="0,0,6,0" VerticalAlignment="Center" />
-                            <TextBlock Text="NINTENDO" FontSize="12" FontWeight="Bold" Foreground="{StaticResource BrushTextPrimary}" VerticalAlignment="Center" />
-                        </StackPanel>
-                    </Border>
-                    <Border x:Name="TabBattlenet" CornerRadius="8,8,0,0" Background="{StaticResource BrushBackgroundLight}"
-                            Padding="12,8" Cursor="Hand" Margin="0,0,3,0"
-                            MouseLeftButtonDown="SwitchTab" Tag="battlenet">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#x1F525;" FontSize="13" Margin="0,0,6,0" VerticalAlignment="Center" />
-                            <TextBlock Text="BATTLE.NET" FontSize="12" FontWeight="Bold" Foreground="{StaticResource BrushTextPrimary}" VerticalAlignment="Center" />
-                        </StackPanel>
-                    </Border>
-                    <Border x:Name="TabEa" CornerRadius="8,8,0,0" Background="{StaticResource BrushBackgroundLight}"
-                            Padding="12,8" Cursor="Hand" Margin="0,0,3,0"
-                            MouseLeftButtonDown="SwitchTab" Tag="ea">
+                            MouseLeftButtonDown="SwitchTab" Tag="all">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="&#x1F3C6;" FontSize="13" Margin="0,0,6,0" VerticalAlignment="Center" />
-                            <TextBlock Text="EA" FontSize="12" FontWeight="Bold" Foreground="{StaticResource BrushTextPrimary}" VerticalAlignment="Center" />
+                            <TextBlock Text="ALL GAMES" FontSize="12" FontWeight="Bold" Foreground="{StaticResource BrushTextPrimary}" VerticalAlignment="Center" />
                         </StackPanel>
                     </Border>
-                    <Border x:Name="TabUbisoft" CornerRadius="8,8,0,0" Background="{StaticResource BrushBackgroundLight}"
+                    <Border x:Name="TabStore" CornerRadius="8,8,0,0" Background="{StaticResource BrushBackgroundLight}"
                             Padding="12,8" Cursor="Hand" Margin="0,0,3,0"
-                            MouseLeftButtonDown="SwitchTab" Tag="ubisoft">
+                            MouseLeftButtonDown="SwitchTab" Tag="store">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#x1F9E9;" FontSize="13" Margin="0,0,6,0" VerticalAlignment="Center" />
-                            <TextBlock Text="UBISOFT" FontSize="12" FontWeight="Bold" Foreground="{StaticResource BrushTextPrimary}" VerticalAlignment="Center" />
-                        </StackPanel>
-                    </Border>
-                    <Border x:Name="TabItch" CornerRadius="8,8,0,0" Background="{StaticResource BrushBackgroundLight}"
-                            Padding="12,8" Cursor="Hand" Margin="0,0,3,0"
-                            MouseLeftButtonDown="SwitchTab" Tag="itch">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#x1F339;" FontSize="13" Margin="0,0,6,0" VerticalAlignment="Center" />
-                            <TextBlock Text="ITCH.IO" FontSize="12" FontWeight="Bold" Foreground="{StaticResource BrushTextPrimary}" VerticalAlignment="Center" />
+                            <TextBlock Text="&#x1F6D2;" FontSize="13" Margin="0,0,6,0" VerticalAlignment="Center" />
+                            <TextBlock Text="STORE" FontSize="12" FontWeight="Bold" Foreground="{StaticResource BrushTextPrimary}" VerticalAlignment="Center" />
                         </StackPanel>
                     </Border>
                 </StackPanel>
@@ -120,7 +72,7 @@
                             MouseLeftButtonDown="NavRefresh">
                         <TextBlock Text="&#x21BB;" FontSize="12" Foreground="{StaticResource BrushTextPrimary}" />
                     </Border>
-                    <TextBlock x:Name="TabTitle" Text="store.steampowered.com"
+                    <TextBlock x:Name="TabTitle" Text="GoStudios Games"
                                FontSize="11" Foreground="{StaticResource BrushTextMuted}"
                                VerticalAlignment="Center" Margin="4,0,0,0" />
                 </StackPanel>
