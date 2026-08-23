@@ -67,7 +67,7 @@ public partial class BackupRestoreView : UserControl
             items.Add(new SaveSyncItem
             {
                 Name = "No store items installed",
-                Detail = "Install games or apps from the GoStudios Store to manage their saves",
+                Detail = "Install games or apps from the GoStudios Corporation Store to manage their saves",
                 HasSaveFolders = false,
                 HasBackup = false
             });

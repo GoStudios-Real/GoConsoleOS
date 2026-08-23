@@ -11,7 +11,7 @@
 
         <TextBlock Grid.Row="0" Text="PLAYTREE.EXE" FontSize="28" FontWeight="Bold"
                    Foreground="{StaticResource BrushTextPrimary}" Margin="0,0,0,4" />
-        <TextBlock Grid.Row="0" Text="GoStudios Game Launcher &amp; Manager" FontSize="14"
+        <TextBlock Grid.Row="0" Text="GoStudios Corporation Game Launcher &amp; Manager" FontSize="14"
                    Foreground="{StaticResource BrushTextSecondary}" Margin="0,34,0,16" />
 
         <!-- Quick Actions -->

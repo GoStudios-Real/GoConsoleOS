@@ -159,7 +159,7 @@ public partial class StoreView : UserControl
                 item.IsInstalled = _installed.ContainsKey(item.Id);
             }
 
-            CatalogStatus.Text = $"Browse {_catalog.Items.Count} free apps & games in the GoStudios Store";
+            CatalogStatus.Text = $"Browse {_catalog.Items.Count} free apps & games in the GoStudios Corporation Store";
 
             AppsList.ItemsSource = _catalog.Items.Where(i => i.Type == "app").ToList();
             GamesList.ItemsSource = _catalog.Items.Where(i => i.Type == "game").ToList();
@@ -676,7 +676,7 @@ public partial class StoreView : UserControl
         var total = _showWishlistOnly ? _wishlist.Count : _catalog.Items.Count;
         CatalogStatus.Text = _showWishlistOnly
             ? $"Showing {total} wishlisted item{(total == 1 ? "" : "s")}"
-            : $"Browse {total} free apps & games in the GoStudios Store";
+            : $"Browse {total} free apps & games in the GoStudios Corporation Store";
     }
 }
 

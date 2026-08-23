@@ -24,7 +24,7 @@ public partial class WhatsNewView : UserControl
         ("⬇️", "On-Screen Scroll", "A visible scroll indicator appears as you scroll, and the D-Pad now scrolls long pages on the home screen.", "INPUT"),
         ("✏️", "Pen Support", "Use a stylus to tap and navigate the whole console.", "INPUT"),
         ("👆", "Touchscreen Support", "Fully touch-friendly — tap, swipe and select with your finger.", "INPUT"),
-        ("🎬", "Brand Splash", "GoStudios brand screen auto-plays before the console logo on every boot.", "BRAND"),
+        ("🎬", "Brand Splash", "GoStudios Corporation brand screen auto-plays before the console logo on every boot.", "BRAND"),
         ("⚡", "Performance Modes", "Balanced, Power and Battery Saver profiles.", "SYSTEM"),
         ("💡", "New Sounds", "An all-new 44.1 kHz sound engine mixing Xbox crispness with PS5 airy reverb.", "AUDIO")
     };

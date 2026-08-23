@@ -103,7 +103,7 @@ public partial class HomeView : UserControl
         AppsList.ItemsSource = new[]
         {
             new AppTileItem { Name = "PLAYTREE.EXE", Icon = "🌳", Route = "playtree" },
-            new AppTileItem { Name = "GOSTUDIOS STORE", Icon = "🛒", Route = "store" },
+            new AppTileItem { Name = "GOSTUDIOS CORPORATION STORE", Icon = "🛒", Route = "store" },
             new AppTileItem { Name = "WHAT'S NEW", Icon = "✨", Route = "whatsnew" },
             new AppTileItem { Name = "CONTROLLER", Icon = "🎮", Route = "controller" },
             new AppTileItem { Name = "USB HEALTH", Icon = "🛡️", Route = "usbhealth" },

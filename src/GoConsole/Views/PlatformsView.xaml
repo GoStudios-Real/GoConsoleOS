@@ -72,7 +72,7 @@
                             MouseLeftButtonDown="NavRefresh">
                         <TextBlock Text="&#x21BB;" FontSize="12" Foreground="{StaticResource BrushTextPrimary}" />
                     </Border>
-                    <TextBlock x:Name="TabTitle" Text="GoStudios Games"
+                    <TextBlock x:Name="TabTitle" Text="GoStudios Corporation Games"
                                FontSize="11" Foreground="{StaticResource BrushTextMuted}"
                                VerticalAlignment="Center" Margin="4,0,0,0" />
                 </StackPanel>

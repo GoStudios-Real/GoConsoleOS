@@ -17,7 +17,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0">
-                <TextBlock Text="GOSTUDIOS STORE" Style="{StaticResource SectionTitleStyle}" />
+                <TextBlock Text="GOSTUDIOS CORPORATION STORE" Style="{StaticResource SectionTitleStyle}" />
                 <TextBlock x:Name="CatalogStatus" Text="Loading catalog..."
                            FontSize="13" Foreground="{StaticResource BrushTextSecondary}" />
             </StackPanel>

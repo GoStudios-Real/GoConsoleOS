@@ -1260,7 +1260,7 @@ public partial class MainWindow : Window
             results.Add(new SearchResult
             {
                 Id = "store",
-                Title = "GoStudios Store",
+                Title = "GoStudios Corporation Store",
                 Description = "Install free apps and games (7-Zip, VLC, OBS, OpenRA, SuperTux...) with web previews",
                 Icon = "🛒",
                 Type = "Feature",

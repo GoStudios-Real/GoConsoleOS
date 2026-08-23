@@ -31,7 +31,7 @@ public partial class BootScreen : Window
         VersionText.Text = $"v{config.General.Version}";
         Title = config.General.OsName;
         LogoText.Text = config.General.OsName;
-        TrademarkText.Text = $"{config.General.OsName}™ is a trademark of GoStudios. © 2026 GoStudios.";
+        TrademarkText.Text = $"{config.General.OsName}™ is a trademark of GoStudios Corporation. © 2026 GoStudios Corporation.";
         ApplyVariantColors(config);
 
         _bootStatuses[0] = $"Initializing {config.General.OsName}...";

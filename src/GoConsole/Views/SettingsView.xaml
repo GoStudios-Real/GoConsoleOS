@@ -66,7 +66,7 @@
                         </Border>
                         <Border CornerRadius="6" Background="{StaticResource BrushBackgroundCard}" Padding="12,6"
                                 Cursor="Hand" MouseLeftButtonDown="PreviewStore" Margin="8,0,0,0">
-                            <TextBlock Text="🛒 GOSTUDIOS STORE" FontSize="11" FontWeight="Bold"
+                            <TextBlock Text="🛒 GOSTUDIOS CORPORATION STORE" FontSize="11" FontWeight="Bold"
                                        Foreground="{StaticResource BrushTextPrimary}" />
                         </Border>
                     </StackPanel>
@@ -256,13 +256,13 @@
                     <TextBlock x:Name="SystemInfoText" Text=""
                                FontSize="13" Foreground="{StaticResource BrushTextMuted}"
                                Margin="0,4,0,0" />
-                    <TextBlock Text="Console Mode for Windows 11. Built by GoStudios."
+                    <TextBlock Text="Console Mode for Windows 11. Built by GoStudios Corporation."
                                FontSize="13" Foreground="{StaticResource BrushTextMuted}"
                                Margin="0,4,0,0" />
                     <TextBlock Text="Supported CPUs: Intel Core i5 / i7 / i9, AMD Ryzen 3 / 5 / 7 / 9"
                                FontSize="13" Foreground="{StaticResource BrushTextMuted}"
                                Margin="0,4,0,0" />
-                    <TextBlock Text="GoConsoleOS™ and the GoConsoleOS logo are trademarks of GoStudios. © 2026 GoStudios. All rights reserved."
+                    <TextBlock Text="GoConsoleOS™ and the GoConsoleOS logo are trademarks of GoStudios Corporation. © 2026 GoStudios Corporation. All rights reserved."
                                FontSize="12" Foreground="{StaticResource BrushTextMuted}"
                                TextWrapping="Wrap" Margin="0,8,0,0" />
                 </StackPanel>

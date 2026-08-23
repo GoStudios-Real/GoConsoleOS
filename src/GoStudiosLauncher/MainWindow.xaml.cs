@@ -50,7 +50,7 @@ public partial class MainWindow : Window
                 Name = "GoCore",
                 Version = "v1.5.0",
                 Icon = "⚙",
-                Description = "Core system service that provides performance monitoring, controller input, and system optimization services for the GoStudios ecosystem.",
+                Description = "Core system service that provides performance monitoring, controller input, and system optimization services for the GoStudios Corporation ecosystem.",
                 InstallPath = @"..\..\..\..\boot\gocore.exe",
                 Status = "Installed"
             },
@@ -87,7 +87,7 @@ public partial class MainWindow : Window
             new ProjectInfo
             {
                 Id = "gostudios",
-                Name = "GoStudios SDK",
+                Name = "GoStudios Corporation SDK",
                 Version = "v1.5.0",
                 Icon = "💻",
                 Description = "Software Development Kit for building custom GoConsoleOS plugins, themes, overlays, and extensions.",

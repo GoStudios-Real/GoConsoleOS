@@ -64,7 +64,7 @@ public sealed class GoAiEngine
             return new GoAiReply("You're welcome! Anything else you want to know about GoConsoleOS?");
 
         if (IsMatch(lower, "who are you", "what are you", "who made you", "creator"))
-            return new GoAiReply("I'm GoAI, the GoConsoleOS gaming assistant, built by GoStudios. I run locally on your console - no cloud needed.");
+            return new GoAiReply("I'm GoAI, the GoConsoleOS gaming assistant, built by GoStudios Corporation. I run locally on your console - no cloud needed.");
 
         if (IsMatch(lower, "version", "firmware", "software", "update"))
             return new GoAiReply("GoConsoleOS is on version 1.8.0 with GoAI " + Version + ". Check for updates from Settings > System Update - it talks to the GoConsoleOS update service automatically.");

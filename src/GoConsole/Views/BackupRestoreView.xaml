@@ -107,7 +107,7 @@
             <StackPanel>
                 <TextBlock Text="GAME SAVES" FontSize="16" FontWeight="Bold"
                            Foreground="{StaticResource BrushAccentPrimary}" Margin="0,0,0,4" />
-                <TextBlock Text="Snapshot and restore save data for games and apps installed from the GoStudios Store."
+                <TextBlock Text="Snapshot and restore save data for games and apps installed from the GoStudios Corporation Store."
                            FontSize="13" Foreground="{StaticResource BrushTextMuted}"
                            TextWrapping="Wrap" Margin="0,0,0,12" />
                 <ItemsControl x:Name="SaveList">

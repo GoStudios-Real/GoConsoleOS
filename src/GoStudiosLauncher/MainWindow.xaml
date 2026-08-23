@@ -1,7 +1,7 @@
 <Window x:Class="GoStudiosLauncher.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="GoStudios Launcher"
+        Title="GoStudios Corporation Launcher"
         WindowStyle="None"
         WindowState="Maximized"
         WindowStartupLocation="CenterScreen"
@@ -28,7 +28,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0" Text="GoStudios" FontSize="22" FontWeight="Bold"
+                <TextBlock Grid.Column="0" Text="GoStudios Corporation" FontSize="22" FontWeight="Bold"
                            Foreground="{StaticResource BrushAccentPrimary}"
                            VerticalAlignment="Center" />
 
@@ -78,9 +78,9 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0">
-                            <TextBlock Text="GoStudios Launcher" FontSize="42" FontWeight="Bold"
+                            <TextBlock Text="GoStudios Corporation Launcher" FontSize="42" FontWeight="Bold"
                                        Foreground="{StaticResource BrushTextPrimary}" />
-                            <TextBlock Text="Your gateway to all GoStudios projects"
+                            <TextBlock Text="Your gateway to all GoStudios Corporation projects"
                                        FontSize="18" Foreground="{StaticResource BrushTextSecondary}"
                                        Margin="0,8,0,0" />
                             <TextBlock x:Name="VersionText" Text="v1.4.0"
@@ -199,7 +199,7 @@
                             <TextBlock Text="🌐" FontSize="20" Margin="0,0,8,0"
                                        Foreground="{StaticResource BrushAccentTertiary}" />
                             <StackPanel>
-                                <TextBlock Text="GOSTUDIOS WEBSITE" FontSize="14" FontWeight="Bold"
+                                <TextBlock Text="GOSTUDIOS CORPORATION WEBSITE" FontSize="14" FontWeight="Bold"
                                            Foreground="{StaticResource BrushTextPrimary}" />
                                 <TextBlock Text="Explore all projects" FontSize="11"
                                            Foreground="{StaticResource BrushTextMuted}" />
@@ -222,7 +222,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0" Text="GoStudios Launcher v1.4.0"
+                <TextBlock Grid.Column="0" Text="GoStudios Corporation Launcher v1.4.0"
                            Style="{StaticResource StatusBarTextStyle}"
                            Foreground="{StaticResource BrushTextMuted}" />
 

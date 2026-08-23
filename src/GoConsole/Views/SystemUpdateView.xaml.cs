@@ -19,7 +19,7 @@ public partial class SystemUpdateView : UserControl
     {
         "v1.8.0 \u2014 Added the GoAccount Center (ACC) with cloud accounts, the GoAI assistant, on-device servers for USB and Android, the lock screen with PIN, show/hide password toggles, and the software update API.",
         "v1.7.0 \u2014 Added a full Controller selection screen (auto-detect, per-kind layouts, live button & stick test, vibration test), USB device health with S.M.A.R.T. scoring, and on-screen scroll with D-Pad scrolling on long pages.",
-        "v1.6.0 \u2014 Added controller type selection (Xbox, PS5 DualSense, Nintendo Switch 2), pen and touchscreen support, a Discord KEY button, a GoStudios brand splash screen, the What's New hub, a persistent settings database, 8 achievements with toast notifications, game save backup & restore, true fullscreen boot, accent color picker, CPU detection, and 7 new store items.",
+        "v1.6.0 \u2014 Added controller type selection (Xbox, PS5 DualSense, Nintendo Switch 2), pen and touchscreen support, a Discord KEY button, a GoStudios Corporation brand splash screen, the What's New hub, a persistent settings database, 8 achievements with toast notifications, game save backup & restore, true fullscreen boot, accent color picker, CPU detection, and 7 new store items.",
         "v1.5.0 \u2014 Added Discord with chat, voice calls, and friends, the Discord Token Creator, the built-in GoBrowser (WebView2), and the APPS row on the home page.",
         "v1.4.0 \u2014 Added game hubs, deals tracker, backup & restore, and per-game settings.",
         "v1.3.0 \u2014 Added system updates, cloud saves, remote play, compatibility ratings, controller profiles, and the Xbox-style exit menu.",
