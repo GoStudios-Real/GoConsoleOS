@@ -6,15 +6,68 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0" Text="USB GAMING CONSOLE MAKER" FontSize="28" FontWeight="Bold"
                    Foreground="{StaticResource BrushTextPrimary}" Margin="0,0,0,4" />
-        <TextBlock Grid.Row="1" x:Name="MakerStatus" Text="Turn any USB drive into a portable GoConsoleOS console"
-                   FontSize="14" Foreground="{StaticResource BrushTextSecondary}" Margin="0,0,0,20" />
+        <TextBlock Grid.Row="1" x:Name="MakerStatus" Text="Turn any USB drive into a portable gaming console"
+                   FontSize="14" Foreground="{StaticResource BrushTextSecondary}" Margin="0,0,0,12" />
 
-        <Grid Grid.Row="2">
+        <!-- USB Type Selector -->
+        <Border Grid.Row="2" Background="{StaticResource BrushBackgroundLight}" CornerRadius="10"
+                Padding="16" Margin="0,0,0,16">
+            <StackPanel>
+                <TextBlock Text="SELECT USB TYPE" FontSize="12" FontWeight="Bold"
+                           Foreground="{StaticResource BrushTextMuted}" Margin="0,0,0,10" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" CornerRadius="8" Padding="12" Margin="0,0,8,0" Cursor="Hand"
+                            Background="{StaticResource BrushBackgroundCard}" BorderBrush="{StaticResource BrushAccentPrimary}"
+                            BorderThickness="2" MouseLeftButtonDown="SelectUsbType_Click" Tag="goc">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="🎮" FontSize="28" HorizontalAlignment="Center" />
+                            <TextBlock Text="GoConsoleOS" FontSize="13" FontWeight="Bold"
+                                       Foreground="{StaticResource BrushAccentPrimary}" HorizontalAlignment="Center" />
+                            <TextBlock Text="Gaming Console" FontSize="11"
+                                       Foreground="{StaticResource BrushTextMuted}" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="1" CornerRadius="8" Padding="12" Margin="4,0" Cursor="Hand"
+                            Background="{StaticResource BrushBackgroundCard}" BorderBrush="{StaticResource BrushBorder}"
+                            BorderThickness="1" MouseLeftButtonDown="SelectUsbType_Click" Tag="androidtv">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="📺" FontSize="28" HorizontalAlignment="Center" />
+                            <TextBlock Text="Android TV" FontSize="13" FontWeight="Bold"
+                                       Foreground="{StaticResource BrushTextPrimary}" HorizontalAlignment="Center" />
+                            <TextBlock Text="Google/Android TV Apps" FontSize="11"
+                                       Foreground="{StaticResource BrushTextMuted}" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="2" CornerRadius="8" Padding="12" Margin="8,0,0,0" Cursor="Hand"
+                            Background="{StaticResource BrushBackgroundCard}" BorderBrush="{StaticResource BrushBorder}"
+                            BorderThickness="1" MouseLeftButtonDown="SelectUsbType_Click" Tag="winplay">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="🪟" FontSize="28" HorizontalAlignment="Center" />
+                            <TextBlock Text="Windows Play" FontSize="13" FontWeight="Bold"
+                                       Foreground="{StaticResource BrushTextPrimary}" HorizontalAlignment="Center" />
+                            <TextBlock Text="Win 10/11 No Boot - Just Play" FontSize="11"
+                                       Foreground="{StaticResource BrushTextMuted}" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
@@ -82,9 +135,9 @@
 
             <Border Grid.Column="1" CornerRadius="12" Background="{StaticResource BrushBackgroundLight}" Padding="20">
                 <StackPanel>
-                    <TextBlock Text="INSTALL" FontSize="16" FontWeight="Bold"
-                               Foreground="{StaticResource BrushTextSecondary}" Margin="0,0,0,12" />
-                    <TextBlock Text="Installs a self-contained GoConsoleOS onto the selected USB drive. The drive is renamed GoConsoleOS, gets a boot config, and launches automatically on plug-in."
+                    <TextBlock x:Name="InstallTitle" Text="INSTALL GOCOSOLEOS" FontSize="16" FontWeight="Bold"
+                               Foreground="{StaticResource BrushTextSecondary}" Margin="0,0,0,8" />
+                    <TextBlock x:Name="InstallDescription" Text="Installs a self-contained GoConsoleOS onto the selected USB drive. The drive is renamed GoConsoleOS, gets a boot config, and launches automatically on plug-in."
                                FontSize="13" Foreground="{StaticResource BrushTextMuted}" TextWrapping="Wrap" Margin="0,0,0,16" />
 
                     <Border CornerRadius="8" Background="{StaticResource BrushBackgroundCard}" Padding="14,10" Margin="0,0,0,12">
@@ -95,7 +148,7 @@
                         </StackPanel>
                     </Border>
 
-                    <Button x:Name="InstallBtn" Content="CREATE GAMING CONSOLE" FontSize="14" FontWeight="Bold"
+                    <Button x:Name="InstallBtn" Content="CREATE USB" FontSize="14" FontWeight="Bold"
                             Background="{StaticResource BrushAccentPrimary}" Foreground="#0D0D14"
                             BorderThickness="0" Padding="20,10" HorizontalAlignment="Left"
                             Cursor="Hand" Click="InstallClick" IsEnabled="False" />
@@ -107,7 +160,7 @@
                     <TextBlock x:Name="InstallStatus" FontSize="12" Foreground="{StaticResource BrushTextMuted}"
                                TextWrapping="Wrap" Margin="0,8,0,0" />
 
-                    <TextBlock Text="WARNING: All existing data on the target drive will be erased."
+                    <TextBlock x:Name="InstallWarning" Text="WARNING: All existing data on the target drive will be erased."
                                FontSize="11" Foreground="{StaticResource BrushError}" Margin="0,16,0,0" TextWrapping="Wrap" />
                 </StackPanel>
             </Border>
