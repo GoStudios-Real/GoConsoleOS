@@ -71,6 +71,8 @@ public partial class LoginWindow : Window
     private void SwitchToSignIn(object sender, MouseButtonEventArgs e) => ShowSignIn();
     private void SwitchToSignUp(object sender, MouseButtonEventArgs e) => ShowSignUp();
 
+    public void SwitchToSignUpTab() => ShowSignUp();
+
     private void TogglePasswordVisibility(object sender, RoutedEventArgs e)
     {
         var tag = (sender as Button)?.Tag as string;

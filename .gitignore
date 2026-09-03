@@ -68,3 +68,9 @@ Thumbs.db
 
 mobile/*.apk
 
+
+# Build output
+publish/
+publish-dev/
+publish-sc/
+publish-v2.2.0*/

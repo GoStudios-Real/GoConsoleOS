@@ -60,8 +60,165 @@
         <cc:OnScreenScrollViewer x:Name="PageScroller" Grid.Row="1">
             <StackPanel Margin="0,0,0,20">
 
+                <!-- Dashboard Cards Row -->
+                <Border Margin="20,16" Padding="0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" x:Name="CardCloudGaming" CornerRadius="12" Margin="0,0,8,0"
+                                Background="{StaticResource BrushBackgroundCard}" Cursor="Hand"
+                                BorderBrush="{StaticResource BrushBorder}" BorderThickness="1"
+                                MouseLeftButtonDown="DashboardCard_Click" Tag="cloudgaming"
+                                RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform><ScaleTransform /></Border.RenderTransform>
+                            <Border.Triggers>
+                                <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                                    <BeginStoryboard><Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1.04" Duration="0:0:0.15" />
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1.04" Duration="0:0:0.15" />
+                                        <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="#0066FF" Duration="0:0:0.15" />
+                                    </Storyboard></BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                                    <BeginStoryboard><Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1" Duration="0:0:0.15" />
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1" Duration="0:0:0.15" />
+                                        <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="#1E2A55" Duration="0:0:0.15" />
+                                    </Storyboard></BeginStoryboard>
+                                </EventTrigger>
+                            </Border.Triggers>
+                            <StackPanel Margin="16,20" HorizontalAlignment="Center">
+                                <TextBlock Text="☁️" FontSize="40" HorizontalAlignment="Center" />
+                                <TextBlock Text="Cloud Gaming" FontSize="14" FontWeight="Bold" Foreground="{StaticResource BrushTextPrimary}"
+                                           HorizontalAlignment="Center" Margin="0,8,0,0" />
+                                <TextBlock Text="Play instantly. No downloads." FontSize="10" Foreground="{StaticResource BrushTextMuted}"
+                                           HorizontalAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Column="1" x:Name="CardLibrary" CornerRadius="12" Margin="4,0,4,0"
+                                Background="{StaticResource BrushBackgroundCard}" Cursor="Hand"
+                                BorderBrush="{StaticResource BrushBorder}" BorderThickness="1"
+                                MouseLeftButtonDown="DashboardCard_Click" Tag="library">
+                            <StackPanel Margin="16,20" HorizontalAlignment="Center">
+                                <TextBlock Text="📚" FontSize="40" HorizontalAlignment="Center" />
+                                <TextBlock Text="Library" FontSize="14" FontWeight="Bold" Foreground="{StaticResource BrushTextPrimary}"
+                                           HorizontalAlignment="Center" Margin="0,8,0,0" />
+                                <TextBlock Text="Your games. All in one place." FontSize="10" Foreground="{StaticResource BrushTextMuted}"
+                                           HorizontalAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Column="2" x:Name="CardStore" CornerRadius="12" Margin="4,0,4,0"
+                                Background="{StaticResource BrushBackgroundCard}" Cursor="Hand"
+                                BorderBrush="{StaticResource BrushBorder}" BorderThickness="1"
+                                MouseLeftButtonDown="DashboardCard_Click" Tag="store">
+                            <StackPanel Margin="16,20" HorizontalAlignment="Center">
+                                <TextBlock Text="🛍️" FontSize="40" HorizontalAlignment="Center" />
+                                <TextBlock Text="Store" FontSize="14" FontWeight="Bold" Foreground="{StaticResource BrushTextPrimary}"
+                                           HorizontalAlignment="Center" Margin="0,8,0,0" />
+                                <TextBlock Text="Discover. Buy. Play." FontSize="10" Foreground="{StaticResource BrushTextMuted}"
+                                           HorizontalAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Column="3" x:Name="CardSettings" CornerRadius="12" Margin="4,0,4,0"
+                                Background="{StaticResource BrushBackgroundCard}" Cursor="Hand"
+                                BorderBrush="{StaticResource BrushBorder}" BorderThickness="1"
+                                MouseLeftButtonDown="DashboardCard_Click" Tag="settings">
+                            <StackPanel Margin="16,20" HorizontalAlignment="Center">
+                                <TextBlock Text="⚙️" FontSize="40" HorizontalAlignment="Center" />
+                                <TextBlock Text="Settings" FontSize="14" FontWeight="Bold" Foreground="{StaticResource BrushTextPrimary}"
+                                           HorizontalAlignment="Center" Margin="0,8,0,0" />
+                                <TextBlock Text="System. Display. Accounts." FontSize="10" Foreground="{StaticResource BrushTextMuted}"
+                                           HorizontalAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Column="4" x:Name="CardMedia" CornerRadius="12" Margin="8,0,0,0"
+                                Background="{StaticResource BrushBackgroundCard}" Cursor="Hand"
+                                BorderBrush="{StaticResource BrushBorder}" BorderThickness="1"
+                                MouseLeftButtonDown="DashboardCard_Click" Tag="music">
+                            <StackPanel Margin="16,20" HorizontalAlignment="Center">
+                                <TextBlock Text="🎬" FontSize="40" HorizontalAlignment="Center" />
+                                <TextBlock Text="Media" FontSize="14" FontWeight="Bold" Foreground="{StaticResource BrushTextPrimary}"
+                                           HorizontalAlignment="Center" Margin="0,8,0,0" />
+                                <TextBlock Text="Movies. Music. Entertainment." FontSize="10" Foreground="{StaticResource BrushTextMuted}"
+                                           HorizontalAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- Built-in Games Row -->
+                <TextBlock Text="PLAY NOW - BUILT-IN GAMES" Style="{StaticResource SectionTitleStyle}" />
+                <ItemsControl x:Name="BuiltInGamesList" Margin="20,0"
+                              MouseDoubleClick="BuiltInGame_Click">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="180" Height="220" CornerRadius="12" Margin="0,0,12,12"
+                                    Background="{StaticResource BrushBackgroundCard}" Cursor="Hand" Tag="{Binding Id}"
+                                    MouseLeftButtonDown="BuiltInGame_Click"
+                                    BorderBrush="{StaticResource BrushBorder}" BorderThickness="1"
+                                    RenderTransformOrigin="0.5,0.5">
+                                <Border.RenderTransform>
+                                    <ScaleTransform />
+                                </Border.RenderTransform>
+                                <Border.Triggers>
+                                    <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                                 To="1.06" Duration="0:0:0.15" />
+                                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                                 To="1.06" Duration="0:0:0.15" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                    <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                                 To="1" Duration="0:0:0.15" />
+                                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                                 To="1" Duration="0:0:0.15" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Border.Triggers>
+                                <Grid>
+                                    <Border CornerRadius="12" Background="{StaticResource BrushGradientSurface}" />
+                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-10,0,0">
+                                        <TextBlock Text="{Binding Emoji}" FontSize="48" HorizontalAlignment="Center" />
+                                        <TextBlock Text="{Binding Title}" FontSize="14" FontWeight="Bold"
+                                                   Foreground="{StaticResource BrushTextPrimary}"
+                                                   HorizontalAlignment="Center" Margin="0,8,0,0"
+                                                   TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Text="{Binding Description}" FontSize="10"
+                                                   Foreground="{StaticResource BrushTextMuted}"
+                                                   HorizontalAlignment="Center" Margin="0,2,0,0"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
+                                    <Border VerticalAlignment="Bottom" Margin="0,0,0,10">
+                                        <Border Background="{StaticResource BrushAccentPrimary}"
+                                                CornerRadius="6" Padding="16,6" HorizontalAlignment="Center">
+                                            <TextBlock Text="PLAY" FontSize="11" FontWeight="Bold" Foreground="#0D0D14" />
+                                        </Border>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
                 <!-- Continue Playing Row -->
-            <TextBlock Text="CONTINUE PLAYING" Style="{StaticResource SectionTitleStyle}" />
+                <TextBlock Text="CONTINUE PLAYING" Style="{StaticResource SectionTitleStyle}" />
             <ItemsControl x:Name="ContinuePlayingList" Margin="20,0"
                           MouseDoubleClick="GameTile_DoubleClick">
                 <ItemsControl.ItemsPanel>

@@ -1636,16 +1636,11 @@ public partial class MainWindow : Window
         UpdateLockClock();
         Keyboard.Focus(LockOverlay);
         
-        if (_profileManager?.CurrentProfile != null)
-        {
-            var name = _profileManager.CurrentProfile.DisplayName;
-            LockUserName.Text = name;
-            LockUserInitial.Text = name.Length > 0 ? name[0].ToString().ToUpper() : "G";
-        }
-        
         try
         {
-            var wallpaperPath = System.IO.Path.Combine(ConfigReader.RootPath ?? "", "system", "wallpaper.jpg");
+            var wallpaperPath = System.IO.Path.Combine(ConfigReader.RootPath ?? "", "system", "wallpapers", "bluewave.png");
+            if (!System.IO.File.Exists(wallpaperPath))
+                wallpaperPath = WallpaperManager.GetCurrentPath(ConfigReader.RootPath ?? "");
             if (System.IO.File.Exists(wallpaperPath))
                 LockWallpaper.Source = new BitmapImage(new Uri(wallpaperPath));
         }
@@ -1779,6 +1774,51 @@ public partial class MainWindow : Window
         {
             PinUnlock_Click(this, new RoutedEventArgs());
             e.Handled = true;
+        }
+    }
+
+    private void LockSignIn_Click(object sender, MouseButtonEventArgs e)
+    {
+        if (_isLocked)
+        {
+            // Open login window from lock screen
+            var login = new LoginWindow(_profileManager, _accountManager);
+            login.Owner = this;
+            login.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            login.Show();
+            login.Closed += (_, _) =>
+            {
+                if (login.AuthenticatedProfile != null)
+                {
+                    UpdateProfileUI(login.AuthenticatedProfile);
+                    UnlockConsole();
+                    if (!login.AuthenticatedProfile.IsGuest)
+                        ShowNotification($"Signed in as {login.AuthenticatedProfile.DisplayName}", 3);
+                }
+            };
+        }
+    }
+
+    private void LockSignUp_Click(object sender, MouseButtonEventArgs e)
+    {
+        if (_isLocked)
+        {
+            // Open login window in sign-up mode from lock screen
+            var login = new LoginWindow(_profileManager, _accountManager);
+            login.Owner = this;
+            login.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            login.Show();
+            login.SwitchToSignUpTab();
+            login.Closed += (_, _) =>
+            {
+                if (login.AuthenticatedProfile != null)
+                {
+                    UpdateProfileUI(login.AuthenticatedProfile);
+                    UnlockConsole();
+                    if (!login.AuthenticatedProfile.IsGuest)
+                        ShowNotification($"Account created! Signed in as {login.AuthenticatedProfile.DisplayName}", 3);
+                }
+            };
         }
     }
 }

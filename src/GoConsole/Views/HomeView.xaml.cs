@@ -48,6 +48,21 @@ public partial class HomeView : UserControl
         if (profile != null)
             HeroGreeting.Text = $"Welcome back, {profile.DisplayName}. Ready to play?";
 
+        // Built-in browser games
+        BuiltInGamesList.ItemsSource = new[]
+        {
+            new BuiltInGame { Id = "snake", Title = "Snake", Description = "Classic snake", Emoji = "🐍" },
+            new BuiltInGame { Id = "pong", Title = "Pong", Description = "VS AI pong", Emoji = "🏓" },
+            new BuiltInGame { Id = "breakout", Title = "Breakout", Description = "Break bricks", Emoji = "🧱" },
+            new BuiltInGame { Id = "tetris", Title = "Tetris", Description = "Stack blocks", Emoji = "🔷" },
+            new BuiltInGame { Id = "dino", Title = "Dino Runner", Description = "Jump cacti", Emoji = "🦖" },
+            new BuiltInGame { Id = "flappy", Title = "Flappy Bird", Description = "Flap & fly", Emoji = "🐦" },
+            new BuiltInGame { Id = "invaders", Title = "Space Invaders", Description = "Alien defense", Emoji = "👾" },
+            new BuiltInGame { Id = "2048", Title = "2048", Description = "Merge tiles", Emoji = "🔢" },
+            new BuiltInGame { Id = "memory", Title = "Memory Match", Description = "Match pairs", Emoji = "🃏" },
+            new BuiltInGame { Id = "minesweeper", Title = "Minesweeper", Description = "Clear mines", Emoji = "💣" },
+        };
+
         // Load hero banner
         var heroGame = library.Games.Where(g => g.IsInstalled).OrderByDescending(g => g.PlaytimeMinutes).FirstOrDefault();
         if (heroGame != null)
@@ -127,6 +142,32 @@ public partial class HomeView : UserControl
         public string Name { get; set; } = "";
         public string Icon { get; set; } = "";
         public string Route { get; set; } = "";
+    }
+
+    public class BuiltInGame
+    {
+        public string Id { get; set; } = "";
+        public string Title { get; set; } = "";
+        public string Description { get; set; } = "";
+        public string Emoji { get; set; } = "🎮";
+    }
+
+    private void BuiltInGame_Click(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is FrameworkElement fe && fe.Tag is string gameId)
+        {
+            var main = Window.GetWindow(this) as MainWindow;
+            main?.NavigateTo("games");
+        }
+    }
+
+    private void DashboardCard_Click(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is FrameworkElement fe && fe.Tag is string route)
+        {
+            var main = Window.GetWindow(this) as MainWindow;
+            main?.NavigateTo(route);
+        }
     }
 
     private void GameTile_Click(object sender, MouseButtonEventArgs e)

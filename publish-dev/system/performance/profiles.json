@@ -1,0 +1,55 @@
+{
+  "version": "1.4.0",
+  "default_profile": "balanced",
+  "global_profiles": [
+    {
+      "Id": "quiet",
+      "Name": "Quiet Mode",
+      "Description": "Reduces power consumption and fan noise.",
+      "PowerPlanGuid": "a1841308-3541-4fab-bc81-f71556f20b4a",
+      "Settings": {
+        "cpu_max_frequency_pct": 50,
+        "gpu_power_limit_pct": 60,
+        "fan_curve": "silent",
+        "background_process_priority": "idle",
+        "game_process_priority": "normal",
+        "Vsync": true,
+        "frame_rate_limit": 30,
+        "resolution_scale": 0.75
+      }
+    },
+    {
+      "Id": "balanced",
+      "Name": "Balanced",
+      "Description": "Default mode balancing performance and power.",
+      "PowerPlanGuid": "381b4222-f694-41f0-9685-ff5bb260df2f",
+      "Settings": {
+        "cpu_max_frequency_pct": 80,
+        "gpu_power_limit_pct": 80,
+        "fan_curve": "standard",
+        "background_process_priority": "normal",
+        "game_process_priority": "high",
+        "Vsync": false,
+        "frame_rate_limit": 60,
+        "resolution_scale": 1
+      }
+    },
+    {
+      "Id": "turbo",
+      "Name": "Turbo Mode",
+      "Description": "Maximum performance for demanding titles.",
+      "PowerPlanGuid": "8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c",
+      "Settings": {
+        "cpu_max_frequency_pct": 100,
+        "gpu_power_limit_pct": 100,
+        "fan_curve": "aggressive",
+        "background_process_priority": "belowNormal",
+        "game_process_priority": "realtime",
+        "Vsync": false,
+        "frame_rate_limit": 0,
+        "resolution_scale": 1
+      }
+    }
+  ],
+  "per_game_overrides": []
+}

@@ -1,0 +1,24 @@
+{
+  "Username": "guest",
+  "DisplayName": "Guest",
+  "AvatarPath": null,
+  "PasswordHash": null,
+  "Email": null,
+  "Theme": "default",
+  "PerformanceMode": "balanced",
+  "ControllerPreset": null,
+  "CreatedAt": "2026-09-02T11:30:50.3743127Z",
+  "LastLogin": "2026-09-02T11:30:50.3743478Z",
+  "TotalPlaytimeMinutes": 0,
+  "IsGuest": true,
+  "FavoriteGames": [],
+  "Achievements": {},
+  "Settings": {
+    "EnableOverlay": true,
+    "ShowFps": true,
+    "VibrateController": true,
+    "ControllerVibrationStrength": 75,
+    "Language": "en-US",
+    "AutoLaunchOnStartup": false
+  }
+}

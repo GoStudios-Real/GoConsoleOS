@@ -21,6 +21,8 @@ public partial class GamesView : UserControl
         EnsureGamesExist();
         LoadGameList();
         InitializeWebView();
+        // Auto-load first game so it's instantly playable
+        Dispatcher.BeginInvoke(new Action(() => LoadGame("snake")), System.Windows.Threading.DispatcherPriority.Loaded);
     }
 
     private async void InitializeWebView()
@@ -44,6 +46,11 @@ public partial class GamesView : UserControl
             ["breakout"] = GameFiles.Breakout,
             ["tetris"] = GameFiles.Tetris,
             ["dino"] = GameFiles.DinoRunner,
+            ["flappy"] = GameFiles.FlappyBird,
+            ["invaders"] = GameFiles.SpaceInvaders,
+            ["2048"] = GameFiles.Game2048,
+            ["memory"] = GameFiles.MemoryMatch,
+            ["minesweeper"] = GameFiles.Minesweeper,
         };
 
         foreach (var (id, html) in games)
@@ -63,6 +70,11 @@ public partial class GamesView : UserControl
             new() { Id = "breakout", Title = "Breakout", Description = "Break all the bricks", Emoji = "🧱" },
             new() { Id = "tetris", Title = "Tetris", Description = "Stack the blocks", Emoji = "🔷" },
             new() { Id = "dino", Title = "Dino Runner", Description = "Jump over cacti", Emoji = "🦖" },
+            new() { Id = "flappy", Title = "Flappy Bird", Description = "Flap through pipes", Emoji = "🐦" },
+            new() { Id = "invaders", Title = "Space Invaders", Description = "Defend the earth", Emoji = "👾" },
+            new() { Id = "2048", Title = "2048", Description = "Slide and merge tiles", Emoji = "🔢" },
+            new() { Id = "memory", Title = "Memory Match", Description = "Match pairs of cards", Emoji = "🃏" },
+            new() { Id = "minesweeper", Title = "Minesweeper", Description = "Clear the minefield", Emoji = "💣" },
         };
         GameList.ItemsSource = games;
     }
