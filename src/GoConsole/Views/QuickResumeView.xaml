@@ -39,7 +39,7 @@
                                 <TextBlock Text="{Binding Platform}" FontSize="11"
                                            Foreground="{StaticResource BrushTextMuted}" />
                                 <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
-                                    <Border CornerRadius="4" Background="#00C9DB33" Padding="6,3">
+                                    <Border CornerRadius="4" Background="#0066FF33" Padding="6,3">
                                         <TextBlock Text="{Binding Status}" FontSize="9" FontWeight="Bold"
                                                    Foreground="{StaticResource BrushAccentPrimary}" />
                                     </Border>

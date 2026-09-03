@@ -8,10 +8,10 @@ internal static class GameFiles
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#0D0D14;display:flex;justify-content:center;align-items:center;height:100vh;overflow:hidden;font-family:'Segoe UI',sans-serif}
 #wrap{text-align:center}
-#score{color:#00C9DB;font-size:22px;font-weight:bold;margin-bottom:10px}
-canvas{border:2px solid #00C9DB;border-radius:4px;background:#1A1A2E}
+#score{color:#0066FF;font-size:22px;font-weight:bold;margin-bottom:10px}
+canvas{border:2px solid #0066FF;border-radius:4px;background:#1A1A2E}
 #overlay{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;background:rgba(13,13,20,0.8);cursor:pointer}
-#overlay span{color:#00C9DB;font-size:28px;font-weight:bold}
+#overlay span{color:#0066FF;font-size:28px;font-weight:bold}
 #info{color:#8888AA;font-size:12px;margin-top:8px}
 </style></head><body>
 <div id=""wrap"">
@@ -31,7 +31,7 @@ function update(){if(!alive)return;tick++;if(tick<5)return;tick=0;dir={...nextDi
 if(head.x<0||head.x>=W||head.y<0||head.y>=H||snake.some(s=>s.x===head.x&&s.y===head.y)){alive=false;return}
 snake.unshift(head);if(head.x===food.x&&head.y===food.y){score.textContent=parseInt(score.textContent)+10;spawnFood()}else{snake.pop()}}
 function draw(){ctx.fillStyle='#1A1A2E';ctx.fillRect(0,0,c.width,c.height);
-snake.forEach((s,i)=>{ctx.fillStyle=i===0?'#00C9DB':'#00C9DB66';ctx.fillRect(s.x*S,s.y*S,S-1,S-1)});
+snake.forEach((s,i)=>{ctx.fillStyle=i===0?'#0066FF':'#0066FF66';ctx.fillRect(s.x*S,s.y*S,S-1,S-1)});
 ctx.fillStyle='#FF4D8C';ctx.fillRect(food.x*S,food.y*S,S-1,S-1);
 if(!alive){ctx.fillStyle='rgba(13,13,20,0.7)';ctx.fillRect(0,0,c.width,c.height);ctx.fillStyle='#FF5252';ctx.font='24px sans-serif';ctx.textAlign='center';ctx.fillText('GAME OVER',200,200);ctx.fillStyle='#8888AA';ctx.font='14px sans-serif';ctx.fillText('Click to restart',200,230)}}
 function loop(){update();draw();requestAnimationFrame(loop)}
@@ -44,10 +44,10 @@ loop();
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#0D0D14;display:flex;justify-content:center;align-items:center;height:100vh;overflow:hidden;font-family:'Segoe UI',sans-serif}
 #wrap{text-align:center}
-#score{color:#00C9DB;font-size:22px;font-weight:bold;margin-bottom:10px}
-canvas{border:2px solid #00C9DB;border-radius:4px;background:#1A1A2E}
+#score{color:#0066FF;font-size:22px;font-weight:bold;margin-bottom:10px}
+canvas{border:2px solid #0066FF;border-radius:4px;background:#1A1A2E}
 #overlay{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;background:rgba(13,13,20,0.8);cursor:pointer}
-#overlay span{color:#00C9DB;font-size:28px;font-weight:bold}
+#overlay span{color:#0066FF;font-size:28px;font-weight:bold}
 #info{color:#8888AA;font-size:12px;margin-top:8px}
 </style></head><body>
 <div id=""wrap"">
@@ -73,7 +73,7 @@ const target=by-ay-PH/2+PH/2;ay+=Math.sign(target)*2.5}
 let ay=H/2-PH/2;
 function draw(){ctx.fillStyle='#1A1A2E';ctx.fillRect(0,0,W,H);
 ctx.fillStyle='#FFFFFF';ctx.fillRect(10,py,PW,PH);ctx.fillRect(W-PW-10,ay,PW,PH);
-ctx.fillStyle='#00C9DB';ctx.fillRect(bx,by,BS,BS);
+ctx.fillStyle='#0066FF';ctx.fillRect(bx,by,BS,BS);
 ctx.fillStyle='#333355';ctx.beginPath();ctx.setLineDash([10,10]);ctx.moveTo(W/2,0);ctx.lineTo(W/2,H);ctx.stroke()}
 function loop(){update();draw();requestAnimationFrame(loop)}
 document.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();py=e.clientY-r.top-PH/2;if(py<0)py=0;if(py>H-PH)py=H-PH});
@@ -86,10 +86,10 @@ loop();
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#0D0D14;display:flex;justify-content:center;align-items:center;height:100vh;overflow:hidden;font-family:'Segoe UI',sans-serif}
 #wrap{text-align:center}
-#score{color:#00C9DB;font-size:22px;font-weight:bold;margin-bottom:10px}
-canvas{border:2px solid #00C9DB;border-radius:4px;background:#1A1A2E}
+#score{color:#0066FF;font-size:22px;font-weight:bold;margin-bottom:10px}
+canvas{border:2px solid #0066FF;border-radius:4px;background:#1A1A2E}
 #overlay{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;background:rgba(13,13,20,0.8);cursor:pointer}
-#overlay span{color:#00C9DB;font-size:28px;font-weight:bold}
+#overlay span{color:#0066FF;font-size:28px;font-weight:bold}
 #info{color:#8888AA;font-size:12px;margin-top:8px}
 </style></head><body>
 <div id=""wrap"">
@@ -114,8 +114,8 @@ if(by+8>=380&&bx+8>px&&bx<px+PW){bvy=-Math.abs(bvy);by=379}
 bricks.forEach(b=>{if(!b.alive)return;if(bx+8>b.x&&bx<b.x+b.w&&by+8>b.y&&by<b.y+b.h){b.alive=false;bvy=-bvy;pts+=10;score.textContent=pts}});
 if(bricks.every(b=>!b.alive)){run=0;score.textContent='WIN!'}}
 function draw(){ctx.fillStyle='#1A1A2E';ctx.fillRect(0,0,W,H);
-ctx.fillStyle='#00C9DB';ctx.fillRect(px,380,PW,PH);
-bricks.forEach(b=>{if(!b.alive)return;ctx.fillStyle=['#FF4D8C','#FFD600','#00C9DB','#7B2DFF','#00E676'][Math.floor(b.y/18)%5];ctx.fillRect(b.x,b.y,b.w,b.h)});
+ctx.fillStyle='#0066FF';ctx.fillRect(px,380,PW,PH);
+bricks.forEach(b=>{if(!b.alive)return;ctx.fillStyle=['#FF4D8C','#FFD600','#0066FF','#7B2DFF','#00E676'][Math.floor(b.y/18)%5];ctx.fillRect(b.x,b.y,b.w,b.h)});
 ctx.fillStyle='#FFFFFF';ctx.fillRect(bx,by,8,8);
 for(let i=0;i<lives;i++){ctx.fillStyle='#FF5252';ctx.fillRect(W-20-i*20,10,11,11)}
 if(!run&&lives<=0){ctx.fillStyle='rgba(13,13,20,0.7)';ctx.fillRect(0,0,W,H);ctx.fillStyle='#FF5252';ctx.font='24px sans-serif';ctx.textAlign='center';ctx.fillText('GAME OVER',250,200);ctx.fillStyle='#8888AA';ctx.font='14px sans-serif';ctx.fillText('Click to restart',250,230)}}
@@ -130,10 +130,10 @@ loop();
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#0D0D14;display:flex;justify-content:center;align-items:center;height:100vh;overflow:hidden;font-family:'Segoe UI',sans-serif}
 #wrap{text-align:center}
-#score{color:#00C9DB;font-size:22px;font-weight:bold;margin-bottom:10px}
-canvas{border:2px solid #00C9DB;border-radius:4px;background:#1A1A2E}
+#score{color:#0066FF;font-size:22px;font-weight:bold;margin-bottom:10px}
+canvas{border:2px solid #0066FF;border-radius:4px;background:#1A1A2E}
 #overlay{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;background:rgba(13,13,20,0.8);cursor:pointer}
-#overlay span{color:#00C9DB;font-size:28px;font-weight:bold}
+#overlay span{color:#0066FF;font-size:28px;font-weight:bold}
 #next{color:#8888AA;font-size:12px;margin-bottom:4px}
 #info{color:#8888AA;font-size:12px;margin-top:8px}
 </style></head><body>
@@ -151,7 +151,7 @@ canvas{border:2px solid #00C9DB;border-radius:4px;background:#1A1A2E}
 const c=document.getElementById('c'),ctx=c.getContext('2d'),n=document.getElementById('n'),nctx=n.getContext('2d'),score=document.getElementById('score'),overlay=document.getElementById('overlay');
 const COLS=10,ROWS=20,BS=24;let grid=[],cur,nxt,pos,pts=0,run=0,tick=0,gameOver=0;
 const PIECES=[[[1,1,1,1]],[[1,1],[1,1]],[[1,0],[1,1],[0,1]],[[0,1],[1,1],[1,0]],[[1,1,0],[0,1,1]],[[0,1,1],[1,1,0]],[[1,1,1],[0,1,0]]];
-const COLORS=['#00C9DB','#FFD600','#7B2DFF','#FF4D8C','#00E676','#FF8C00','#E040FB'];
+const COLORS=['#0066FF','#FFD600','#7B2DFF','#FF4D8C','#00E676','#FF8C00','#E040FB'];
 function initGrid(){grid=Array.from({length:ROWS},()=>Array(COLS).fill(0))}
 function newPiece(){cur=nxt||PIECES[Math.floor(Math.random()*7)];pos={x:Math.floor((COLS-cur[0].length)/2),y:0};nxt=PIECES[Math.floor(Math.random()*7)];if(collides()){gameOver=1;run=0}}
 function collides(p,o){p=p||cur;o=o||pos;for(let r=0;r<p.length;r++)for(let c=0;c<p[r].length;c++)if(p[r][c]){const nx=o.x+c,ny=o.y+r;if(nx<0||nx>=COLS||ny>=ROWS||(ny>=0&&grid[ny][nx]))return true}return false}
@@ -178,10 +178,10 @@ loop();
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#0D0D14;display:flex;justify-content:center;align-items:center;height:100vh;overflow:hidden;font-family:'Segoe UI',sans-serif}
 #wrap{text-align:center}
-#score{color:#00C9DB;font-size:22px;font-weight:bold;margin-bottom:10px}
-canvas{border:2px solid #00C9DB;border-radius:4px;background:#1A1A2E}
+#score{color:#0066FF;font-size:22px;font-weight:bold;margin-bottom:10px}
+canvas{border:2px solid #0066FF;border-radius:4px;background:#1A1A2E}
 #overlay{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;background:rgba(13,13,20,0.8);cursor:pointer}
-#overlay span{color:#00C9DB;font-size:28px;font-weight:bold}
+#overlay span{color:#0066FF;font-size:28px;font-weight:bold}
 #info{color:#8888AA;font-size:12px;margin-top:8px}
 </style></head><body>
 <div id=""wrap"">
@@ -209,8 +209,8 @@ speed=6+Math.floor(pts/500);
 ground+=speed;if(ground>20)ground-=20}
 function draw(){ctx.fillStyle='#1A1A2E';ctx.fillRect(0,0,W,H);
 ctx.fillStyle='#333355';ctx.fillRect(0,G+3,W,2);
-for(let g=0;g<W;g+=40){ctx.fillStyle=g%80===0?'#00C9DB66':'#33335566';ctx.fillRect(((g-ground)%W+W)%W,G+5,15,2)}
-ctx.fillStyle='#00C9DB';ctx.fillRect(px,py-20,20,25);
+for(let g=0;g<W;g+=40){ctx.fillStyle=g%80===0?'#0066FF66':'#33335566';ctx.fillRect(((g-ground)%W+W)%W,G+5,15,2)}
+ctx.fillStyle='#0066FF';ctx.fillRect(px,py-20,20,25);
 ctx.fillStyle='#FFFFFF';ctx.beginPath();ctx.arc(px+17,py-12,4,0,Math.PI*2);ctx.fill();
 obstacles.forEach(o=>{ctx.fillStyle='#FF4D8C';if(o.ty==='bird'){ctx.beginPath();ctx.arc(o.x+o.w/2,o.y+10,10,0,Math.PI*2);ctx.fill()}else{ctx.fillRect(o.x,o.y,o.w,o.h)}});
 if(!run){ctx.fillStyle='rgba(13,13,20,0.7)';ctx.fillRect(0,0,W,H);ctx.fillStyle='#FF5252';ctx.font='24px sans-serif';ctx.textAlign='center';ctx.fillText('GAME OVER',300,120);ctx.fillStyle='#8888AA';ctx.font='14px sans-serif';ctx.fillText('Click to restart',300,145)}}

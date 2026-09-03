@@ -42,7 +42,7 @@ public class SoundConfig
 public class GeneralConfig
 {
     public string OsName { get; set; } = "GoConsoleOS";
-    public string Version { get; set; } = "1.8.0";
+    public string Version { get; set; } = "2.2.0";
     public bool AutoDetectDrive { get; set; } = true;
     public int SplashDurationMs { get; set; } = 5000;
     public bool VerboseLogging { get; set; }
@@ -112,6 +112,8 @@ public class NetworkConfig
     public bool EnableNetworking { get; set; } = true;
     public bool CheckUpdates { get; set; } = true;
     public string UpdateUrl { get; set; } = "https://updates.goconsoleos.com";
+    public string CloudServerUrl { get; set; } = "https://gostudios.net/api";
+    public string ServerPort { get; set; } = "39210";
 }
 
 public class LoggingConfig

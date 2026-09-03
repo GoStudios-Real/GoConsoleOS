@@ -286,12 +286,30 @@ public sealed class GoConsoleServer : IDisposable
                     kind = "console.os",
                     name = "GoConsoleOS",
                     os = "GoConsoleOS",
-                    version = "1.8.0",
+                    version = "2.2.0",
                     server = "go-console-acc",
                     api = "1.0",
-                    features = new[] { "acc", "goai", "link", "usb", "cast" },
+                    features = new[] { "acc", "goai", "link", "usb", "cast", "games", "remote" },
                     time = DateTime.UtcNow,
                 }));
+
+            if (p == "/api/console" && method == "GET")
+                return HandleConsoleInfo();
+
+            if (p == "/api/games" && method == "GET")
+                return HandleGamesList();
+
+            if (p == "/api/games/launch" && method == "POST")
+                return HandleGamesLaunch(body);
+
+            if (p == "/api/usb" && method == "GET")
+                return HandleUsbList();
+
+            if (p == "/api/tools" && method == "GET")
+                return HandleToolsList();
+
+            if (p == "/api/tools/run" && method == "POST")
+                return HandleToolsRun(body);
 
             if (p == "/api/goai" && method == "POST")
                 return HandleGoAi(body);
@@ -300,7 +318,7 @@ public sealed class GoConsoleServer : IDisposable
                 return (200, Json(new
                 {
                     ok = true,
-                    current = "1.8.0",
+                    current = "2.2.0",
                     channel = "stable",
                     checkUrl = "https://raw.githubusercontent.com/GoStudios-Real/GoConsoleOS/main/update.json",
                     manifestVersion = 1,
@@ -324,6 +342,142 @@ public sealed class GoConsoleServer : IDisposable
         var input = doc.RootElement.TryGetProperty("message", out var m) ? m.GetString() : "";
         var reply = _ai.Reply(input ?? "");
         return (200, Json(new { reply = reply.Message, suggestions = reply.Suggestions }));
+    }
+
+    private (int, string) HandleConsoleInfo()
+    {
+        var os = Environment.OSVersion.VersionString;
+        var machine = Environment.MachineName;
+        var user = Environment.UserName;
+        return (200, Json(new
+        {
+            id = "GCS",
+            name = "GoConsoleOS",
+            version = "2.2.0",
+            os,
+            machine,
+            user,
+            port = _port,
+            uptime = (DateTime.UtcNow - System.Diagnostics.Process.GetCurrentProcess().StartTime.ToUniversalTime()).TotalHours,
+            time = DateTime.UtcNow,
+        }));
+    }
+
+    private (int, string) HandleGamesList()
+    {
+        var root = ConfigReader.RootPath;
+        var games = new List<object>();
+        if (!string.IsNullOrEmpty(root))
+        {
+            var gamesDir = Path.Combine(root, "games");
+            if (Directory.Exists(gamesDir))
+            {
+                foreach (var dir in Directory.GetDirectories(gamesDir))
+                {
+                    var name = Path.GetFileName(dir);
+                    var exe = Directory.GetFiles(dir, "*.exe").FirstOrDefault();
+                    var info = new Dictionary<string, object>
+                    {
+                        ["title"] = name,
+                        ["path"] = exe ?? "",
+                        ["installed"] = exe != null,
+                    };
+                    games.Add(info);
+                }
+            }
+        }
+        return (200, Json(new { games, count = games.Count }));
+    }
+
+    private (int, string) HandleGamesLaunch(string body)
+    {
+        try
+        {
+            using var doc = JsonDocument.Parse(string.IsNullOrWhiteSpace(body) ? "{}" : body);
+            var title = doc.RootElement.TryGetProperty("title", out var t) ? t.GetString() : "";
+            if (string.IsNullOrWhiteSpace(title))
+                return (400, Err("missing title"));
+
+            var root = ConfigReader.RootPath;
+            if (string.IsNullOrEmpty(root))
+                return (500, Err("no root path"));
+
+            var gamesDir = Path.Combine(root, "games", title);
+            if (!Directory.Exists(gamesDir))
+                return (404, Err("game not found"));
+
+            var exe = Directory.GetFiles(gamesDir, "*.exe").FirstOrDefault();
+            if (exe == null)
+                return (404, Err("no executable found"));
+
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = exe,
+                WorkingDirectory = Path.GetDirectoryName(exe),
+                UseShellExecute = true,
+            });
+
+            return (200, Json(new { ok = true, title, path = exe }));
+        }
+        catch (Exception ex)
+        {
+            return (500, Err(ex.Message));
+        }
+    }
+
+    private (int, string) HandleUsbList()
+    {
+        var devices = new List<object>();
+        foreach (var drive in DriveInfo.GetDrives())
+        {
+            if (drive.DriveType == DriveType.Removable || drive.DriveType == DriveType.Fixed)
+            {
+                try
+                {
+                    devices.Add(new
+                    {
+                        label = drive.Name,
+                        driveType = drive.DriveType.ToString(),
+                        total = drive.TotalSize,
+                        free = drive.AvailableFreeSpace,
+                        mounted = drive.IsReady,
+                    });
+                }
+                catch { }
+            }
+        }
+        return (200, Json(new { devices, count = devices.Count }));
+    }
+
+    private (int, string) HandleToolsList()
+    {
+        var tools = new[]
+        {
+            new { id = "usb-installer", name = "USB Installer", desc = "Create GoConsoleOS USB drives" },
+            new { id = "usb-health", name = "USB Health", desc = "Check USB device health" },
+            new { id = "cast", name = "Screen Cast", desc = "Mirror screen to phone" },
+            new { id = "goai", name = "GoAI Assistant", desc = "AI chat assistant" },
+            new { id = "store", name = "Store", desc = "Game store" },
+            new { id = "screenshot", name = "Screenshot", desc = "Capture screenshots" },
+        };
+        return (200, Json(new { tools, count = tools.Length }));
+    }
+
+    private (int, string) HandleToolsRun(string body)
+    {
+        try
+        {
+            using var doc = JsonDocument.Parse(string.IsNullOrWhiteSpace(body) ? "{}" : body);
+            var tool = doc.RootElement.TryGetProperty("tool", out var t) ? t.GetString() : "";
+            if (string.IsNullOrWhiteSpace(tool))
+                return (400, Err("missing tool"));
+
+            return (200, Json(new { ok = true, tool }));
+        }
+        catch (Exception ex)
+        {
+            return (500, Err(ex.Message));
+        }
     }
 
     private (int, string) HandleAcc(string method, string sub, string body, string query, string clientIp)

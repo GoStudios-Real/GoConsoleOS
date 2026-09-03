@@ -81,7 +81,7 @@ public class GamePassPlan
     public string Id { get; set; } = "";
     public string Name { get; set; } = "";
     public string Emoji { get; set; } = "🎮";
-    public string Color { get; set; } = "#00C9DB";
+    public string Color { get; set; } = "#0066FF";
     public string[] Perks { get; set; } = Array.Empty<string>();
 }
 

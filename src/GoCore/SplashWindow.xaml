@@ -24,7 +24,7 @@
                 <!-- Logo Area -->
                 <Viewbox Grid.Row="1" MaxWidth="300" MaxHeight="120" Margin="0,0,0,20">
                     <TextBlock Text="GoConsoleOS" FontSize="48" FontWeight="Bold"
-                               Foreground="#00C9DB"
+                               Foreground="#0066FF"
                                HorizontalAlignment="Center" />
                 </Viewbox>
 
@@ -37,7 +37,7 @@
                 <Border Grid.Row="3" Width="320" Height="4" CornerRadius="2"
                         Background="#1A1A2E" HorizontalAlignment="Center">
                     <Border x:Name="ProgressBar" Width="0" Height="4" CornerRadius="2"
-                            Background="#00C9DB" HorizontalAlignment="Left" />
+                            Background="#0066FF" HorizontalAlignment="Left" />
                 </Border>
 
                 <!-- Status text -->

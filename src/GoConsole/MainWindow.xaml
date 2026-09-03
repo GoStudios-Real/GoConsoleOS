@@ -94,9 +94,10 @@
                     </Border>
                     <TextBlock x:Name="ClockText" Text="" Style="{StaticResource StatusBarTextStyle}" FontSize="16" FontWeight="Bold" Margin="0,0,16,0" />
                     <Border Width="32" Height="32" CornerRadius="8" Background="Transparent"
-                            Cursor="Hand" MouseLeftButtonDown="CloseButton_Click">
-                        <TextBlock Text="✕" FontSize="16" FontWeight="Bold"
-                                   Foreground="{StaticResource BrushTextSecondary}"
+                            Cursor="Hand" MouseLeftButtonDown="CloseButton_Click"
+                            ToolTip="USB Console Mode">
+                        <TextBlock Text="🔌" FontSize="16" FontWeight="Bold"
+                                   Foreground="{StaticResource BrushAccentPrimary}"
                                    HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                 </StackPanel>
@@ -208,7 +209,7 @@
                 IsHitTestVisible="False"
                 BorderBrush="{StaticResource BrushAccentPrimary}" BorderThickness="1">
             <Border.Effect>
-                <DropShadowEffect BlurRadius="16" ShadowDepth="4" Opacity="0.5" Color="#00C9DB" />
+                <DropShadowEffect BlurRadius="16" ShadowDepth="4" Opacity="0.5" Color="#0066FF" />
             </Border.Effect>
             <Border.RenderTransform>
                 <TranslateTransform />

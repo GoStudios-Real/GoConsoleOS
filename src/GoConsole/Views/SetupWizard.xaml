@@ -200,8 +200,8 @@
                                        Foreground="{StaticResource BrushTextPrimary}" Margin="0,0,0,8" />
                             <StackPanel Orientation="Horizontal">
                                 <Border x:Name="AccentCyan" CornerRadius="4" Width="32" Height="32"
-                                        Background="#00C9DB" Cursor="Hand" Margin="0,0,6,0"
-                                        MouseLeftButtonDown="SelectAccent" Tag="#00C9DB"
+                                        Background="#0066FF" Cursor="Hand" Margin="0,0,6,0"
+                                        MouseLeftButtonDown="SelectAccent" Tag="#0066FF"
                                         BorderThickness="2" BorderBrush="{StaticResource BrushAccentPrimary}" />
                                 <Border x:Name="AccentPurple" CornerRadius="4" Width="32" Height="32"
                                         Background="#7B2DFF" Cursor="Hand" Margin="0,0,6,0"

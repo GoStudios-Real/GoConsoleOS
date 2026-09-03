@@ -87,23 +87,43 @@ public partial class QuickAccessPanel : Window
     private void ToggleWifi(object sender, MouseButtonEventArgs e)
     {
         _wifiOn = !_wifiOn;
-        WifiText.Text = _wifiOn ? "ON" : "OFF";
-        WifiToggle.Background = _wifiOn
-            ? TryFindResource("BrushSuccess") as Brush
-            : TryFindResource("BrushBackgroundCard") as Brush;
-        WifiText.Foreground = _wifiOn
-            ? new SolidColorBrush(Color.FromRgb(0x0D, 0x0D, 0x14))
-            : TryFindResource("BrushTextPrimary") as Brush;
+        try
+        {
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = "netsh",
+                Arguments = _wifiOn ? "interface set interface \"Wi-Fi\" enable" : "interface set interface \"Wi-Fi\" disable",
+                UseShellExecute = true,
+                Verb = "runas",
+                WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden
+            });
+        }
+        catch { }
+        UpdateToggleUI(WifiToggle, WifiText, _wifiOn);
     }
 
     private void ToggleBluetooth(object sender, MouseButtonEventArgs e)
     {
         _bluetoothOn = !_bluetoothOn;
-        BluetoothText.Text = _bluetoothOn ? "ON" : "OFF";
-        BluetoothToggle.Background = _bluetoothOn
+        try
+        {
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = "ms-settings:bluetooth",
+                UseShellExecute = true
+            });
+        }
+        catch { }
+        UpdateToggleUI(BluetoothToggle, BluetoothText, _bluetoothOn);
+    }
+
+    private void UpdateToggleUI(Border toggle, TextBlock text, bool isOn)
+    {
+        toggle.Background = isOn
             ? TryFindResource("BrushSuccess") as Brush
             : TryFindResource("BrushBackgroundCard") as Brush;
-        BluetoothText.Foreground = _bluetoothOn
+        text.Text = isOn ? "ON" : "OFF";
+        text.Foreground = isOn
             ? new SolidColorBrush(Color.FromRgb(0x0D, 0x0D, 0x14))
             : TryFindResource("BrushTextPrimary") as Brush;
     }

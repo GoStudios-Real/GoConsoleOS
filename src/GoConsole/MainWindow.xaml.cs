@@ -272,6 +272,22 @@ public partial class MainWindow : Window
         {
             ShowNotification(text, 3);
             RefreshUsbHealthViewIfVisible();
+
+            if (!pluggedIn && volume != null)
+            {
+                var rootDrive = ConfigReader.RootPath?.Split(':')[0];
+                if (!string.IsNullOrEmpty(rootDrive) && volume.Contains(rootDrive, StringComparison.OrdinalIgnoreCase))
+                {
+                    ShowNotification("GoConsoleOS USB removed — shutting down", 5);
+                    var shutdownTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2) };
+                    shutdownTimer.Tick += (_, _) =>
+                    {
+                        shutdownTimer.Stop();
+                        Application.Current.Shutdown();
+                    };
+                    shutdownTimer.Start();
+                }
+            }
         }));
     }
 
@@ -1487,7 +1503,11 @@ public partial class MainWindow : Window
     {
         try
         {
-            var url = $"http://localhost:{GoConsoleServer.DefaultPort}/";
+            var root = ConfigReader.RootPath ?? "";
+            var serverUrl = SettingsStore.Get("network.cloud_server_url");
+            if (string.IsNullOrEmpty(serverUrl))
+                serverUrl = _config.Network.CloudServerUrl;
+            var url = serverUrl.StartsWith("http") ? serverUrl : $"http://localhost:{GoConsoleServer.DefaultPort}/";
             var psi = new System.Diagnostics.ProcessStartInfo(url) { UseShellExecute = true };
             System.Diagnostics.Process.Start(psi);
         }

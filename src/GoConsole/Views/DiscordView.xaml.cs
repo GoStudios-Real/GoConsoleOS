@@ -17,6 +17,7 @@ using Discord.Audio;
 using Discord.WebSocket;
 using GoConsoleOS.Shared;
 using NAudio.Wave;
+using Concentus;
 
 namespace GoConsoleOS.GoConsole.Views;
 
@@ -52,6 +53,22 @@ public partial class DiscordView : UserControl
         TokenTypeCombo.SelectedIndex = 0;
         LoadConfig();
         UpdateConnectUi();
+
+        if (!string.IsNullOrWhiteSpace(_token))
+            Dispatcher.BeginInvoke(new Action(async () =>
+            {
+                await System.Threading.Tasks.Task.Delay(1000);
+                AutoConnect();
+            }), DispatcherPriority.ApplicationIdle);
+    }
+
+    public async void AutoConnect()
+    {
+        LoadConfig();
+        if (!string.IsNullOrWhiteSpace(_token) && (_client == null || _client.ConnectionState != ConnectionState.Connected))
+        {
+            Connect_Click(this, new RoutedEventArgs());
+        }
     }
 
     private void LoadConfig()
@@ -104,7 +121,7 @@ public partial class DiscordView : UserControl
 
         _connecting = true;
         UpdateConnectUi();
-        SetStatus("Connecting to Discord...", "offline");
+        SetStatus("Connecting to Discord...", "connecting");
 
         try
         {
@@ -113,7 +130,7 @@ public partial class DiscordView : UserControl
                 GatewayIntents = GatewayIntents.Guilds | GatewayIntents.GuildMessages
                                | GatewayIntents.MessageContent | GatewayIntents.GuildVoiceStates
                                | GatewayIntents.DirectMessages,
-                LogLevel = LogSeverity.Warning,
+                LogLevel = LogSeverity.Info,
                 MessageCacheSize = 256
             };
 
@@ -123,24 +140,53 @@ public partial class DiscordView : UserControl
             _client.MessageReceived += OnMessageReceived;
             _client.GuildAvailable += OnGuildAvailable;
             _client.UserVoiceStateUpdated += OnVoiceStateUpdated;
+            _client.ChannelCreated += _ => Task.CompletedTask;
+            _client.ChannelUpdated += (_, _) => Task.CompletedTask;
+            _client.GuildMemberUpdated += (_, _) => Task.CompletedTask;
 
             var tokenType = TokenTypeCombo.SelectedIndex == 1 ? TokenType.Bearer : TokenType.Bot;
+            Logger.Info($"Discord login: tokenType={tokenType}");
             await _client.LoginAsync(tokenType, _token);
             await _client.StartAsync();
             SaveConfig();
 
-            var deadline = DateTime.UtcNow.AddSeconds(8);
+            var deadline = DateTime.UtcNow.AddSeconds(20);
             while (_client.ConnectionState != ConnectionState.Connected && DateTime.UtcNow < deadline)
-                await Task.Delay(250);
+                await Task.Delay(500);
 
             if (_client.ConnectionState == ConnectionState.Connected)
             {
-                SetStatus("Connected", "online");
+                SetStatus($"Connected as {_client.CurrentUser?.Username ?? "Unknown"}", "online");
                 RefreshGuilds();
+
+                await Task.Delay(1500);
+
+                if (_currentGuild != null)
+                {
+                    var firstText = _currentGuild.TextChannels
+                        .OrderBy(c => c.Position)
+                        .FirstOrDefault();
+                    if (firstText != null)
+                    {
+                        _currentChannelId = firstText.Id;
+                        RefreshChannels();
+                        LoadMessages();
+                    }
+                    else
+                    {
+                        RefreshChannels();
+                    }
+                }
+
+                UpdateVoiceUi();
             }
             else
             {
-                SetStatus("Connection timed out — check token / intents", "offline");
+                var hint = _client.LoginState == LoginState.LoggingIn
+                    ? "Still logging in — check token is valid and correct type (Bot vs User)"
+                    : "Connection timed out — check token / intents / network";
+                SetStatus(hint, "offline");
+                Logger.Warn($"Discord connect timed out. LoginState={_client.LoginState}, ConnectionState={_client.ConnectionState}");
             }
         }
         catch (Exception ex)
@@ -200,7 +246,51 @@ public partial class DiscordView : UserControl
 
     private Task OnReady()
     {
-        Logger.Info("Discord ready");
+        Logger.Info("Discord ready — loading all data");
+        Dispatcher.BeginInvoke(new Action(async () =>
+        {
+            SetStatus($"Connected as {_client?.CurrentUser?.Username ?? "Discord"}", "online");
+            
+            await Task.Delay(500);
+            RefreshGuilds();
+
+            await Task.Delay(1000);
+
+            if (_currentGuild != null)
+            {
+                RefreshChannels();
+                UpdateVoiceUi();
+
+                var firstText = _currentGuild.TextChannels
+                    .OrderBy(c => c.Position)
+                    .FirstOrDefault();
+                if (firstText != null)
+                {
+                    _currentChannelId = firstText.Id;
+                    MarkChannels();
+                    LoadMessages();
+                }
+            }
+            else
+            {
+                await Task.Delay(2000);
+                RefreshGuilds();
+                if (_currentGuild != null)
+                {
+                    RefreshChannels();
+                    UpdateVoiceUi();
+                    var firstText = _currentGuild.TextChannels
+                        .OrderBy(c => c.Position)
+                        .FirstOrDefault();
+                    if (firstText != null)
+                    {
+                        _currentChannelId = firstText.Id;
+                        MarkChannels();
+                        LoadMessages();
+                    }
+                }
+            }
+        }));
         return Task.CompletedTask;
     }
 
@@ -696,15 +786,26 @@ public partial class DiscordView : UserControl
     {
         _ = Task.Run(async () =>
         {
-            var buffer = new byte[48000 * 2 * 2];
+            var decoder = Concentus.Structs.OpusDecoder.Create(48000, 2);
+            var opusBuffer = new byte[4800];
+            var pcmShort = new short[960 * 2];
+            var pcmByte = new byte[pcmShort.Length * 2];
             while (true)
             {
                 int read;
-                try { read = await stream.ReadAsync(buffer, 0, buffer.Length); }
+                try { read = await stream.ReadAsync(opusBuffer, 0, opusBuffer.Length); }
                 catch { break; }
                 if (read <= 0) break;
-                try { _playbackProvider?.AddSamples(buffer, 0, read); }
-                catch { break; }
+                try
+                {
+                    int decoded = decoder.Decode(opusBuffer, 0, read, pcmShort, 0, pcmShort.Length, false);
+                    if (decoded > 0)
+                    {
+                        Buffer.BlockCopy(pcmShort, 0, pcmByte, 0, decoded * 2 * 2);
+                        _playbackProvider?.AddSamples(pcmByte, 0, decoded * 2 * 2);
+                    }
+                }
+                catch { }
             }
         });
         return Task.CompletedTask;

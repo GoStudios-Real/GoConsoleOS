@@ -204,7 +204,7 @@
                                             <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
                                                              To="1.04" Duration="0:0:0.15" />
                                             <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
-                                                             To="#00C9DB" Duration="0:0:0.15" />
+                                                             To="#0066FF" Duration="0:0:0.15" />
                                         </Storyboard>
                                     </BeginStoryboard>
                                 </EventTrigger>

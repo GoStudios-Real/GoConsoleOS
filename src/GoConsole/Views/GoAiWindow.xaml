@@ -25,7 +25,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
-                    <TextBlock Text="GoAI" FontSize="24" FontWeight="Bold" Foreground="#00C9DB" />
+                    <TextBlock Text="GoAI" FontSize="24" FontWeight="Bold" Foreground="#0066FF" />
                     <TextBlock x:Name="AiStatus" Text="assistant · online" FontSize="12"
                                Foreground="#7A80A0" Margin="0,2,0,14" />
                 </StackPanel>

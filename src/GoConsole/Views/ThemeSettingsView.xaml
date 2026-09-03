@@ -77,7 +77,7 @@
 
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Accent Primary" FontSize="12"
                                    Foreground="{StaticResource BrushTextSecondary}" VerticalAlignment="Center" />
-                        <TextBox Grid.Row="0" Grid.Column="1" x:Name="AccentPrimaryBox" Text="#00C9DB"
+                        <TextBox Grid.Row="0" Grid.Column="1" x:Name="AccentPrimaryBox" Text="#0066FF"
                                  FontSize="12" Foreground="{StaticResource BrushTextPrimary}"
                                  Background="{StaticResource BrushBackgroundCard}"
                                  BorderThickness="0" Padding="8,6"
@@ -126,7 +126,7 @@
 
                     <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
                         <Border x:Name="PreviewSwatch" CornerRadius="8" Width="60" Height="40"
-                                Background="#00C9DB" Margin="0,0,8,0" />
+                                Background="#0066FF" Margin="0,0,8,0" />
                         <Border CornerRadius="8" Background="{StaticResource BrushBackgroundCard}" Padding="16,6">
                             <TextBlock x:Name="PreviewText" Text="AaBb 123" FontSize="16" FontWeight="Bold"
                                        Foreground="{StaticResource BrushTextPrimary}" />

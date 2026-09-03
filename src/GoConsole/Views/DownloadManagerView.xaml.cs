@@ -102,7 +102,7 @@ public class DownloadItem : INotifyPropertyChanged
     public string ActionText => IsPaused ? "RESUME" : "PAUSE";
     public string StatusColor => Status switch
     {
-        "Downloading" => "#00C9DB",
+        "Downloading" => "#0066FF",
         "Paused" => "#FFD600",
         "Completed" => "#00E676",
         "Queued" => "#8888AA",

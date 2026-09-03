@@ -73,6 +73,9 @@ public static class DriveClassifier
             string.Equals(iface, "IEEE 1394", StringComparison.OrdinalIgnoreCase))
             return DriveKind.Usb;
 
+        if (busTypes.Count == 0)
+            return DriveKind.Removable;
+
         return DriveKind.Internal;
     }
 
@@ -90,7 +93,7 @@ public static class DriveClassifier
     {
         return kind switch
         {
-            DriveKind.Usb => "#00C9DB",
+            DriveKind.Usb => "#0066FF",
             DriveKind.Removable => "#43A047",
             _ => "#FB8C00"
         };

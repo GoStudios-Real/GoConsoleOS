@@ -25,10 +25,10 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Border Grid.Column="0" CornerRadius="8" Background="#00C9DB33" Padding="8,4"
+                            <Border Grid.Column="0" CornerRadius="8" Background="#0066FF33" Padding="8,4"
                                     VerticalAlignment="Center">
                                 <TextBlock x:Name="ModeIndicator" Text="✦ GOCONSOLE MODE" FontSize="11"
-                                           FontWeight="Bold" Foreground="#00C9DB" />
+                                           FontWeight="Bold" Foreground="#0066FF" />
                             </Border>
                             <TextBlock Grid.Column="1" Text="GOCONSOLE MODE MENU" FontSize="20" FontWeight="Bold"
                                        Foreground="#F0F0FF" HorizontalAlignment="Center" />
@@ -49,7 +49,7 @@
 
                             <!-- GoConsole Mode -->
                             <Border Grid.Column="0" x:Name="GoConsoleModeBtn"
-                                    CornerRadius="10" Background="#00C9DB" Padding="12,10"
+                                    CornerRadius="10" Background="#0066FF" Padding="12,10"
                                     Cursor="Hand" MouseLeftButtonDown="SwitchToGoConsoleMode"
                                     Margin="0,0,6,0">
                                 <StackPanel HorizontalAlignment="Center">
@@ -99,7 +99,7 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Text="▶" FontSize="18"
-                                           Foreground="#00C9DB" VerticalAlignment="Center"
+                                           Foreground="#0066FF" VerticalAlignment="Center"
                                            Margin="0,0,12,0" />
                                 <StackPanel Grid.Column="1">
                                     <TextBlock Text="Resume" FontSize="16" FontWeight="Bold"
@@ -132,7 +132,7 @@
                                 </StackPanel>
                                 <TextBlock x:Name="PerfModeValue" Grid.Column="2"
                                            Text="BALANCED" FontSize="12" FontWeight="Bold"
-                                           Foreground="#00C9DB" VerticalAlignment="Center" />
+                                           Foreground="#0066FF" VerticalAlignment="Center" />
                             </Grid>
                         </Border>
 
@@ -219,7 +219,7 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <Border Grid.Column="0" Width="32" Height="32" CornerRadius="16"
-                                        Background="#00C9DB33" Margin="0,0,10,0">
+                                        Background="#0066FF33" Margin="0,0,10,0">
                                     <TextBlock Text="👤" FontSize="16" HorizontalAlignment="Center"
                                                VerticalAlignment="Center" />
                                 </Border>

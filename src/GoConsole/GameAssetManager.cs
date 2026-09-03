@@ -58,7 +58,7 @@ public class GameAssetManager
         var dv = new DrawingVisual();
         using (var dc = dv.RenderOpen())
         {
-            var accentColor = Color.FromRgb(0x00, 0xC9, 0xDB);
+            var accentColor = Color.FromRgb(0x00, 0x66, 0xFF);
             var textColor = Color.FromRgb(0xF0, 0xF0, 0xFF);
             dc.DrawText(new FormattedText("GoConsoleOS",
                 System.Globalization.CultureInfo.InvariantCulture,
@@ -112,7 +112,7 @@ public class GameAssetManager
         {
             var bg = Color.FromRgb((byte)rng.Next(10, 40), (byte)rng.Next(10, 30), (byte)rng.Next(15, 50));
             dc.DrawRectangle(new SolidColorBrush(bg), null, new Rect(0, 0, 1920, 400));
-            var accent = Color.FromRgb(0x00, 0xC9, 0xDB);
+            var accent = Color.FromRgb(0x00, 0x66, 0xFF);
             for (int i = 0; i < 8; i++)
                 dc.DrawRectangle(new SolidColorBrush(Color.FromArgb(20, accent.R, accent.G, accent.B)), null,
                     new Rect(i * 240, 0, 2, 400));
@@ -124,7 +124,7 @@ public class GameAssetManager
             dc.DrawText(new FormattedText(game.Platform,
                 System.Globalization.CultureInfo.InvariantCulture,
                 FlowDirection.LeftToRight,
-                new Typeface("Segoe UI"), 24, new SolidColorBrush(Color.FromRgb(0x00, 0xC9, 0xDB)), 96.0)
+                new Typeface("Segoe UI"), 24, new SolidColorBrush(Color.FromRgb(0x00, 0x66, 0xFF)), 96.0)
             { TextAlignment = TextAlignment.Left }, new Point(60, 210));
         }
         bmp.Render(dv);

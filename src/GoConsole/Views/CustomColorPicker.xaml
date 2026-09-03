@@ -23,15 +23,15 @@
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="0" Text="CUSTOMIZE THEME" FontSize="22" FontWeight="Bold"
-                       Foreground="#00C9DB" HorizontalAlignment="Center" Margin="0,0,0,20" />
+                       Foreground="#0066FF" HorizontalAlignment="Center" Margin="0,0,0,20" />
 
             <TextBlock Grid.Row="1" Text="Accent Color" FontSize="14" FontWeight="Bold"
                        Foreground="#F0F0FF" Margin="0,0,0,8" />
 
             <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,16">
                 <Border x:Name="ColorCyan" CornerRadius="8" Width="36" Height="36"
-                        Background="#00C9DB" Cursor="Hand" Margin="0,0,8,0"
-                        MouseLeftButtonDown="PickColor" Tag="#00C9DB" />
+                        Background="#0066FF" Cursor="Hand" Margin="0,0,8,0"
+                        MouseLeftButtonDown="PickColor" Tag="#0066FF" />
                 <Border x:Name="ColorPurple" CornerRadius="8" Width="36" Height="36"
                         Background="#7B2DFF" Cursor="Hand" Margin="0,0,8,0"
                         MouseLeftButtonDown="PickColor" Tag="#7B2DFF" />
@@ -78,17 +78,17 @@
 
             <StackPanel Grid.Row="6" Orientation="Horizontal" Margin="0,0,0,20">
                 <Border CornerRadius="6" Background="#1E1E32" Padding="8">
-                    <TextBox x:Name="HexInput" Text="#00C9DB" FontSize="14"
+                    <TextBox x:Name="HexInput" Text="#0066FF" FontSize="14"
                              Foreground="#F0F0FF" Background="Transparent"
                              BorderThickness="0" Width="100"
                              TextChanged="HexInput_Changed" />
                 </Border>
                 <Border x:Name="PreviewColor" CornerRadius="6" Width="36" Height="28"
-                        Background="#00C9DB" Margin="8,0,0,0" />
+                        Background="#0066FF" Margin="8,0,0,0" />
             </StackPanel>
 
             <StackPanel Grid.Row="7" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Border CornerRadius="8" Background="#00C9DB" Padding="24,10"
+                <Border CornerRadius="8" Background="#0066FF" Padding="24,10"
                         Cursor="Hand" MouseLeftButtonDown="Apply_Click">
                     <TextBlock Text="APPLY" FontSize="14" FontWeight="Bold"
                                Foreground="#0D0D14" />

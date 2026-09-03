@@ -3,7 +3,7 @@
              x:Class="GoConsoleOS.Mobile.App">
     <Application.Resources>
         <ResourceDictionary>
-            <Color x:Key="Accent">#00C9DB</Color>
+            <Color x:Key="Accent">#0066FF</Color>
             <Color x:Key="Card">#15151E</Color>
             <Color x:Key="Surface">#0D0D14</Color>
         </ResourceDictionary>

@@ -51,7 +51,7 @@
                         </StackPanel>
                     </Border>
                     <Border x:Name="BgAccent" CornerRadius="8"
-                            Background="#00C9DB" Padding="20,12" Cursor="Hand"
+                            Background="#0066FF" Padding="20,12" Cursor="Hand"
                             MouseLeftButtonDown="SelectBg" Tag="accent"
                             BorderBrush="{StaticResource BrushBackgroundCard}" BorderThickness="2">
                         <StackPanel>

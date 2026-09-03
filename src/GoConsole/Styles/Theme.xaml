@@ -5,17 +5,17 @@
     <!-- Color Palette - SteamOS inspired dark + neon accents -->
     <Color x:Key="BackgroundDark">#0D0D14</Color>
     <Color x:Key="BackgroundMedium">#14141F</Color>
-    <Color x:Key="BackgroundLight">#1A1A2E</Color>
-    <Color x:Key="BackgroundCard">#1E1E32</Color>
-    <Color x:Key="BackgroundCardHover">#282844</Color>
-    <Color x:Key="AccentPrimary">#00C9DB</Color>
+    <Color x:Key="BackgroundLight">#141A2E</Color>
+    <Color x:Key="BackgroundCard">#182040</Color>
+    <Color x:Key="BackgroundCardHover">#202850</Color>
+    <Color x:Key="AccentPrimary">#0066FF</Color>
     <Color x:Key="AccentSecondary">#7B2DFF</Color>
     <Color x:Key="AccentTertiary">#FF4D8C</Color>
     <Color x:Key="TextPrimary">#F0F0FF</Color>
     <Color x:Key="TextSecondary">#8888AA</Color>
     <Color x:Key="TextMuted">#555577</Color>
-    <Color x:Key="BorderColor">#2A2A44</Color>
-    <Color x:Key="FocusGlow">#00C9DB</Color>
+    <Color x:Key="BorderColor">#1E2A55</Color>
+    <Color x:Key="FocusGlow">#0066FF</Color>
     <Color x:Key="SuccessColor">#00E676</Color>
     <Color x:Key="WarningColor">#FFD600</Color>
     <Color x:Key="ErrorColor">#FF5252</Color>
@@ -40,16 +40,16 @@
 
     <!-- Gradient + glow brushes -->
     <LinearGradientBrush x:Key="BrushGradientAccent" StartPoint="0,0" EndPoint="1,1">
-        <GradientStop Color="#00C9DB" Offset="0" />
+        <GradientStop Color="#0066FF" Offset="0" />
         <GradientStop Color="#7B2DFF" Offset="1" />
     </LinearGradientBrush>
     <LinearGradientBrush x:Key="BrushGradientSurface" StartPoint="0,0" EndPoint="0,1">
-        <GradientStop Color="#1E1E32" Offset="0" />
+        <GradientStop Color="#182040" Offset="0" />
         <GradientStop Color="#14141F" Offset="1" />
     </LinearGradientBrush>
     <RadialGradientBrush x:Key="BrushGlowAccent" Center="0.5,0.5" RadiusX="0.5" RadiusY="0.5" GradientOrigin="0.5,0.5">
-        <GradientStop Color="#3300C9DB" Offset="0" />
-        <GradientStop Color="#0000C9DB" Offset="1" />
+        <GradientStop Color="#330066FF" Offset="0" />
+        <GradientStop Color="#000066FF" Offset="1" />
     </RadialGradientBrush>
 
     <!-- Font -->
@@ -163,7 +163,7 @@
                                     <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
                                          To="1.06" Duration="0:0:0.18" />
                                     <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
-                                         To="#00C9DB" Duration="0:0:0.18" />
+                                         To="#0066FF" Duration="0:0:0.18" />
                                     <DoubleAnimation Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.BlurRadius)"
                                          To="18" Duration="0:0:0.18" />
                                     <DoubleAnimation Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.ShadowDepth)"
@@ -179,7 +179,7 @@
                                     <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
                                          To="1.0" Duration="0:0:0.18" />
                                     <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
-                                         To="#2A2A44" Duration="0:0:0.18" />
+                                         To="#1E2A55" Duration="0:0:0.18" />
                                     <DoubleAnimation Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.BlurRadius)"
                                          To="10" Duration="0:0:0.18" />
                                     <DoubleAnimation Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.ShadowDepth)"
@@ -198,7 +198,7 @@
         <Setter Property="Margin" Value="20,16,0,8" />
         <Setter Property="Effect">
             <Setter.Value>
-                <DropShadowEffect BlurRadius="8" ShadowDepth="0" Opacity="0.5" Color="#00C9DB" />
+                <DropShadowEffect BlurRadius="8" ShadowDepth="0" Opacity="0.5" Color="#0066FF" />
             </Setter.Value>
         </Setter>
     </Style>
@@ -221,7 +221,7 @@
         </Setter>
         <Setter Property="Effect">
             <Setter.Value>
-                <DropShadowEffect BlurRadius="12" ShadowDepth="2" Opacity="0.45" Color="#00C9DB" />
+                <DropShadowEffect BlurRadius="12" ShadowDepth="2" Opacity="0.45" Color="#0066FF" />
             </Setter.Value>
         </Setter>
         <Setter Property="Template">
@@ -323,5 +323,5 @@
     </Style>
 
     <!-- Text Glow Effect for Lock Screen -->
-    <DropShadowEffect x:Key="TextGlowEffect" BlurRadius="20" ShadowDepth="0" Opacity="0.6" Color="#00C9DB" />
+    <DropShadowEffect x:Key="TextGlowEffect" BlurRadius="20" ShadowDepth="0" Opacity="0.6" Color="#0066FF" />
 </ResourceDictionary>

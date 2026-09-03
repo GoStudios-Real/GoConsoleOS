@@ -21,7 +21,7 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0" Orientation="Horizontal">
-                    <Border x:Name="Tab2D" CornerRadius="8,8,0,0" Background="#00C9DB"
+                    <Border x:Name="Tab2D" CornerRadius="8,8,0,0" Background="#0066FF"
                             Padding="12,8" Cursor="Hand" Margin="0,0,3,0"
                             MouseLeftButtonDown="SwitchTab" Tag="2d">
                         <StackPanel Orientation="Horizontal">

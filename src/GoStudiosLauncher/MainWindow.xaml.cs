@@ -220,7 +220,7 @@ public partial class MainWindow : Window
     private static void ShowInfoDialog(string title, string content)
     {
         var bg = new SolidColorBrush(Color.FromRgb(0x0D, 0x0D, 0x14));
-        var accent = new SolidColorBrush(Color.FromRgb(0x00, 0xC9, 0xDB));
+        var accent = new SolidColorBrush(Color.FromRgb(0x00, 0x66, 0xFF));
         var light = new SolidColorBrush(Color.FromRgb(0x1A, 0x1A, 0x2E));
         var text = new SolidColorBrush(Color.FromRgb(0x88, 0x88, 0xAA));
         var white = new SolidColorBrush(Color.FromRgb(0xF0, 0xF0, 0xFF));

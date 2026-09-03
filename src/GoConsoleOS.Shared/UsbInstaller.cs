@@ -38,6 +38,9 @@ public static class UsbInstaller
         report("Creating autorun...", 95);
         WriteAutorun(target);
 
+        report("Installing USB auto-launch watcher...", 96);
+        InstallWatcher(source, target);
+
         report("Verifying installation...", 97);
         Verify(target);
 
@@ -144,6 +147,8 @@ public static class UsbInstaller
         cfg.AppendLine("[network]");
         cfg.AppendLine("enable_networking=true");
         cfg.AppendLine("check_updates=false");
+        cfg.AppendLine("cloud_server_url=https://gostudios.net/api");
+        cfg.AppendLine("server_port=39210");
         cfg.AppendLine();
         cfg.AppendLine("[logging]");
         cfg.AppendLine("log_level=info");
@@ -173,6 +178,26 @@ public static class UsbInstaller
         return File.Exists(Path.Combine(target, "GoConsoleOS.exe"))
             && File.Exists(Path.Combine(target, "boot", "init.cfg"))
             && File.Exists(Path.Combine(target, "autorun.inf"));
+    }
+
+    public static void InstallWatcher(string source, string target)
+    {
+        var watcherFiles = new[] { "GoConsoleWatcher.exe", "GoConsoleWatcher.dll" };
+        foreach (var file in watcherFiles)
+        {
+            var src = Path.Combine(source, file);
+            var dst = Path.Combine(target, file);
+            if (File.Exists(src))
+            {
+                try { File.Copy(src, dst, true); }
+                catch (Exception ex) { Logger.Warn($"Failed to copy watcher {file}: {ex.Message}"); }
+            }
+        }
+
+        var bootDir = Path.Combine(target, "boot");
+        Directory.CreateDirectory(bootDir);
+        var watcherCfg = Path.Combine(bootDir, "watcher.cfg");
+        File.WriteAllText(watcherCfg, "enabled=true\ndelay_ms=2000\n", new UTF8Encoding(false));
     }
 
     public static string FormatSize(long bytes)

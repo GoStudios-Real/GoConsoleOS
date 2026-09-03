@@ -18,6 +18,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Concentus" Version="1.0.7" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2957.106" />
     <PackageReference Include="System.Management" Version="9.0.0" />
     <PackageReference Include="System.Text.Json" Version="8.0.5" />

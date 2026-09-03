@@ -97,17 +97,43 @@ public static class TokenCapture
                     while (read < contentLength)
                         read += stream.Read(buffer, read, contentLength - read);
                     var body = Encoding.UTF8.GetString(buffer);
-                    SendHtml(stream, "<h2>Connected!</h2><p>Token received. You can close this tab.</p>");
-                    OnToken(body);
+                    SendHtml(stream, "<h2>Connected!</h2><p>Authorization received. You can close this tab.</p>");
+                    var cb = _onToken;
+                    Stop();
+                    cb?.Invoke(body);
                 }
                 else
                 {
-                    var js = "<h2>GoConsoleOS Token Creator</h2>" +
-                             "<p id='s'>Receiving token...</p>" +
-                             "<script>if(location.hash){fetch('/capture',{method:'POST',body:location.hash.substring(1)});" +
-                             "document.getElementById('s').textContent='Done! You can close this tab.'}" +
-                             "else{document.getElementById('s').textContent='No token found.'}</script>";
-                    SendHtml(stream, js);
+                    var query = path.Contains('?') ? path.Substring(path.IndexOf('?') + 1) : "";
+                    var code = ExtractParam(query, "code");
+                    var accessToken = ExtractParam(query, "access_token");
+                    var value = !string.IsNullOrEmpty(code) ? code : accessToken;
+
+                    if (!string.IsNullOrEmpty(value))
+                    {
+                        SendHtml(stream, "<h2>Connected!</h2><p>Authorization received. You can close this tab.</p>");
+                        var cb = _onToken;
+                        Stop();
+                        cb?.Invoke(value);
+                    }
+                    else
+                    {
+                        var js = "<h2>GoConsoleOS Token Creator</h2>" +
+                                 "<p id='s'>Receiving authorization...</p>" +
+                                 "<script>" +
+                                 "function send(v){fetch('/capture',{method:'POST',body:v}).then(function(){" +
+                                 "document.getElementById('s').textContent='Done! You can close this tab.'})}" +
+                                 "var u=new URLSearchParams(location.search);var h=new URLSearchParams(location.hash.substring(1));" +
+                                 "var c=u.get('code')||h.get('access_token');" +
+                                 "if(c){send(c)}" +
+                                 "else{setTimeout(function(){var u2=new URLSearchParams(location.search);" +
+                                 "var h2=new URLSearchParams(location.hash.substring(1));" +
+                                 "var c2=u2.get('code')||h2.get('access_token');" +
+                                 "if(c2){send(c2)}else{" +
+                                 "document.getElementById('s').textContent='No authorization found.'}},1500)}" +
+                                 "</script>";
+                        SendHtml(stream, js);
+                    }
                 }
             }
         }
@@ -115,6 +141,31 @@ public static class TokenCapture
         {
             Logger.Warn($"TokenCapture client: {ex.Message}");
         }
+    }
+
+    private static void ServeAuthPage(NetworkStream stream)
+    {
+        var js = "<h2>GoConsoleOS Token Creator</h2>" +
+                 "<p id='s'>Receiving authorization...</p>" +
+                 "<script>" +
+                 "var u=new URLSearchParams(location.search);var h=new URLSearchParams(location.hash.substring(1));" +
+                 "var c=u.get('code')||h.get('access_token');" +
+                 "if(c){fetch('/capture',{method:'POST',body:c});" +
+                 "document.getElementById('s').textContent='Done! You can close this tab.'}" +
+                 "else{document.getElementById('s').textContent='No authorization found.'}" +
+                 "</script>";
+        SendHtml(stream, js);
+    }
+
+    private static string ExtractParam(string query, string name)
+    {
+        foreach (var part in query.Split('&'))
+        {
+            var kv = part.Split('=');
+            if (kv.Length == 2 && kv[0] == name)
+                return Uri.UnescapeDataString(kv[1]);
+        }
+        return "";
     }
 
     private static void SendHtml(NetworkStream stream, string bodyHtml)
@@ -129,19 +180,11 @@ public static class TokenCapture
         stream.Flush();
     }
 
-    private static void OnToken(string body)
+    private static void OnCode(string code)
     {
-        var token = "";
-        foreach (var part in body.Split('&'))
-        {
-            var kv = part.Split('=');
-            if (kv.Length == 2 && kv[0] == "access_token")
-                token = Uri.UnescapeDataString(kv[1]);
-        }
-
         var cb = _onToken;
         Stop();
-        if (!string.IsNullOrEmpty(token))
-            cb?.Invoke(token);
+        if (!string.IsNullOrEmpty(code))
+            cb?.Invoke(code);
     }
 }

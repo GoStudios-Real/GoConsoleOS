@@ -31,7 +31,7 @@
 
                         <TextBlock Text="APPLICATION CLIENT ID" FontSize="11" FontWeight="Bold"
                                    Foreground="{StaticResource BrushTextSecondary}" Margin="0,16,0,4" />
-                        <TextBox x:Name="ClientIdBox" Text="1532943418299514940" FontSize="14"
+                        <TextBox x:Name="ClientIdBox" Text="1533307719748943942" FontSize="14"
                                  Padding="8,6" Background="{StaticResource BrushBackgroundCard}"
                                  Foreground="{StaticResource BrushTextPrimary}" BorderThickness="0" />
 

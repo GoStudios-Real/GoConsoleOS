@@ -157,7 +157,7 @@ public partial class GuidesView : UserControl
 
     private static readonly Dictionary<string, Brush> CategoryBrushes = new()
     {
-        ["beginner"] = new SolidColorBrush(Color.FromRgb(0, 201, 219)),
+        ["beginner"] = new SolidColorBrush(Color.FromRgb(0, 102, 255)),
         ["tips"] = new SolidColorBrush(Color.FromRgb(255, 185, 64)),
         ["walkthrough"] = new SolidColorBrush(Color.FromRgb(136, 192, 255)),
         ["secrets"] = new SolidColorBrush(Color.FromRgb(255, 107, 141)),

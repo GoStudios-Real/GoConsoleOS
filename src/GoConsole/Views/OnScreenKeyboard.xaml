@@ -38,10 +38,10 @@
                                  Background="Transparent" BorderThickness="0"
                                  IsReadOnly="True" Text="" Grid.Column="0"
                                  VerticalAlignment="Center" />
-                        <Border Grid.Column="1" CornerRadius="4" Background="#00C9DB33"
+                        <Border Grid.Column="1" CornerRadius="4" Background="#0066FF33"
                                 Padding="8,4" VerticalAlignment="Center">
                             <TextBlock x:Name="CharCount" Text="0" FontSize="11"
-                                       Foreground="#00C9DB" FontWeight="Bold" />
+                                       Foreground="#0066FF" FontWeight="Bold" />
                         </Border>
                     </Grid>
                 </Border>
@@ -80,7 +80,7 @@
                     <Border x:Name="CopyKey" CornerRadius="6" Background="#1E1E32" Padding="14,10"
                             Cursor="Hand" MouseLeftButtonDown="Copy_Click" Margin="0,0,4,0"
                             BorderBrush="Transparent" BorderThickness="2">
-                        <TextBlock Text="📋 COPY" FontSize="12" FontWeight="Bold" Foreground="#00C9DB" />
+                        <TextBlock Text="📋 COPY" FontSize="12" FontWeight="Bold" Foreground="#0066FF" />
                     </Border>
                     <Border x:Name="PasteKey" CornerRadius="6" Background="#1E1E32" Padding="14,10"
                             Cursor="Hand" MouseLeftButtonDown="Paste_Click" Margin="0,0,4,0"
@@ -92,7 +92,7 @@
                             BorderBrush="Transparent" BorderThickness="2">
                         <TextBlock Text="✕" FontSize="16" FontWeight="Bold" Foreground="#FF4D8C" />
                     </Border>
-                    <Border x:Name="EnterKey" CornerRadius="6" Background="#00C9DB" Padding="20,10"
+                    <Border x:Name="EnterKey" CornerRadius="6" Background="#0066FF" Padding="20,10"
                             Cursor="Hand" MouseLeftButtonDown="Enter_Click"
                             BorderBrush="Transparent" BorderThickness="2">
                         <TextBlock Text="↵ DONE" FontSize="14" FontWeight="Bold" Foreground="#0D0D14" />

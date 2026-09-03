@@ -4,9 +4,9 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <Color x:Key="BackgroundDark">#0D0D14</Color>
-        <Color x:Key="BackgroundLight">#1A1A2E</Color>
-        <Color x:Key="BackgroundCard">#1E1E32</Color>
-        <Color x:Key="AccentPrimary">#00C9DB</Color>
+        <Color x:Key="BackgroundLight">#141A2E</Color>
+        <Color x:Key="BackgroundCard">#182040</Color>
+        <Color x:Key="AccentPrimary">#0066FF</Color>
         <Color x:Key="AccentSecondary">#7B2DFF</Color>
         <Color x:Key="TextPrimary">#F0F0FF</Color>
         <Color x:Key="TextSecondary">#8888AA</Color>

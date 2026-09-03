@@ -119,8 +119,9 @@ public sealed class LinkServer : IDisposable
             ["kind"] = "console.os",
             ["name"] = "GoConsoleOS",
             ["port"] = LinkPort,
-            ["version"] = "1.7.0",
-            ["features"] = new[] { "link", "usb", "cast" },
+            ["apiPort"] = 39210,
+            ["version"] = "2.2.0",
+            ["features"] = new[] { "link", "usb", "cast", "api", "games", "remote" },
             ["os"] = "GoConsoleOS",
         });
         var payload = Encoding.UTF8.GetBytes(beacon);

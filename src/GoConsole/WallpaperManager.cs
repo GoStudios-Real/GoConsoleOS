@@ -73,18 +73,18 @@ public static class WallpaperManager
             switch (preset)
             {
                 case Preset.Midnight:
-                    Glow(dc, w, h, 0.18 * w, 0.20 * h, 0.85 * w, Color.FromArgb(170, 0x00, 0xC9, 0xDB));
+                    Glow(dc, w, h, 0.18 * w, 0.20 * h, 0.85 * w, Color.FromArgb(170, 0x00, 0x66, 0xFF));
                     Glow(dc, w, h, 0.85 * w, 0.85 * h, 0.75 * w, Color.FromArgb(160, 0x7B, 0x2D, 0xFF));
                     Glow(dc, w, h, 0.15 * w, 0.90 * h, 0.45 * w, Color.FromArgb(90, 0xFF, 0x4D, 0x8C));
                     break;
                 case Preset.Aurora:
-                    Glow(dc, w, h, 0.50 * w, 0.30 * h, 1.15 * w, Color.FromArgb(190, 0x00, 0xC9, 0xDB));
+                    Glow(dc, w, h, 0.50 * w, 0.30 * h, 1.15 * w, Color.FromArgb(190, 0x00, 0x66, 0xFF));
                     Glow(dc, w, h, 0.30 * w, 0.85 * h, 0.65 * w, Color.FromArgb(170, 0xFF, 0x4D, 0x8C));
                     Glow(dc, w, h, 0.80 * w, 0.75 * h, 0.65 * w, Color.FromArgb(160, 0x7B, 0x2D, 0xFF));
                     break;
                 case Preset.Minimal:
                     Glow(dc, w, h, 0.50 * w, 0.45 * h, 1.35 * w, Color.FromArgb(140, 0x3A, 0x76, 0xD2));
-                    Glow(dc, w, h, 0.72 * w, 0.18 * h, 0.45 * w, Color.FromArgb(90, 0x00, 0xC9, 0xDB));
+                    Glow(dc, w, h, 0.72 * w, 0.18 * h, 0.45 * w, Color.FromArgb(90, 0x00, 0x66, 0xFF));
                     break;
             }
 

@@ -34,7 +34,7 @@
                 </Border>
 
                 <StackPanel Grid.Column="2" Orientation="Horizontal">
-                    <Border CornerRadius="6" Background="#00C9DB" Padding="14,6" Cursor="Hand"
+                    <Border CornerRadius="6" Background="#0066FF" Padding="14,6" Cursor="Hand"
                             MouseLeftButtonDown="NavigateGo" Margin="0,0,8,0">
                         <TextBlock Text="GO" FontSize="12" FontWeight="Bold" Foreground="#0D0D14" />
                     </Border>

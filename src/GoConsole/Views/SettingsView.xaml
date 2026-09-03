@@ -147,8 +147,8 @@
                                FontSize="14" Foreground="{StaticResource BrushTextSecondary}"
                                Margin="0,8,0,0" />
                     <WrapPanel Margin="0,12,0,0">
-                        <Border CornerRadius="14" Width="28" Height="28" Background="#00C9DB" Cursor="Hand"
-                                Margin="0,0,10,10" MouseLeftButtonDown="Accent_Click" Tag="#00C9DB"
+                        <Border CornerRadius="14" Width="28" Height="28" Background="#0066FF" Cursor="Hand"
+                                Margin="0,0,10,10" MouseLeftButtonDown="Accent_Click" Tag="#0066FF"
                                 BorderBrush="{StaticResource BrushBorder}" BorderThickness="1" />
                         <Border CornerRadius="14" Width="28" Height="28" Background="#7B2DFF" Cursor="Hand"
                                 Margin="0,0,10,10" MouseLeftButtonDown="Accent_Click" Tag="#7B2DFF"

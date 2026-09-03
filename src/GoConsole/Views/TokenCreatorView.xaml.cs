@@ -1,8 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -13,6 +11,7 @@ namespace GoConsoleOS.GoConsole.Views;
 public partial class TokenCreatorView : UserControl
 {
     private const int DefaultPort = 53178;
+    private const string ClientId = "1533307719748943942";
 
     private string _configPath = "";
     private MainWindow? _main;
@@ -49,16 +48,12 @@ public partial class TokenCreatorView : UserControl
         }
     }
 
-    private void SaveConfig(string token)
+    private void SaveConfig(string token, string tokenType = "user")
     {
         try
         {
             Directory.CreateDirectory(Path.GetDirectoryName(_configPath)!);
-            var json = JsonSerializer.Serialize(new
-            {
-                token,
-                tokenType = "user"
-            });
+            var json = JsonSerializer.Serialize(new { token, tokenType });
             File.WriteAllText(_configPath, json);
         }
         catch (Exception ex)
@@ -75,40 +70,17 @@ public partial class TokenCreatorView : UserControl
             return;
         }
 
-        var clientId = ClientIdBox.Text.Trim();
-        if (!Regex.IsMatch(clientId, @"^\d{10,}$"))
+        if (!TokenCapture.Start(DefaultPort, token => OnTokenCaptured(token)))
         {
-            StatusText.Text = "Client ID must be numeric";
+            StatusText.Text = $"Could not listen on port {DefaultPort}";
             return;
         }
 
-        var redirect = RedirectBox.Text.Trim();
-        if (!Uri.TryCreate(redirect, UriKind.Absolute, out var uri) ||
-            (uri.Host != "localhost" && uri.Host != "127.0.0.1"))
-        {
-            StatusText.Text = "Redirect URI must be http://localhost:PORT/";
-            return;
-        }
-
-        var port = uri.Port > 0 ? uri.Port : DefaultPort;
-
-        var scopes = new List<string>();
-        if (ScopeProfile.IsChecked == true) scopes.Add("identify");
-        if (ScopeGuilds.IsChecked == true) scopes.Add("guilds");
-        if (ScopeGuildsJoin.IsChecked == true) scopes.Add("guilds.join");
-        if (ScopeGuildsMembers.IsChecked == true) scopes.Add("guilds.members.read");
-        if (ScopeVoice.IsChecked == true) scopes.Add("activities.write");
-        var scope = string.Join(" ", scopes);
-
-        if (!TokenCapture.Start(port, token => OnTokenCaptured(token)))
-        {
-            StatusText.Text = $"Could not listen on port {port}";
-            return;
-        }
-
-        var url = "https://discord.com/api/oauth2/authorize?" +
-                  $"client_id={clientId}&response_type=token" +
-                  $"&redirect_uri={Uri.EscapeDataString(redirect)}&scope={Uri.EscapeDataString(scope)}";
+        var url = "https://discord.com/oauth2/authorize?" +
+                  $"client_id={ClientId}" +
+                  $"&response_type=token" +
+                  $"&redirect_uri={Uri.EscapeDataString("http://localhost:53178/")}" +
+                  $"&scope=identify+guilds+guilds.join+connections+email";
 
         if (Window.GetWindow(this) is MainWindow main)
         {
@@ -125,12 +97,22 @@ public partial class TokenCreatorView : UserControl
     {
         Dispatcher.BeginInvoke(new Action(() =>
         {
-            SaveConfig(token);
-            StatusText.Text = "Token received and saved!";
-            StatusChip.Text = "SAVED";
+            SaveConfig(token, "user");
+            StatusText.Text = "Token received and saved! Connecting...";
+            StatusChip.Text = "CONNECTED";
             StatusChip.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(88, 197, 101));
             GoToDiscord.Visibility = Visibility.Visible;
-            _main?.NavigateTo("tokencreator");
+
+            if (_main != null)
+            {
+                _main.NavigateTo("discord");
+                Dispatcher.BeginInvoke(new Action(async () =>
+                {
+                    await System.Threading.Tasks.Task.Delay(1500);
+                    if (_main.MainContent.Content is DiscordView discord)
+                        discord.AutoConnect();
+                }));
+            }
         }));
     }
 

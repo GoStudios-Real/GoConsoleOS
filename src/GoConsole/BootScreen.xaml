@@ -35,14 +35,14 @@
             <StackPanel x:Name="BrandScreen" Grid.Row="1" HorizontalAlignment="Center"
                         VerticalAlignment="Center" Visibility="Collapsed">
                 <Border x:Name="BrandBadge" Width="160" Height="160" CornerRadius="40"
-                        Background="#00C9DB" Margin="0,0,0,24"
+                        Background="#0066FF" Margin="0,0,0,24"
                         HorizontalAlignment="Center">
                     <TextBlock Text="G" FontSize="96" FontWeight="Bold"
                                Foreground="#0D0D14"
                                HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Border>
                 <TextBlock x:Name="BrandText" Text="GoStudios Corporation" FontSize="48" FontWeight="Bold"
-                           Foreground="#00C9DB" HorizontalAlignment="Center" />
+                           Foreground="#0066FF" HorizontalAlignment="Center" />
                 <TextBlock Text="Presents" FontSize="18" Foreground="#8888AA"
                            HorizontalAlignment="Center" Margin="0,8,0,0" />
             </StackPanel>
@@ -50,7 +50,7 @@
             <!-- Logo -->
             <StackPanel x:Name="LogoPanel" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Border x:Name="LogoBadge" Width="96" Height="96" CornerRadius="24"
-                        Background="#00C9DB" Margin="0,0,0,20"
+                        Background="#0066FF" Margin="0,0,0,20"
                         HorizontalAlignment="Center">
                     <Border.RenderTransform>
                         <ScaleTransform x:Name="LogoScale" ScaleX="0.6" ScaleY="0.6" />
@@ -60,7 +60,7 @@
                                HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Border>
                 <TextBlock x:Name="LogoText" Text="GoConsoleOS" FontSize="44" FontWeight="Bold"
-                           Foreground="#00C9DB" HorizontalAlignment="Center" />
+                           Foreground="#0066FF" HorizontalAlignment="Center" />
                 <TextBlock Text="Console Mode for Windows 11"
                            FontSize="16" Foreground="#8888AA"
                            HorizontalAlignment="Center" Margin="0,6,0,0" />
@@ -71,7 +71,7 @@
                 <Border Width="360" Height="5" CornerRadius="2"
                         Background="#1A1A2E">
                     <Border x:Name="ProgressBar" Width="0" Height="5" CornerRadius="2"
-                            Background="#00C9DB" HorizontalAlignment="Left" />
+                            Background="#0066FF" HorizontalAlignment="Left" />
                 </Border>
                 <TextBlock x:Name="StatusText" Text="Initializing..."
                            FontSize="13" Foreground="#555577"

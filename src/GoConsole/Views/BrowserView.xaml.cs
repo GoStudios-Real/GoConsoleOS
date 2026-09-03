@@ -39,7 +39,42 @@ public partial class BrowserView : UserControl
                 args.Handled = true;
                 try { Browser.Source = new Uri(args.Uri); } catch { }
             };
-            Browser.CoreWebView2.NavigationStarting += (_, args) => UrlText.Text = args.Uri;
+            Browser.CoreWebView2.NavigationStarting += (_, args) =>
+            {
+                UrlText.Text = args.Uri;
+
+                if (args.Uri.Contains("localhost:53178") && args.Uri.Contains("access_token="))
+                {
+                    args.Cancel = true;
+                    var fragment = args.Uri.Contains('#') ? args.Uri.Substring(args.Uri.IndexOf('#') + 1) : "";
+                    foreach (var part in fragment.Split('&'))
+                    {
+                        var kv = part.Split('=');
+                        if (kv.Length == 2 && kv[0] == "access_token")
+                        {
+                            var token = Uri.UnescapeDataString(kv[1]);
+                            GoConsoleOS.GoConsole.Views.TokenCapture.Stop();
+                            var mw = Window.GetWindow(this) as MainWindow;
+                            mw?.NavigateTo("home");
+                            Logger.Info("OAuth token captured from browser redirect");
+                            System.Threading.Tasks.Task.Run(async () =>
+                            {
+                                await System.Threading.Tasks.Task.Delay(500);
+                                Dispatcher.BeginInvoke(new Action(() =>
+                                {
+                                    var configPath = Path.Combine(Shared.ConfigReader.RootPath ?? "", "system", "discord", "config.json");
+                                    Directory.CreateDirectory(Path.GetDirectoryName(configPath)!);
+                                    var json = System.Text.Json.JsonSerializer.Serialize(new { token, tokenType = "user" });
+                                    File.WriteAllText(configPath, json);
+                                    Logger.Info("OAuth token saved to config");
+                                }));
+                            });
+                            break;
+                        }
+                    }
+                    return;
+                }
+            };
             Browser.CoreWebView2.SourceChanged += (_, _) => UrlText.Text = Browser.Source?.ToString() ?? "";
             Browser.CoreWebView2.NavigationCompleted += (_, args) =>
             {

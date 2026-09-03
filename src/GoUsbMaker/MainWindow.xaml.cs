@@ -50,18 +50,19 @@ public partial class MainWindow : Window
         var bootRoot = Path.GetPathRoot(_source);
         var sysRoot = Path.GetPathRoot(Environment.SystemDirectory);
         var showInternal = ShowInternalToggle.IsChecked == true;
-        var busTypes = DriveClassifier.GetLogicalDiskToBusType();
+        Dictionary<string, string> busTypes;
+        try { busTypes = DriveClassifier.GetLogicalDiskToBusType(); }
+        catch { busTypes = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase); }
+
         var items = new List<DriveItem>();
 
         foreach (var drive in DriveInfo.GetDrives())
         {
             if (!drive.IsReady) continue;
-            if (drive.DriveType != DriveType.Removable && drive.DriveType != DriveType.Fixed) continue;
 
             var root = drive.RootDirectory.FullName;
             if (string.Equals(root, sysRoot, StringComparison.OrdinalIgnoreCase)) continue;
-            if (bootRoot != null && string.Equals(root, bootRoot, StringComparison.OrdinalIgnoreCase)) continue;
-            if (root.TrimEnd('\\').Equals(bootRoot?.TrimEnd('\\'), StringComparison.OrdinalIgnoreCase)) continue;
+            if (bootRoot != null && string.Equals(root.TrimEnd('\\'), bootRoot.TrimEnd('\\'), StringComparison.OrdinalIgnoreCase)) continue;
 
             var kind = DriveClassifier.Classify(drive, busTypes);
             if (kind == DriveKind.Internal && !showInternal) continue;

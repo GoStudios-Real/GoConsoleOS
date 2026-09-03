@@ -3,16 +3,16 @@
 
     <Color x:Key="BackgroundDark">#0D0D14</Color>
     <Color x:Key="BackgroundMedium">#14141F</Color>
-    <Color x:Key="BackgroundLight">#1A1A2E</Color>
-    <Color x:Key="BackgroundCard">#1E1E32</Color>
-    <Color x:Key="BackgroundCardHover">#282844</Color>
-    <Color x:Key="AccentPrimary">#00C9DB</Color>
+    <Color x:Key="BackgroundLight">#141A2E</Color>
+    <Color x:Key="BackgroundCard">#182040</Color>
+    <Color x:Key="BackgroundCardHover">#202850</Color>
+    <Color x:Key="AccentPrimary">#0066FF</Color>
     <Color x:Key="AccentSecondary">#7B2DFF</Color>
     <Color x:Key="AccentTertiary">#FF4D8C</Color>
     <Color x:Key="TextPrimary">#F0F0FF</Color>
     <Color x:Key="TextSecondary">#8888AA</Color>
     <Color x:Key="TextMuted">#555577</Color>
-    <Color x:Key="BorderColor">#2A2A44</Color>
+    <Color x:Key="BorderColor">#1E2A55</Color>
     <Color x:Key="SuccessColor">#00E676</Color>
     <Color x:Key="WarningColor">#FFD600</Color>
     <Color x:Key="ErrorColor">#FF5252</Color>

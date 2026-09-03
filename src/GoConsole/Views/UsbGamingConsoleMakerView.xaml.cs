@@ -401,6 +401,9 @@ GoStudios Corporation 2026
         if (File.Exists(sharedDll))
             File.Copy(sharedDll, Path.Combine(atvRoot, "GoConsoleOS.Shared.dll"), true);
 
+        report("Installing USB auto-launch watcher...", 90);
+        UsbInstaller.InstallWatcher(source, target);
+
         report("Finalizing Android TV USB...", 95);
         File.WriteAllText(Path.Combine(target, "autorun.inf"),
             "[autorun]\r\nlabel=AndroidTV-GoStudios\r\nicon=AndroidTV\\launch.bat");
@@ -520,6 +523,9 @@ https://gostudios.net/store
 GoStudios Corporation 2026
 ";
         File.WriteAllText(Path.Combine(wpRoot, "README.txt"), readme);
+
+        report("Installing USB auto-launch watcher...", 90);
+        UsbInstaller.InstallWatcher(source, target);
 
         report("Finalizing Windows Play USB...", 95);
         File.WriteAllText(Path.Combine(target, "autorun.inf"),

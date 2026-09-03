@@ -21,7 +21,7 @@
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="0" Text="QUICK ACCESS" FontSize="22" FontWeight="Bold"
-                       Foreground="#00C9DB" HorizontalAlignment="Center" Margin="0,0,0,20" />
+                       Foreground="#0066FF" HorizontalAlignment="Center" Margin="0,0,0,20" />
 
             <ScrollViewer Grid.Row="1" Style="{StaticResource InvisibleScrollViewer}">
                 <StackPanel>
@@ -40,7 +40,7 @@
                                     <TextBlock Text="QUIET" FontSize="12" FontWeight="Bold"
                                                Foreground="#F0F0FF" />
                                 </Border>
-                                <Border x:Name="PerfBalanced" CornerRadius="6" Background="#00C9DB"
+                                <Border x:Name="PerfBalanced" CornerRadius="6" Background="#0066FF"
                                         Padding="12,6" Cursor="Hand" Margin="0,0,8,0"
                                         MouseLeftButtonDown="SetPerformance" Tag="balanced">
                                     <TextBlock Text="BALANCED" FontSize="12" FontWeight="Bold"
@@ -155,7 +155,7 @@
                                        Foreground="#F0F0FF" Margin="0,0,0,8" />
                             <StackPanel Orientation="Horizontal">
                                 <Border x:Name="GoConsoleModeToggle"
-                                        CornerRadius="6" Background="#00C9DB" Padding="12,6"
+                                        CornerRadius="6" Background="#0066FF" Padding="12,6"
                                         Cursor="Hand" MouseLeftButtonDown="SwitchToGoConsoleMode"
                                         Margin="0,0,8,0">
                                     <StackPanel>

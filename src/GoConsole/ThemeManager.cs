@@ -12,16 +12,16 @@ public class ThemeDefinition
     public string Name { get; set; } = "Custom";
     public string BackgroundDark { get; set; } = "#0D0D14";
     public string BackgroundMedium { get; set; } = "#14141F";
-    public string BackgroundLight { get; set; } = "#1A1A2E";
-    public string BackgroundCard { get; set; } = "#1E1E32";
-    public string AccentPrimary { get; set; } = "#00C9DB";
+    public string BackgroundLight { get; set; } = "#141A2E";
+    public string BackgroundCard { get; set; } = "#182040";
+    public string AccentPrimary { get; set; } = "#0066FF";
     public string AccentSecondary { get; set; } = "#7B2DFF";
     public string AccentTertiary { get; set; } = "#FF4D8C";
     public string TextPrimary { get; set; } = "#F0F0FF";
     public string TextSecondary { get; set; } = "#8888AA";
     public string TextMuted { get; set; } = "#555577";
-    public string BorderColor { get; set; } = "#2A2A44";
-    public string FocusGlow { get; set; } = "#00C9DB";
+    public string BorderColor { get; set; } = "#1E2A55";
+    public string FocusGlow { get; set; } = "#0066FF";
     public string SuccessColor { get; set; } = "#00E676";
     public string WarningColor { get; set; } = "#FFD600";
     public string ErrorColor { get; set; } = "#FF5252";
@@ -43,11 +43,11 @@ public static class ThemeManager
         {
             Name = "GoConsole Dark",
             BackgroundDark = "#0D0D14", BackgroundMedium = "#14141F",
-            BackgroundLight = "#1A1A2E", BackgroundCard = "#1E1E32",
-            AccentPrimary = "#00C9DB", AccentSecondary = "#7B2DFF",
+            BackgroundLight = "#141A2E", BackgroundCard = "#182040",
+            AccentPrimary = "#0066FF", AccentSecondary = "#7B2DFF",
             AccentTertiary = "#FF4D8C", TextPrimary = "#F0F0FF",
             TextSecondary = "#8888AA", TextMuted = "#555577",
-            BorderColor = "#2A2A44"
+            BorderColor = "#1E2A55"
         },
         new ThemeDefinition
         {
