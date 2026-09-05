@@ -61,6 +61,10 @@ public partial class MainWindow : Window
     private const int DBT_DEVICEREMOVECOMPLETE = 0x8004;
     private HwndSource? _hwndSource;
 
+    // ---- Focus check for controller input ----
+    [DllImport("user32.dll")]
+    private static extern IntPtr GetForegroundWindow();
+
     public MainWindow()
     {
         InitializeComponent();
@@ -640,9 +644,15 @@ public partial class MainWindow : Window
         }
     }
 
+    private bool IsGoConsoleForeground()
+    {
+        var handle = new WindowInteropHelper(this).Handle;
+        return GetForegroundWindow() == handle;
+    }
+
     private void OnControllerButton(ControllerButtons button)
     {
-        if (!IsActive) return;
+        if (!IsGoConsoleForeground()) return;
         Dispatcher.Invoke(() =>
         {
             switch (button)
@@ -808,7 +818,7 @@ public partial class MainWindow : Window
 
     private void OnControllerState(ControllerState state)
     {
-        if (!IsActive) return;
+        if (!IsGoConsoleForeground()) return;
         _focusNav?.HandleStick(state.ThumbLX, state.ThumbLY);
     }
 

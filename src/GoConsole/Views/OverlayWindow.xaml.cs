@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
 using GoConsoleOS.Shared;
@@ -21,6 +22,8 @@ public partial class OverlayWindow : Window
 
     [DllImport("user32.dll")]
     private static extern int SendMessageW(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
+    [DllImport("user32.dll")]
+    private static extern IntPtr GetForegroundWindow();
     private const int WM_APPCOMMAND = 0x0319;
     private const int APPCOMMAND_VOLUME_UP = 0x0A0000;
     private const int APPCOMMAND_VOLUME_DOWN = 0x090000;
@@ -89,6 +92,8 @@ public partial class OverlayWindow : Window
 
     private void OnControllerButton(ControllerButtons button)
     {
+        var mainHandle = new WindowInteropHelper(Application.Current.MainWindow!).Handle;
+        if (GetForegroundWindow() != mainHandle) return;
         Dispatcher.Invoke(() =>
         {
             switch (button)

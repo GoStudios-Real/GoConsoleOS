@@ -1,8 +1,10 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Interop;
 using GoConsoleOS.Shared;
 using GoConsoleOS.Shared.Input;
 
@@ -13,6 +15,9 @@ public partial class ExitMenu : Window
     private readonly PerformanceManager? _perfManager;
     private readonly ControllerEngine? _controller;
     private bool _isExiting;
+
+    [DllImport("user32.dll")]
+    private static extern IntPtr GetForegroundWindow();
 
     public ExitMenu(PerformanceManager? perfManager = null, ControllerEngine? controller = null)
     {
@@ -120,6 +125,8 @@ public partial class ExitMenu : Window
 
     private void OnControllerButton(ControllerButtons button)
     {
+        var mainHandle = new WindowInteropHelper(Application.Current.MainWindow!).Handle;
+        if (GetForegroundWindow() != mainHandle) return;
         Dispatcher.Invoke(() =>
         {
             if (button == ControllerButtons.Guide || button == ControllerButtons.B)

@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
 using GoConsoleOS.Shared.Input;
@@ -13,6 +15,9 @@ namespace GoConsoleOS.GoConsole.Views;
 public partial class OnScreenKeyboard : Window
 {
     private readonly ControllerEngine? _controller;
+
+    [DllImport("user32.dll")]
+    private static extern IntPtr GetForegroundWindow();
     private bool _shift;
     private readonly List<Border> _allKeys = new();
 
@@ -100,6 +105,8 @@ public partial class OnScreenKeyboard : Window
 
     private void OnControllerButton(ControllerButtons button)
     {
+        var mainHandle = new WindowInteropHelper(Application.Current.MainWindow!).Handle;
+        if (GetForegroundWindow() != mainHandle) return;
         Dispatcher.BeginInvoke(new Action(() =>
         {
             switch (button)

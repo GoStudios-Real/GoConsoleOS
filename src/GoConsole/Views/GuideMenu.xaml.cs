@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media.Animation;
 using GoConsoleOS.Shared;
 using GoConsoleOS.Shared.Input;
@@ -18,6 +19,8 @@ public partial class GuideMenu : Window
 
     [DllImport("user32.dll")]
     private static extern bool ExitWindowsEx(uint uFlags, uint dwReason);
+    [DllImport("user32.dll")]
+    private static extern IntPtr GetForegroundWindow();
 
     private const uint EWX_SHUTDOWN = 0x00000001;
     private const uint EWX_REBOOT = 0x00000002;
@@ -185,6 +188,17 @@ public partial class GuideMenu : Window
         main?.NavigateTo("friends");
     }
 
+    private void OpenFeature(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is not FrameworkElement element || element.Tag is not string view)
+            return;
+
+        Close();
+        var main = Application.Current.Windows.OfType<Window>()
+            .FirstOrDefault(w => w is MainWindow) as MainWindow;
+        main?.NavigateTo(view);
+    }
+
     private void OpenExitMenu(object sender, MouseButtonEventArgs e)
     {
         Close();
@@ -250,6 +264,8 @@ public partial class GuideMenu : Window
 
     private void OnControllerButton(ControllerButtons button)
     {
+        var mainHandle = new WindowInteropHelper(Application.Current.MainWindow!).Handle;
+        if (GetForegroundWindow() != mainHandle) return;
         Dispatcher.Invoke(() =>
         {
             if (button == ControllerButtons.Guide || button == ControllerButtons.B)
