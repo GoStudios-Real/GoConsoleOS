@@ -134,7 +134,6 @@ public static class UsbInstaller
         cfg.AppendLine("enabled=true");
         cfg.AppendLine("controller_poll_rate=120");
         cfg.AppendLine("xinput_enabled=true");
-        cfg.AppendLine("mouse_emulation=true");
         cfg.AppendLine("perf_monitor_interval_ms=2000");
         cfg.AppendLine();
         cfg.AppendLine("[overlay]");

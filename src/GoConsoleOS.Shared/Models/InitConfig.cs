@@ -84,7 +84,6 @@ public class ServiceConfig
     public string Enabled { get; set; } = "controller,performance_monitor,system_watchdog";
     public int ControllerPollRate { get; set; } = 60;
     public bool XinputEnabled { get; set; } = true;
-    public bool MouseEmulation { get; set; } = true;
     public int PerfMonitorIntervalMs { get; set; } = 1000;
 }
 

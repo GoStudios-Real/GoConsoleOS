@@ -108,9 +108,6 @@
                                        HorizontalAlignment="Center" Margin="0,0,0,12" />
                             <Border CornerRadius="8" Background="{StaticResource BrushBackgroundCardHover}" Padding="16">
                                 <StackPanel>
-                                    <CheckBox x:Name="SetupMouseEmulation" Content="Enable mouse emulation (Right Stick)"
-                                              IsChecked="True" Foreground="{StaticResource BrushTextPrimary}"
-                                              FontSize="13" Margin="0,0,0,6" />
                                     <CheckBox x:Name="SetupVibration" Content="Enable controller vibration"
                                               IsChecked="True" Foreground="{StaticResource BrushTextPrimary}"
                                               FontSize="13" />

@@ -45,9 +45,7 @@ public partial class ControllerSelectionView : UserControl
         var saved = SettingsStore.Get("controller.kind", "Auto") ?? "Auto";
         HighlightKind(saved);
 
-        var mouseEmu = SettingsStore.GetBool("services.mouse_emulation", true);
         var vib = SettingsStore.GetBool("services.vibration", true);
-        MouseEmulationCheck.IsChecked = mouseEmu;
         VibrationCheck.IsChecked = vib;
 
         if (_controller != null)
@@ -172,7 +170,6 @@ public partial class ControllerSelectionView : UserControl
 
     private void OnToggleChanged(object sender, RoutedEventArgs e)
     {
-        SettingsStore.SetBool("services.mouse_emulation", MouseEmulationCheck.IsChecked == true);
         SettingsStore.SetBool("services.vibration", VibrationCheck.IsChecked == true);
     }
 

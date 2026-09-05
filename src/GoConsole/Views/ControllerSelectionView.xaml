@@ -104,9 +104,6 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="0,20,0,16">
-                        <CheckBox x:Name="MouseEmulationCheck" Content="Mouse emulation (Right Stick)"
-                                  IsChecked="True" Foreground="{StaticResource BrushTextPrimary}" FontSize="13"
-                                  Checked="OnToggleChanged" Unchecked="OnToggleChanged" Margin="0,0,24,0" />
                         <CheckBox x:Name="VibrationCheck" Content="Controller vibration"
                                   IsChecked="True" Foreground="{StaticResource BrushTextPrimary}" FontSize="13"
                                   Checked="OnToggleChanged" Unchecked="OnToggleChanged" />

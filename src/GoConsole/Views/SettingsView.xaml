@@ -95,11 +95,6 @@
                             <ComboBoxItem Content="Generic Gamepad" Tag="Generic" />
                         </ComboBox>
                     </StackPanel>
-                    <CheckBox x:Name="MouseEmulationCheck" Content="Enable mouse emulation (Right Stick)"
-                              IsChecked="True"
-                              Foreground="{StaticResource BrushTextPrimary}"
-                              FontSize="14" Margin="0,8,0,0"
-                              Checked="MouseEmulation_Changed" Unchecked="MouseEmulation_Changed" />
                     <CheckBox x:Name="VibrationCheck" Content="Enable controller vibration"
                               IsChecked="True"
                               Foreground="{StaticResource BrushTextPrimary}"
@@ -262,7 +257,7 @@
                     <TextBlock Text="Supported CPUs: Intel Core i5 / i7 / i9, AMD Ryzen 3 / 5 / 7 / 9"
                                FontSize="13" Foreground="{StaticResource BrushTextMuted}"
                                Margin="0,4,0,0" />
-                    <TextBlock Text="GoConsoleOS™ and the GoConsoleOS logo are trademarks of GoStudios Corporation. © 2026 GoStudios Corporation. All rights reserved."
+                    <TextBlock Text="GoConsole Mode™ and the GoConsole Mode logo are trademarks of GoStudios Corporation. © 2026 GoStudios Corporation. All rights reserved."
                                FontSize="12" Foreground="{StaticResource BrushTextMuted}"
                                TextWrapping="Wrap" Margin="0,8,0,0" />
                 </StackPanel>

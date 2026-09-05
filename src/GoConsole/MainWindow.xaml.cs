@@ -420,6 +420,29 @@ public partial class MainWindow : Window
         }
     }
 
+    public void OpenWindowsGameBar()
+    {
+        try
+        {
+            Process.Start(new ProcessStartInfo("ms-gamebar:") { UseShellExecute = true });
+            ShowNotification("Windows Game Bar opened. Select Open GoConsole Mode to return here.", 4);
+        }
+        catch (Exception ex)
+        {
+            Logger.Warn($"Windows Game Bar launch failed: {ex.Message}");
+            ShowNotification("Windows Game Bar is unavailable on this PC.", 3);
+        }
+    }
+
+    public void OpenGoConsoleMode()
+    {
+        WindowState = WindowState.Maximized;
+        Topmost = true;
+        Activate();
+        Keyboard.Focus(this);
+        ShowNotification("GoConsole Mode is active.", 3);
+    }
+
     public void SetFullscreen(bool fullscreen)
     {
         if (fullscreen)
@@ -619,6 +642,7 @@ public partial class MainWindow : Window
 
     private void OnControllerButton(ControllerButtons button)
     {
+        if (!IsActive) return;
         Dispatcher.Invoke(() =>
         {
             switch (button)
@@ -782,48 +806,10 @@ public partial class MainWindow : Window
         if (!SettingsStore.GetBool("input.touch", true)) return;
     }
 
-    [DllImport("user32.dll")]
-    private static extern bool SetCursorPos(int x, int y);
-
-    [DllImport("user32.dll")]
-    private static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
-
-    [DllImport("user32.dll")]
-    private static extern bool GetCursorPos(out POINT lpPoint);
-
-    [StructLayout(LayoutKind.Sequential)]
-    private struct POINT { public int X; public int Y; }
-
-    private const byte VK_ESCAPE = 0x1B;
-    private const byte VK_RETURN = 0x0D;
-    private const uint KEYEVENTF_KEYDOWN = 0x0000;
-    private const uint KEYEVENTF_KEYUP = 0x0002;
-
-    private static void SendKey(byte key)
-    {
-        keybd_event(key, 0, KEYEVENTF_KEYDOWN, UIntPtr.Zero);
-        keybd_event(key, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
-    }
-
     private void OnControllerState(ControllerState state)
     {
+        if (!IsActive) return;
         _focusNav?.HandleStick(state.ThumbLX, state.ThumbLY);
-
-        if (_config.Services.MouseEmulation)
-        {
-            var dx = (int)(state.RightStickX * 8);
-            var dy = (int)(state.RightStickY * 8);
-            if (Math.Abs(dx) > 2 || Math.Abs(dy) > 2)
-            {
-                if (GetCursorPos(out var pos))
-                    SetCursorPos(pos.X + dx, pos.Y + dy);
-            }
-
-            if (state.RightTrigger > 50)
-                SendKey(VK_ESCAPE);
-            if (state.LeftTrigger > 50)
-                SendKey(VK_RETURN);
-        }
     }
 
     public void NavigateToBrowser(string url)
@@ -1002,7 +988,7 @@ public partial class MainWindow : Window
         _overlay.Activate();
     }
 
-    private void OpenQuickAccess()
+    public void OpenQuickAccess()
     {
         if (_quickAccess != null && _quickAccess.IsVisible)
         {
@@ -1333,6 +1319,13 @@ public partial class MainWindow : Window
 
     private void Window_KeyDown(object sender, KeyEventArgs e)
     {
+        if (e.Key == Key.G && e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Windows))
+        {
+            OpenWindowsGameBar();
+            e.Handled = true;
+            return;
+        }
+
         switch (e.Key)
         {
             case Key.Escape:

@@ -49,7 +49,6 @@ public partial class SettingsView : UserControl
                 Dispatcher.Invoke(() => ControllerStatus.Text = "Controller disconnected");
         }
 
-        MouseEmulationCheck.IsChecked = SettingsStore.GetBool("services.mouse_emulation", config.Services.MouseEmulation);
         VibrationCheck.IsChecked = SettingsStore.GetBool("services.vibration", true);
         FullscreenCheck.IsChecked = SettingsStore.GetBool("display.fullscreen", config.Display.Fullscreen);
 
@@ -115,12 +114,6 @@ public partial class SettingsView : UserControl
     private void PreviewStore(object sender, MouseButtonEventArgs e)
     {
         (Window.GetWindow(this) as MainWindow)?.NavigateTo("store");
-    }
-
-    private void MouseEmulation_Changed(object sender, RoutedEventArgs e)
-    {
-        SettingsStore.SetBool("services.mouse_emulation", MouseEmulationCheck.IsChecked == true);
-        Logger.Info($"Mouse emulation: {MouseEmulationCheck.IsChecked}");
     }
 
     private void Vibration_Changed(object sender, RoutedEventArgs e)

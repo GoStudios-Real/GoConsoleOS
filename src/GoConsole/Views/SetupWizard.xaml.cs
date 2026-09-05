@@ -178,7 +178,7 @@ public partial class SetupWizard : Window
         SummaryAccount.Text = _useGuest
             ? "Account: Guest (no password)"
             : $"Account: {_registeredUsername ?? SetupUsername.Text}";
-        SummaryController.Text = $"Controller: {(SetupMouseEmulation.IsChecked == true ? "Mouse emulation ON" : "Mouse emulation OFF")} | Vibration: {(SetupVibration.IsChecked == true ? "ON" : "OFF")}";
+        SummaryController.Text = $"Controller: Vibration: {(SetupVibration.IsChecked == true ? "ON" : "OFF")}";
         SummaryDisplay.Text = $"Performance: {_selectedPerfMode.ToUpper()} | Resolution: {_selectedResolution}";
         SummaryTheme.Text = $"Theme: {_selectedTheme.ToUpper()} | Accent: {_selectedAccent.ToString()}";
     }

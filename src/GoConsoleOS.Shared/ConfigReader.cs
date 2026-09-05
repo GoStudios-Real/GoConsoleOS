@@ -120,7 +120,6 @@ public class ConfigReader
                         case "enabled": cfg.Services.Enabled = value; break;
                         case "controller_poll_rate": cfg.Services.ControllerPollRate = int.Parse(value); break;
                         case "xinput_enabled": cfg.Services.XinputEnabled = bool.Parse(value); break;
-                        case "mouse_emulation": cfg.Services.MouseEmulation = bool.Parse(value); break;
                         case "perf_monitor_interval_ms": cfg.Services.PerfMonitorIntervalMs = int.Parse(value); break;
                     }
                     break;
