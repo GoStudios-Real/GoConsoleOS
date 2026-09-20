@@ -4,21 +4,35 @@ using Discord.Commands;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using System.Text.Json;
+using GoConsoleDiscordBot;
 
 var configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config.json");
-var configData = JsonSerializer.Deserialize<JsonElement>(File.ReadAllText(configPath));
-var token = configData.GetProperty("token").GetString() ?? "";
-var prefix = configData.GetProperty("prefix").GetString() ?? "!";
-var status = configData.GetProperty("status").GetString() ?? "GoConsoleOS Bot";
-var activity = configData.GetProperty("activity").GetString() ?? "with GoConsoleOS";
+if (!File.Exists(configPath))
+    configPath = Path.Combine(Directory.GetCurrentDirectory(), "config.json");
 
-if (string.IsNullOrEmpty(token))
+var config = BotConfig.Load(configPath);
+
+if (string.IsNullOrEmpty(config.Token))
 {
-    Console.WriteLine("Please set your bot token in config.json");
-    Console.WriteLine("Press any key to exit...");
+    Console.WriteLine("╔══════════════════════════════════════════╗");
+    Console.WriteLine("║     GoConsoleOS Discord Bot v2.2        ║");
+    Console.WriteLine("╠══════════════════════════════════════════╣");
+    Console.WriteLine("║  Please set your bot token in           ║");
+    Console.WriteLine("║  config.json and restart.               ║");
+    Console.WriteLine("║                                          ║");
+    Console.WriteLine("║  Get token at:                          ║");
+    Console.WriteLine("║  https://discord.com/developers/applications ║");
+    Console.WriteLine("╚══════════════════════════════════════════╝");
     Console.ReadKey();
     return;
 }
+
+var services = new ServiceCollection()
+    .AddSingleton(config)
+    .AddSingleton<ConsoleService>()
+    .AddSingleton<QrCodeService>()
+    .AddSingleton<GoogleAiService>()
+    .BuildServiceProvider();
 
 var discordConfig = new DiscordSocketConfig
 {
@@ -28,16 +42,27 @@ var discordConfig = new DiscordSocketConfig
 };
 
 var client = new DiscordSocketClient(discordConfig);
-var commands = new CommandService();
-var services = new ServiceCollection().BuildServiceProvider();
+var commands = new CommandService(new CommandServiceConfig
+{
+    CaseSensitiveCommands = false,
+    DefaultRunMode = RunMode.Async,
+});
 
 await commands.AddModulesAsync(Assembly.GetEntryAssembly(), services);
-await client.LoginAsync(TokenType.Bot, token);
+await client.LoginAsync(TokenType.Bot, config.Token);
 await client.StartAsync();
+
+Console.WriteLine("╔══════════════════════════════════════════╗");
+Console.WriteLine("║     GoConsoleOS Discord Bot v2.2        ║");
+Console.WriteLine("╠══════════════════════════════════════════╣");
+Console.WriteLine($"║  Prefix: {config.Prefix,-31}║");
+Console.WriteLine($"║  Cloud:  {config.CloudServerUrl,-31}║");
+Console.WriteLine($"║  AI:     {(string.IsNullOrEmpty(config.GoogleAiApiKey) ? "Not configured" : "Configured"),-31}║");
+Console.WriteLine("╚══════════════════════════════════════════╝");
 
 client.Log += msg =>
 {
-    Console.WriteLine($"[LOG] {msg.Message}");
+    Console.WriteLine($"[{msg.Severity}] {msg.Message}");
     return Task.CompletedTask;
 };
 
@@ -47,12 +72,18 @@ client.MessageReceived += async msg =>
     if (userMsg.Author.IsBot) return;
 
     var argPos = 0;
-    if (userMsg.HasStringPrefix(prefix, ref argPos) || userMsg.HasMentionPrefix(client.CurrentUser, ref argPos))
+    if (userMsg.HasStringPrefix(config.Prefix, ref argPos) || userMsg.HasMentionPrefix(client.CurrentUser, ref argPos))
     {
         var context = new CommandContext(client, userMsg);
         var result = await commands.ExecuteAsync(context, argPos, services);
         if (!result.IsSuccess)
+        {
             Console.WriteLine($"[CMD ERROR] {result.ErrorReason}");
+            if (result.Error != CommandError.UnknownCommand)
+            {
+                await context.Channel.SendMessageAsync($"Error: {result.ErrorReason}");
+            }
+        }
     }
 };
 
@@ -66,11 +97,17 @@ client.Ready += async () =>
         Console.WriteLine($"[GUILD] {guild.Name} ({guild.MemberCount} members)");
     }
 
-    await client.SetGameAsync(activity, null, ActivityType.Playing);
+    await client.SetGameAsync(config.Activity, null, ActivityType.Playing);
+
+    var consoleService = services.GetRequiredService<ConsoleService>();
+    var connected = await consoleService.TryConnectToLocalConsole();
+    if (!connected)
+        connected = await consoleService.TryConnectToCloud();
+    Console.WriteLine(connected
+        ? $"[CONSOLE] Connected to {consoleService.ConsoleName}"
+        : "[CONSOLE] No console found (use !connect to connect)");
 };
 
-Console.WriteLine("GoConsoleOS Discord Bot v1.0");
-Console.WriteLine($"Prefix: {prefix}");
 Console.WriteLine("Press Ctrl+C to stop");
 Console.CancelKeyPress += (_, e) =>
 {

@@ -2,5 +2,13 @@
   "token": "",
   "prefix": "!",
   "status": "GoConsoleOS Bot",
-  "activity": "with GoConsoleOS"
+  "activity": "with GoConsoleOS",
+  "cloudServerUrl": "https://gostudios.net/api",
+  "consoleApiPort": 39210,
+  "googleAiApiKey": "",
+  "googleAiModel": "gemini-2.0-flash",
+  "allowedUserIds": [],
+  "allowedRoleNames": ["Admin", "GoConsole Admin"],
+  "qrCodeSize": 300,
+  "voiceChannelName": "Cloud Gaming"
 }
