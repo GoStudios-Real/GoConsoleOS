@@ -1,0 +1,21 @@
+<Application x:Class="GoDesk.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="Views/MainWindow.xaml">
+    <Application.Resources>
+        <SolidColorBrush x:Key="BgDark" Color="#0D0D14"/>
+        <SolidColorBrush x:Key="BgMedium" Color="#141A2E"/>
+        <SolidColorBrush x:Key="BgLight" Color="#1E2A55"/>
+        <SolidColorBrush x:Key="BgCard" Color="#1E2D42"/>
+        <SolidColorBrush x:Key="BgHover" Color="#253555"/>
+        <SolidColorBrush x:Key="Accent" Color="#0066FF"/>
+        <SolidColorBrush x:Key="AccentLight" Color="#3385FF"/>
+        <SolidColorBrush x:Key="TextPrimary" Color="#F0F0FF"/>
+        <SolidColorBrush x:Key="TextSecondary" Color="#7A80A0"/>
+        <SolidColorBrush x:Key="TextMuted" Color="#4A4A6A"/>
+        <SolidColorBrush x:Key="Border" Color="#2A3555"/>
+        <SolidColorBrush x:Key="Success" Color="#00CC66"/>
+        <SolidColorBrush x:Key="Warning" Color="#FFAA00"/>
+        <SolidColorBrush x:Key="Error" Color="#FF4444"/>
+    </Application.Resources>
+</Application>

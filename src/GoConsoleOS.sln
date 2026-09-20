@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoUsbMaker", "GoUsbMaker\Go
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoConsoleWatcher", "GoConsoleWatcher\GoConsoleWatcher.csproj", "{D4E5F6A7-B8C9-0123-DEF0-234567890123}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GoStudios", "GoStudios", "{51D92E85-355B-BF0D-6F0A-55482C44A97F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoDesk", "GoDesk\GoDesk.csproj", "{FCC9635E-9518-4ED3-920B-738183FB9B7D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -97,8 +101,23 @@ Global
 		{D4E5F6A7-B8C9-0123-DEF0-234567890123}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D4E5F6A7-B8C9-0123-DEF0-234567890123}.Release|x86.ActiveCfg = Release|Any CPU
 		{D4E5F6A7-B8C9-0123-DEF0-234567890123}.Release|x86.Build.0 = Release|Any CPU
+		{FCC9635E-9518-4ED3-920B-738183FB9B7D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FCC9635E-9518-4ED3-920B-738183FB9B7D}.Debug|x64.Build.0 = Debug|Any CPU
+		{FCC9635E-9518-4ED3-920B-738183FB9B7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCC9635E-9518-4ED3-920B-738183FB9B7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCC9635E-9518-4ED3-920B-738183FB9B7D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FCC9635E-9518-4ED3-920B-738183FB9B7D}.Debug|x86.Build.0 = Debug|Any CPU
+		{FCC9635E-9518-4ED3-920B-738183FB9B7D}.Release|x64.ActiveCfg = Release|Any CPU
+		{FCC9635E-9518-4ED3-920B-738183FB9B7D}.Release|x64.Build.0 = Release|Any CPU
+		{FCC9635E-9518-4ED3-920B-738183FB9B7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCC9635E-9518-4ED3-920B-738183FB9B7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCC9635E-9518-4ED3-920B-738183FB9B7D}.Release|x86.ActiveCfg = Release|Any CPU
+		{FCC9635E-9518-4ED3-920B-738183FB9B7D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FCC9635E-9518-4ED3-920B-738183FB9B7D} = {51D92E85-355B-BF0D-6F0A-55482C44A97F}
 	EndGlobalSection
 EndGlobal

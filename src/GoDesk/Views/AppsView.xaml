@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="GoDesk.Views.AppsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="32,24">
+        <StackPanel MaxWidth="900">
+            <TextBlock Text="Applications" FontSize="28" FontWeight="Bold" Foreground="{StaticResource Accent}"/>
+            <TextBlock Text="System tools and utilities" FontSize="13" Foreground="{StaticResource TextSecondary}" Margin="0,4,0,20"/>
+            <TextBlock Text="SYSTEM" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextMuted}" Margin="0,0,0,10"/>
+            <WrapPanel Margin="0,0,0,24">
+                <Border x:Name="AppSettings" CornerRadius="12" Width="120" Height="110" Background="{StaticResource BgCard}" Margin="0,0,8,8" Cursor="Hand" MouseLeftButtonDown="LaunchSettings">
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock Text="Settings" FontSize="28" FontWeight="Bold" Foreground="{StaticResource Accent}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="System Config" FontSize="10" Foreground="{StaticResource TextSecondary}" HorizontalAlignment="Center" Margin="0,6,0,0"/>
+                    </StackPanel>
+                </Border>
+                <Border CornerRadius="12" Width="120" Height="110" Background="{StaticResource BgCard}" Margin="0,0,8,8" Cursor="Hand" MouseLeftButtonDown="LaunchExplorer">
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock Text="Files" FontSize="28" FontWeight="Bold" Foreground="{StaticResource Accent}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="File Explorer" FontSize="10" Foreground="{StaticResource TextSecondary}" HorizontalAlignment="Center" Margin="0,6,0,0"/>
+                    </StackPanel>
+                </Border>
+                <Border CornerRadius="12" Width="120" Height="110" Background="{StaticResource BgCard}" Margin="0,0,8,8" Cursor="Hand" MouseLeftButtonDown="LaunchTerminal">
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock Text="Terminal" FontSize="28" FontWeight="Bold" Foreground="{StaticResource Success}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Command Prompt" FontSize="10" Foreground="{StaticResource TextSecondary}" HorizontalAlignment="Center" Margin="0,6,0,0"/>
+                    </StackPanel>
+                </Border>
+                <Border CornerRadius="12" Width="120" Height="110" Background="{StaticResource BgCard}" Margin="0,0,8,8" Cursor="Hand" MouseLeftButtonDown="LaunchTaskManager">
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock Text="Tasks" FontSize="28" FontWeight="Bold" Foreground="{StaticResource Error}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Task Manager" FontSize="10" Foreground="{StaticResource TextSecondary}" HorizontalAlignment="Center" Margin="0,6,0,0"/>
+                    </StackPanel>
+                </Border>
+                <Border CornerRadius="12" Width="120" Height="110" Background="{StaticResource BgCard}" Margin="0,0,8,8" Cursor="Hand" MouseLeftButtonDown="LaunchBrowser">
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock Text="Web" FontSize="28" FontWeight="Bold" Foreground="{StaticResource Warning}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Browser" FontSize="10" Foreground="{StaticResource TextSecondary}" HorizontalAlignment="Center" Margin="0,6,0,0"/>
+                    </StackPanel>
+                </Border>
+                <Border CornerRadius="12" Width="120" Height="110" Background="{StaticResource BgCard}" Margin="0,0,8,8" Cursor="Hand" MouseLeftButtonDown="LaunchCalculator">
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock Text="Calc" FontSize="28" FontWeight="Bold" Foreground="{StaticResource Accent}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Calculator" FontSize="10" Foreground="{StaticResource TextSecondary}" HorizontalAlignment="Center" Margin="0,6,0,0"/>
+                    </StackPanel>
+                </Border>
+                <Border CornerRadius="12" Width="120" Height="110" Background="{StaticResource BgCard}" Margin="0,0,8,8" Cursor="Hand" MouseLeftButtonDown="LaunchNotepad">
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock Text="Notepad" FontSize="28" FontWeight="Bold" Foreground="{StaticResource TextSecondary}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Text Editor" FontSize="10" Foreground="{StaticResource TextMuted}" HorizontalAlignment="Center" Margin="0,6,0,0"/>
+                    </StackPanel>
+                </Border>
+                <Border CornerRadius="12" Width="120" Height="110" Background="{StaticResource BgCard}" Margin="0,0,8,8" Cursor="Hand" MouseLeftButtonDown="LaunchPaint">
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock Text="Paint" FontSize="28" FontWeight="Bold" Foreground="{StaticResource Warning}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Image Editor" FontSize="10" Foreground="{StaticResource TextSecondary}" HorizontalAlignment="Center" Margin="0,6,0,0"/>
+                    </StackPanel>
+                </Border>
+                <Border CornerRadius="12" Width="120" Height="110" Background="{StaticResource BgCard}" Margin="0,0,8,8" Cursor="Hand" MouseLeftButtonDown="LaunchSnippingTool">
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock Text="Snip" FontSize="28" FontWeight="Bold" Foreground="{StaticResource Success}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Screenshot" FontSize="10" Foreground="{StaticResource TextSecondary}" HorizontalAlignment="Center" Margin="0,6,0,0"/>
+                    </StackPanel>
+                </Border>
+                <Border CornerRadius="12" Width="120" Height="110" Background="{StaticResource BgCard}" Margin="0,0,8,8" Cursor="Hand" MouseLeftButtonDown="LaunchDeviceManager">
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock Text="Devices" FontSize="28" FontWeight="Bold" Foreground="{StaticResource Accent}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Device Manager" FontSize="10" Foreground="{StaticResource TextSecondary}" HorizontalAlignment="Center" Margin="0,6,0,0"/>
+                    </StackPanel>
+                </Border>
+                <Border CornerRadius="12" Width="120" Height="110" Background="{StaticResource BgCard}" Margin="0,0,8,8" Cursor="Hand" MouseLeftButtonDown="LaunchControlPanel">
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock Text="Control" FontSize="28" FontWeight="Bold" Foreground="{StaticResource Error}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Control Panel" FontSize="10" Foreground="{StaticResource TextSecondary}" HorizontalAlignment="Center" Margin="0,6,0,0"/>
+                    </StackPanel>
+                </Border>
+            </WrapPanel>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
