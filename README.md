@@ -353,3 +353,11 @@ GoConsoleOS is developed by GoStudios and provided for educational and personal 
 - GitHub Issues: https://github.com/gostudios/GoConsoleOS/issues
 - Website: https://goconsoleos.com
 - Email: support@goconsoleos.com
+
+
+---
+
+## OpenCode
+
+This repository is maintained with [OpenCode](https://opencode.ai).
+Hub: https://gostudios-real.github.io/
