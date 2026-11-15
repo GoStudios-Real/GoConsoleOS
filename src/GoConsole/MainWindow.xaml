@@ -104,12 +104,15 @@
             </Grid>
         </Border>
 
-        <!-- Content Area -->
-        <ContentControl x:Name="MainContent" Grid.Row="1">
-            <ContentControl.RenderTransform>
-                <TranslateTransform />
-            </ContentControl.RenderTransform>
-        </ContentControl>
+        <!-- Content Area (global overflow protection: pages scroll instead of clipping/overlapping) -->
+        <ScrollViewer Grid.Row="1" Style="{StaticResource InvisibleScrollViewer}"
+                      HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <ContentControl x:Name="MainContent" MinWidth="1100" MinHeight="520">
+                <ContentControl.RenderTransform>
+                    <TranslateTransform />
+                </ContentControl.RenderTransform>
+            </ContentControl>
+        </ScrollViewer>
 
         <!-- Bottom Status Bar (SteamOS-style) -->
         <Border Grid.Row="2" BorderBrush="{StaticResource BrushBorder}" BorderThickness="0,1,0,0">

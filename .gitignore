@@ -74,3 +74,8 @@ publish/
 publish-dev/
 publish-sc/
 publish-v2.2.0*/
+
+# Trailer frame cache (regenerate with make_trailer.py)
+trailer/frames/
+trailer/trailer_audio.wav
+

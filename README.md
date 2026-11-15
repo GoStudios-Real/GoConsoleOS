@@ -267,6 +267,16 @@ The **Remote Play** view shows a QR code + 6-character pairing code for the **Go
 
 ---
 
+## Trailer
+
+A 45-second promo trailer lives at [`trailer/GoConsoleOS-Trailer.mp4`](trailer/GoConsoleOS-Trailer.mp4) (1920×1080, H.264 + synthesized soundtrack). Regenerate it with:
+
+```
+python trailer/make_trailer.py   # renders frames/ (1920x1080 @30fps)
+python trailer/make_audio.py     # synthesizes the soundtrack
+ffmpeg -framerate 30 -i trailer/frames/%04d.png -i trailer/trailer_audio.wav -c:v libx264 -pix_fmt yuv420p -crf 19 trailer/GoConsoleOS-Trailer.mp4
+```
+
 ## Building from Source
 
 ### Prerequisites
