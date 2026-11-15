@@ -170,6 +170,8 @@ All navigation is designed for an **Xbox controller** (XInput).
 | `F3` | Go to Store |
 | `F5` | Go to Settings |
 | `F9` | Toggle Overlay |
+| `M` | Open Remote Play (QR pairing for GoConsoleOS Cloud) |
+| `Ctrl+Shift+M` | Open Remote Play (legacy shortcut) |
 | `F11` | Cycle Performance Mode |
 | `Escape` | Back to previous view |
 | `Alt+F4` | Close GoConsoleOS |
@@ -251,6 +253,10 @@ Every GoConsoleOS host (desktop USB console **and** the GoConsoleOS Android app)
 | `http://localhost:39210/api/acc/*` | Account REST API (register, login, profile, devices, map, wallet, subscriptions, friends, activity) |
 | `http://localhost:39210/api/goai` | GoAI assistant API |
 | `http://localhost:39210/api/info` | Console info (name, version, features) |
+| `http://localhost:39210/api/pair` | Pairing info for the cloud gaming app (code, LAN host, deep link) |
+| `http://localhost:39210/api/pair/verify` | Verify a 6-character pairing code (`POST {"code":"XXXXXX"}`) |
+
+The **Remote Play** view shows a QR code + 6-character pairing code for the **GoConsoleOS Cloud** app (Android / Google TV Streamer). Scanning the QR (or entering the code) runs `POST /api/pair/verify` and connects the app to this console. Codes expire after 10 minutes.
 
 - Open **SETTINGS → Account** (or the profile name in the top bar) to sign in / open the portal.
 - Press **GOAI** in the nav bar to chat with the gaming assistant.

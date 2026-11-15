@@ -212,6 +212,7 @@ public sealed class GoConsoleServer : IDisposable
             204 => "204 No Content",
             400 => "400 Bad Request",
             401 => "401 Unauthorized",
+            403 => "403 Forbidden",
             404 => "404 Not Found",
             _ => "500 Internal Server Error",
         };
@@ -292,6 +293,27 @@ public sealed class GoConsoleServer : IDisposable
                     features = new[] { "acc", "goai", "link", "usb", "cast", "games", "remote" },
                     time = DateTime.UtcNow,
                 }));
+
+            if (p == "/api/pair" && method == "GET")
+                return (200, Json(new
+                {
+                    ok = true,
+                    code = PairingService.CurrentCode,
+                    expiresUtc = PairingService.ExpiresUtc,
+                    host = PairingService.DetectLanIPv4() ?? "",
+                    httpPort = _port,
+                    linkPort = LinkServer.LinkPort,
+                    deepLink = PairingService.BuildDeepLink(_port),
+                }));
+
+            if (p == "/api/pair/verify" && method == "POST")
+            {
+                using var pairDoc = JsonDocument.Parse(string.IsNullOrWhiteSpace(body) ? "{}" : body);
+                var code = pairDoc.RootElement.TryGetProperty("code", out var c) ? c.GetString() : null;
+                return PairingService.Verify(code)
+                    ? (200, Json(new { ok = true }))
+                    : (403, Json(new { ok = false, error = "invalid or expired pairing code" }));
+            }
 
             if (p == "/api/console" && method == "GET")
                 return HandleConsoleInfo();

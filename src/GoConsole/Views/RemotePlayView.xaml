@@ -2,7 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Background="Transparent">
-    <Grid Margin="40">
+    <Grid Margin="24">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -14,10 +14,13 @@
         <TextBlock Grid.Row="1" x:Name="RemoteStatus" Text="Stream your games to other devices"
                    FontSize="14" Foreground="{StaticResource BrushTextSecondary}" Margin="0,0,0,20" />
 
-        <Grid Grid.Row="2">
+        <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Auto"
+                      VerticalScrollBarVisibility="Disabled"
+                      Style="{StaticResource InvisibleScrollViewer}">
+        <Grid MinWidth="860">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="320" />
+                <ColumnDefinition Width="*" MinWidth="380" />
+                <ColumnDefinition Width="300" MinWidth="280" />
             </Grid.ColumnDefinitions>
 
             <Border Grid.Column="0" CornerRadius="12" Background="{StaticResource BrushBackgroundLight}"
@@ -60,7 +63,36 @@
             </Border>
 
             <Border Grid.Column="1" CornerRadius="12" Background="{StaticResource BrushBackgroundLight}" Padding="20">
+                <ScrollViewer Style="{StaticResource InvisibleScrollViewer}" VerticalScrollBarVisibility="Auto">
                 <StackPanel>
+                    <TextBlock Text="CLOUD GAMING" FontSize="15" FontWeight="Bold"
+                               Foreground="{StaticResource BrushTextSecondary}" Margin="0,0,0,2" />
+                    <TextBlock Text="Connect GoConsoleOS Cloud to this console"
+                               FontSize="11" Foreground="{StaticResource BrushTextMuted}" Margin="0,0,0,8"
+                               TextWrapping="Wrap" />
+
+                    <Border CornerRadius="10" Background="#FFFFFF" Padding="6" HorizontalAlignment="Center">
+                        <Image x:Name="PairingQrImage" Width="104" Height="104" />
+                    </Border>
+                    <TextBlock x:Name="PairingCodeText" Text="------" FontSize="22" FontWeight="Bold"
+                               Foreground="{StaticResource BrushTextPrimary}" HorizontalAlignment="Center"
+                               Margin="0,8,0,0" />
+                    <TextBlock x:Name="PairingAddressText" Text="" FontSize="9"
+                               Foreground="{StaticResource BrushTextMuted}" HorizontalAlignment="Center"
+                               Margin="0,2,0,0" TextTrimming="CharacterEllipsis" MaxWidth="240" />
+                    <TextBlock x:Name="PairingExpiryText" Text="" FontSize="9"
+                               Foreground="{StaticResource BrushTextMuted}" HorizontalAlignment="Center"
+                               Margin="0,2,0,0" />
+                    <Button x:Name="NewCodeBtn" Content="NEW CODE" FontSize="11" FontWeight="Bold"
+                            Background="{StaticResource BrushAccentPrimary}" Foreground="#0D0D14"
+                            BorderThickness="0" Padding="12,6" HorizontalAlignment="Center"
+                            Margin="0,6,0,0" Cursor="Hand" Click="NewPairingCode" />
+                    <TextBlock Text="Scan the QR with your phone or enter the code in the app."
+                               FontSize="9" Foreground="{StaticResource BrushTextMuted}" TextWrapping="Wrap"
+                               TextAlignment="Center" Margin="0,6,0,0" />
+
+                    <Border Height="1" Background="{StaticResource BrushBackgroundCard}" Margin="0,10" />
+
                     <TextBlock Text="STREAM QUALITY" FontSize="16" FontWeight="Bold"
                                Foreground="{StaticResource BrushTextSecondary}" Margin="0,0,0,16" />
 
@@ -106,7 +138,9 @@
                             BorderThickness="0" Padding="16,10" Margin="0,16,0,0" Cursor="Hand"
                             Click="StopAll" Visibility="Collapsed" />
                 </StackPanel>
+                </ScrollViewer>
             </Border>
         </Grid>
+        </ScrollViewer>
     </Grid>
 </UserControl>

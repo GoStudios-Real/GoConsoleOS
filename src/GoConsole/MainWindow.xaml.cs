@@ -1336,6 +1336,16 @@ public partial class MainWindow : Window
             return;
         }
 
+        // Plain "M" opens Remote Play - but not while the user is typing in a text field
+        if (e.Key == Key.M &&
+            e.KeyboardDevice.Modifiers == ModifierKeys.None &&
+            Keyboard.FocusedElement is not TextBox and not RichTextBox and not PasswordBox)
+        {
+            NavigateTo("remoteplay");
+            e.Handled = true;
+            return;
+        }
+
         switch (e.Key)
         {
             case Key.Escape:

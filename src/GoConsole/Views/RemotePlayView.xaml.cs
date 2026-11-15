@@ -1,9 +1,13 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using GoConsoleOS.Shared.Acc;
 
 namespace GoConsoleOS.GoConsole.Views;
 
@@ -11,7 +15,9 @@ public partial class RemotePlayView : UserControl
 {
     private readonly List<DeviceItem> _devices = new();
     private readonly DispatcherTimer _streamTimer = new() { Interval = TimeSpan.FromSeconds(2) };
+    private readonly DispatcherTimer _pairTimer = new() { Interval = TimeSpan.FromSeconds(1) };
     private int _streamSeconds;
+    private string _shownCode = "";
 
     public RemotePlayView()
     {
@@ -24,6 +30,9 @@ public partial class RemotePlayView : UserControl
             new DeviceItem { Name = "iPad", Icon = "📱", Detail = "iOS \u2022 Connected", ButtonText = "STREAM" },
         });
         DeviceList.ItemsSource = _devices;
+        RefreshPairing(forceImage: true);
+        _pairTimer.Tick += (_, _) => RefreshPairing(forceImage: false);
+        _pairTimer.Start();
 
         _streamTimer.Tick += (_, _) =>
         {
@@ -34,6 +43,54 @@ public partial class RemotePlayView : UserControl
                 StreamingDetail.Text = $"{active.Name} \u2022 {ResolutionBox.Text} \u2022 {FrameBox.Text} \u2022 streamed {_streamSeconds / 60}m {_streamSeconds % 60}s";
             }
         };
+    }
+
+    private void RefreshPairing(bool forceImage)
+    {
+        try
+        {
+            var code = PairingService.CurrentCode;
+            var expires = PairingService.ExpiresUtc;
+            var remaining = expires - DateTime.UtcNow;
+            if (remaining < TimeSpan.Zero) remaining = TimeSpan.Zero;
+
+            PairingCodeText.Text = code;
+            PairingAddressText.Text = $"http://{PairingService.DetectLanIPv4() ?? "127.0.0.1"}:{GoConsoleServer.DefaultPort}";
+            PairingExpiryText.Text = $"Code expires in {(int)remaining.TotalMinutes}:{remaining.Seconds:D2}";
+
+            if (forceImage || code != _shownCode)
+            {
+                _shownCode = code;
+                PairingQrImage.Source = BuildQrImage(PairingService.BuildDeepLink());
+            }
+        }
+        catch (Exception ex)
+        {
+            PairingExpiryText.Text = $"Pairing unavailable: {ex.Message}";
+        }
+    }
+
+    private void NewPairingCode(object sender, RoutedEventArgs e)
+    {
+        PairingService.Regenerate();
+        RefreshPairing(forceImage: true);
+        ToastManager.Show("New cloud gaming pairing code generated");
+    }
+
+    private static BitmapImage BuildQrImage(string content)
+    {
+        using var generator = new QRCoder.QRCodeGenerator();
+        using var data = generator.CreateQrCode(content, QRCoder.QRCodeGenerator.ECCLevel.M);
+        var qr = new QRCoder.PngByteQRCode(data);
+        var png = qr.GetGraphic(6);
+        using var ms = new MemoryStream(png);
+        var image = new BitmapImage();
+        image.BeginInit();
+        image.CacheOption = BitmapCacheOption.OnLoad;
+        image.StreamSource = ms;
+        image.EndInit();
+        image.Freeze();
+        return image;
     }
 
     private void ToggleStream(object sender, RoutedEventArgs e)
